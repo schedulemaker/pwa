@@ -2,7 +2,7 @@ import React, {useEffect, useReducer} from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native';
 import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import PubSub from '@aws-amplify/pubsub';
-import { withAuthenticator } from 'aws-amplify-react-native'
+import { withAuthenticator, S3Album } from 'aws-amplify-react-native'
 
 
 import config from './aws-exports'
@@ -60,7 +60,7 @@ class App extends React.Component {
     const allTodos = await API.graphql(graphqlOperation(listTodos));
     alert(JSON.stringify(allTodos));
   };
-  
+
   render() {
     return (
       <div className="App">
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withAuthenticator(App);
+export default withAuthenticator(App,true);
