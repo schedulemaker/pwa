@@ -1,6 +1,6 @@
 import React, {useEffect, useReducer} from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native';
-import Amplify, { Analytics, Storage, API, graphqlOperation } from '@aws-amplify';
+import Amplify, { Analytics, Storage, API, graphqlOperation } from 'aws-amplify';
 import PubSub from '@aws-amplify/pubsub';
 import { withAuthenticator } from 'aws-amplify-react-native'
 
@@ -8,6 +8,7 @@ import { withAuthenticator } from 'aws-amplify-react-native'
 import config from './aws-exports'
 API.configure(config)
 PubSub.configure(config)
+Amplify.configure(config)
 
 const listTodos = `query listTodos {
   listTodos{
@@ -43,6 +44,23 @@ class App extends React.Component {
   componentDidMount() {
     Analytics.record('Amplify_CLI');
   }
+
+  todoMutation = async () => {
+    const todoDetails = {
+      name: 'Party tonight!',
+      description: 'Amplify CLI rocks!'
+    };
+  
+    const newTodo = await API.graphql(graphqlOperation(addTodo, todoDetails));
+    alert(JSON.stringify(newTodo));
+  };
+  
+  listQuery = async () => {
+    console.log('listing todos');
+    const allTodos = await API.graphql(graphqlOperation(listTodos));
+    alert(JSON.stringify(allTodos));
+  };
+  
   render() {
     return (
       <div className="App">
@@ -68,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withAuthenticator(App, { includeGreetings: true })
+export default withAuthenticator(App);
