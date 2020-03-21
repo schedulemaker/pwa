@@ -15,6 +15,10 @@ import {
   MenuItem
 } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
+import '../app/App.css';
+import {
+  blueGrey
+} from "@material-ui/core/colors"
 
 const useStyles = makeStyles(theme => createStyles({
     formControl: {
@@ -23,7 +27,7 @@ const useStyles = makeStyles(theme => createStyles({
       },
       selectEmpty: {
         marginTop: theme.spacing(2),
-      },
+      }
 }));
 
 const Welcome = props => {
@@ -36,9 +40,9 @@ const Welcome = props => {
   };
 
   return (
-    <Grid container justify="center">
-       <Grid item>
-       <Card>
+    <Grid className="canvas" container justify="center" alignItems="center">
+      <Grid item>
+      <Card>
         <CardHeader title="Welcome to ScheduleMaker!" component="h1"/>
         <CardContent>
             <Typography align="center">
@@ -66,7 +70,7 @@ const Welcome = props => {
             </Grid>
         </CardActions>
       </Card>
-       </Grid>
+      </Grid>
     </Grid>
   );
 };
