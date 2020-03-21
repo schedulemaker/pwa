@@ -12,7 +12,8 @@ import {
   Select,
   InputLabel,
   MenuItem,
-  Backdrop
+  Backdrop,
+  Link
 } from "@material-ui/core";
 import { createStyles, makeStyles } from "@material-ui/core/styles";
 import "../app/App.css";
@@ -33,7 +34,7 @@ const useStyles = makeStyles(theme =>
     backdrop: {
       zIndex: theme.zIndex.drawer + 1,
       color: "#fff"
-    }
+    },
   })
 );
 
@@ -45,6 +46,7 @@ const Welcome = props => {
    */
   const [school, setSchool] = React.useState("");
   const [open, setOpen] = React.useState(true);
+  const [auth, setAuth] = React.useState(false);
 
   /**
    * EVENT HANDLERS
@@ -59,6 +61,11 @@ const Welcome = props => {
     setOpen(!open);
   };
 
+  const changeAuth = () => {
+    setAuth(!auth);
+    closeBackdrop();
+  }
+
   /**
    * Define DOM
    */
@@ -67,10 +74,10 @@ const Welcome = props => {
       <Grid container justify="center" alignItems="center">
         <Grid item>
           <Card>
-            <CardHeader title="Welcome to ScheduleMaker!" component="h1" />
+            <CardHeader title="Welcome to ScheduleMaker!" titleTypographyProps={{align:'center'}} />
             <CardContent>
               <Typography align="center">
-                To begin, select your school.
+                To begin, please select your school, or <Link href="#" onclick={changeAuth}>Login/Sign up</Link> to load/save your schedules.
               </Typography>
             </CardContent>
             <CardActions>

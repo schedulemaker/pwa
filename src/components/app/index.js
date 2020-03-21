@@ -1,13 +1,15 @@
 import React from "react";
 import "./App.css";
-import {
-  Container
-} from '@material-ui/core';
-import Welcome from '../welcome';
+import { Grid } from "@material-ui/core";
+import Welcome from "../welcome";
+import Home from "../home";
 
 function App() {
   return (
-    // <Welcome></Welcome>
+    <Grid>
+      <Home></Home>
+      <Welcome></Welcome>
+    </Grid>
   );
 }
 
