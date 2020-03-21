@@ -7,7 +7,6 @@ import {
   Typography,
   Grid,
   CardActions,
-  NativeSelect,
   FormControl,
   FormHelperText,
   Select,
@@ -19,6 +18,9 @@ import { createStyles, makeStyles } from "@material-ui/core/styles";
 import "../app/App.css";
 import { blueGrey } from "@material-ui/core/colors";
 
+/**
+ * DEFINE STYLES
+ */
 const useStyles = makeStyles(theme =>
   createStyles({
     formControl: {
@@ -38,8 +40,15 @@ const useStyles = makeStyles(theme =>
 const Welcome = props => {
   const classes = useStyles();
 
+  /**
+   * CONFIGURE STATE
+   */
   const [school, setSchool] = React.useState("");
   const [open, setOpen] = React.useState(true);
+
+  /**
+   * EVENT HANDLERS
+   */  
 
   const changeSchool = event => {
     setSchool(event.target.value);
@@ -50,6 +59,9 @@ const Welcome = props => {
     setOpen(!open);
   };
 
+  /**
+   * Define DOM
+   */
   return (
     <Backdrop className={classes.backdrop} open={open}>
       <Grid container justify="center" alignItems="center">

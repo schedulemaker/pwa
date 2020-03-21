@@ -7,7 +7,7 @@ import Welcome from '../welcome';
 
 function App() {
   return (
-    <Welcome></Welcome>
+    // <Welcome></Welcome>
   );
 }
 
