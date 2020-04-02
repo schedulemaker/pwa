@@ -23,6 +23,7 @@ const sendScheduleRequest = async () => {
         }
     }));
     console.log(result["data"]["createSchedules"]);
+    selectedCourses = [];
 }
 
 export default class SearchComponent extends Component {
