@@ -28,7 +28,7 @@ export default class SearchComponent extends Component {
 
             this.setState({
                 isLoading: false,
-                results: _.filter(source, isMatch),
+                //results: _.filter(source, isMatch),
             })
         }, 300)
     }
