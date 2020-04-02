@@ -9,6 +9,7 @@
     "@types/react-dom": "16.8.5",
     "@types/react-router": "^5.1.5",
     "@types/react-router-dom": "^4.3.5",
+    "aws-amplify": "^3.0.4",
     "axios": "^0.19.2",
     "chart.js": "^2.9.3",
     "faker": "^4.1.0",
