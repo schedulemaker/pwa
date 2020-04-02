@@ -22,10 +22,11 @@ import MessageComponent from "../message";
 import Chart from "chart.js";
 import CalendarComponent from "./calendar";
 import SearchComponent from "./search";
-
-
-
-
+import awsconfig from '../../aws-exports';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
+Amplify.configure(awsconfig);
 
 @observer
 class HomepageHeading extends Component<any, any> {
@@ -61,9 +62,11 @@ class HeaderComponent extends Component {
                                 <Icon name='search' />
                                 Find Class
                             </Header>
+                            <SearchComponent>
 
-                            <SearchComponent/>
+                            </SearchComponent>
                             {/*<Search placeholder='Search classes...' />*/}
+                            
                         </Grid.Column>
 
                         <Grid.Column>

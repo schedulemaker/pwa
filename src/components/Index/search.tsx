@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import faker from 'faker'
 import React, { Component } from 'react'
-import { Search, Grid, Header, Segment } from 'semantic-ui-react'
+import { Search, Grid, Header, Segment, Button, Divider } from 'semantic-ui-react'
 import awsconfig from '../../aws-exports';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import * as queries from '../../graphql/queries';
@@ -11,6 +11,19 @@ Amplify.configure(awsconfig);
 const initialState = { isLoading: false, results: [], value: '' }
 
 var source = [];
+var selectedCourses = []
+
+const sendScheduleRequest = async () => {
+    const result = await API.graphql(graphqlOperation(mutations.createSchedules, {
+        event: {
+            school: "temple", 
+            term: 202036, 
+            courses: selectedCourses, 
+            campus: ["MN", "AMB"]
+        }
+    }));
+    console.log(result["data"]["createSchedules"]);
+}
 
 export default class SearchComponent extends Component {
     state = initialState
@@ -28,7 +41,10 @@ export default class SearchComponent extends Component {
         console.log(unique);
     }
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+    handleResultSelect = (e, { result }) => {
+        selectedCourses.push(result.title);
+        this.setState(initialState)
+    }
 
     handleSearchChange = (e, { value }) => {
         this.setState({ isLoading: true, value })
@@ -50,7 +66,8 @@ export default class SearchComponent extends Component {
         const { isLoading, value, results } = this.state
 
         return (
-            <Search
+            <div>
+                <Search
                 loading={isLoading}
                 onResultSelect={this.handleResultSelect}
                 /* Testing Search */
@@ -61,6 +78,10 @@ export default class SearchComponent extends Component {
                 value={value}
                 {...this.props}
             />
+            <Divider horizontal></Divider>
+            <Button primary onClick={sendScheduleRequest} >Create Schedule</Button>
+            </div>
+            
         )
     }
 }
