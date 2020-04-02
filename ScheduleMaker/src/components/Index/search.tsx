@@ -41,9 +41,9 @@ export default class SearchComponent extends Component {
                 loading={isLoading}
                 onResultSelect={this.handleResultSelect}
                 /* Testing Search */
-                // onSearchChange={_.debounce(this.handleSearchChange, 500, {
-                //     leading: true,
-                // })}
+                onSearchChange={_.debounce(this.handleSearchChange, 500, {
+                    leading: true,
+                })}
                 results={results}
                 value={value}
                 {...this.props}
