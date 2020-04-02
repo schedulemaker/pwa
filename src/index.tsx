@@ -21,7 +21,7 @@ Amplify.configure(awsconfig);
 // }).then(({ data }) => {
 //     console.log(data);
 // });
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<Router />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

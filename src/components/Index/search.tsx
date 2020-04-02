@@ -2,20 +2,33 @@ import _ from 'lodash'
 import faker from 'faker'
 import React, { Component } from 'react'
 import { Search, Grid, Header, Segment } from 'semantic-ui-react'
+import awsconfig from '../../aws-exports';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
+Amplify.configure(awsconfig);
 
 const initialState = { isLoading: false, results: [], value: '' }
 
-const source = _.times(5, () => ({
-    title: faker.company.companyName(),
-    description: faker.company.catchPhrase(),
-    image: faker.internet.avatar(),
-    price: faker.finance.amount(0, 100, 2, '$'),
-}))
+var source = [];
 
 export default class SearchComponent extends Component {
     state = initialState
+    async componentDidMount(){
+        const result = await API.graphql(graphqlOperation(queries.getCourses));
+        const set = new Set();
+        const unique = [];
+        result["data"]["getCourses"].forEach(obj => {
+            if(!set.has(obj.courseName)){
+                set.add(obj.courseName);
+                unique.push(obj);
+            }
+        });
+        source = unique;
+        console.log(unique);
+    }
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.title })
+    handleResultSelect = (e, { result }) => this.setState({ value: result.courseName })
 
     handleSearchChange = (e, { value }) => {
         this.setState({ isLoading: true, value })
@@ -24,11 +37,11 @@ export default class SearchComponent extends Component {
             if (this.state.value.length < 1) return this.setState(initialState)
 
             const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-            const isMatch = (result) => re.test(result.title)
+            const isMatch = (result) => re.test(`${result.courseName} ${result.title}`)
 
             this.setState({
                 isLoading: false,
-                //results: _.filter(source, isMatch),
+                results: _.filter(source, isMatch),
             })
         }, 300)
     }
