@@ -21,14 +21,14 @@ export default class SearchComponent extends Component {
         result["data"]["getCourses"].forEach(obj => {
             if(!set.has(obj.courseName)){
                 set.add(obj.courseName);
-                unique.push(obj);
+                unique.push({title: obj.courseName, description: obj.title});
             }
         });
         source = unique;
         console.log(unique);
     }
 
-    handleResultSelect = (e, { result }) => this.setState({ value: result.courseName })
+    handleResultSelect = (e, { result }) => this.setState({ value: result.title })
 
     handleSearchChange = (e, { value }) => {
         this.setState({ isLoading: true, value })
@@ -37,7 +37,7 @@ export default class SearchComponent extends Component {
             if (this.state.value.length < 1) return this.setState(initialState)
 
             const re = new RegExp(_.escapeRegExp(this.state.value), 'i')
-            const isMatch = (result) => re.test(`${result.courseName} ${result.title}`)
+            const isMatch = (result) => re.test(`${result.title} ${result.description}`)
 
             this.setState({
                 isLoading: false,
