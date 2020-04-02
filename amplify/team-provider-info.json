@@ -1,0 +1,15 @@
+{
+    "backend": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-schedulemaker-backend-102700-authRole",
+            "UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-backend-102700-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-backend-102700-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-schedulemaker-backend-102700-deployment",
+            "UnauthRoleName": "amplify-schedulemaker-backend-102700-unauthRole",
+            "StackName": "amplify-schedulemaker-backend-102700",
+            "StackId": "arn:aws:cloudformation:us-east-2:741865850980:stack/amplify-schedulemaker-backend-102700/04c74c70-74ee-11ea-a38b-02582149edd0",
+            "AmplifyAppId": "d20mlrbr4uuvmr"
+        }
+    }
+}
