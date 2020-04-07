@@ -1,0 +1,8 @@
+{
+    "CreateAPIKey": 1,
+    "AppSyncApiName": "schedulemaker",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "S3DeploymentBucket": "amplify-schedulemaker-backend-102700-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/c04be0af2d231c510b2e54379e3bb4dbd3125792"
+}
