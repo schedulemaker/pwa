@@ -35,8 +35,8 @@
                 "s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-backend-102700-deployment/amplify-cfn-templates/api/cloudformation-template.json",
                 "logicalId": "apischedulemaker"
             },
-            "lastPushTimeStamp": "2020-04-08T13:57:20.811Z",
-            "lastPushDirHash": "aZqf6IbXzSsiSkT1NCnIIOHykZ0="
+            "lastPushTimeStamp": "2020-04-09T17:58:54.673Z",
+            "lastPushDirHash": "mYMD0DeyumT/uQ64a0VWb+RobUE="
         }
     }
 }

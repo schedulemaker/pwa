@@ -23,13 +23,13 @@ export const createSchedules = /* GraphQL */ `
         room
         instructors
         weeks
-        Monday
-        Tuesday
-        Wednesday
-        Thursday
-        Friday
-        Saturday
-        Sunday
+        monday
+        tuesday
+        wednesday
+        thursday
+        friday
+        saturday
+        sunday
       }
       courseName
       crn
