@@ -1,10 +1,15 @@
 import React from "react";
-import Paper from '@material-ui/core/Paper';
+import { 
+  Paper,
+  Grid
+} from '@material-ui/core';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
   Scheduler,
   WeekView,
   Appointments,
+  Toolbar,
+  DateNavigator,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -73,10 +78,11 @@ export default class Calendar extends React.PureComponent {
     const { data } = this.state;
 
     return (
-      <Paper>
+      <Grid container>
+        <Paper>
         <Scheduler
           data={data}
-          height={660}
+          // height={660}
         >
           <ViewState />
           <WeekView
@@ -85,9 +91,12 @@ export default class Calendar extends React.PureComponent {
             timeTableCellComponent={TimeTableCell}
             dayScaleCellComponent={DayScaleCell}
           />
+          <Toolbar />
+          <DateNavigator />
           <Appointments />
         </Scheduler>
       </Paper>
+      </Grid>
     );
   }
 }
