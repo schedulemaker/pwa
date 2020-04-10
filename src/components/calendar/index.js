@@ -1,7 +1,8 @@
 import React from "react";
 import { 
   Paper,
-  Grid
+  Grid,
+  LinearProgress
 } from '@material-ui/core';
 import { ViewState } from '@devexpress/dx-react-scheduler';
 import {
@@ -13,9 +14,14 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
+// import json from './schedules.json';
+// import mapSchedules from './maps';
+// import appointments from './appointments';
+import {appointments} from './appts'
 
 
-const style = theme => ({
+
+const styles = theme => ({
   todayCell: {
     backgroundColor: fade(theme.palette.primary.main, 0.1),
     '&:hover': {
@@ -42,6 +48,17 @@ const style = theme => ({
   },
 });
 
+const ToolbarWithLoading = withStyles(styles, { name: 'Toolbar' })(
+  ({ children, classes, ...restProps }) => (
+    <div className={classes.toolbarRoot}>
+      <Toolbar.Root {...restProps}>
+        {children}
+      </Toolbar.Root>
+      <LinearProgress className={classes.progress} />
+    </div>
+  ),
+);
+
 const TimeTableCellBase = ({ classes, ...restProps }) => {
   const { startDate } = restProps;
   const date = new Date(startDate);
@@ -52,7 +69,7 @@ const TimeTableCellBase = ({ classes, ...restProps }) => {
   } return <WeekView.TimeTableCell {...restProps} />;
 };
 
-const TimeTableCell = withStyles(style, { name: 'TimeTableCell' })(TimeTableCellBase);
+const TimeTableCell = withStyles(styles, { name: 'TimeTableCell' })(TimeTableCellBase);
 
 const DayScaleCellBase = ({ classes, ...restProps }) => {
   const { startDate, today } = restProps;
@@ -63,20 +80,42 @@ const DayScaleCellBase = ({ classes, ...restProps }) => {
   } return <WeekView.DayScaleCell {...restProps} />;
 };
 
-const DayScaleCell = withStyles(style, { name: 'DayScaleCell' })(DayScaleCellBase);
+const DayScaleCell = withStyles(styles, { name: 'DayScaleCell' })(DayScaleCellBase);
+
+
 
 export default class Calendar extends React.PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
-
+      loading: true
     };
   }
 
-  render() {
-    const { data } = this.state;
+  componentDidMount() {
+    console.log('mount');
+    this.loadData();
+  }
 
+  componentDidUpdate() {
+    console.log('update');
+    this.loadData();
+  }
+
+  loadData() {
+    const { currentDate, currentViewName } = this.state;
+    // const data = json.data.createSchedules; //replace with API call
+    this.setState({
+      data: appointments,
+      loading: false,
+    });
+  }
+
+  render() {
+    const { data, loading } = this.state;
+    console.log(data);
+    // const appointments = data ? data.map(mapSchedules).flat() : [];
     return (
       <Grid container>
         <Paper>
@@ -91,7 +130,7 @@ export default class Calendar extends React.PureComponent {
             timeTableCellComponent={TimeTableCell}
             dayScaleCellComponent={DayScaleCell}
           />
-          <Toolbar />
+          <Toolbar {...loading ? { rootComponent: ToolbarWithLoading } : null}/>
           <DateNavigator />
           <Appointments />
         </Scheduler>
