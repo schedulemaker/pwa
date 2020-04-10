@@ -14,128 +14,36 @@ import {
 } from '@devexpress/dx-react-scheduler-material-ui';
 import { withStyles } from '@material-ui/core/styles';
 import { fade } from '@material-ui/core/styles/colorManipulator';
-// import json from './schedules.json';
-// import mapSchedules from './maps';
-// import appointments from './appointments';
-import {appointments} from './appts'
+import json from './schedules.json';
+import mapSchedules from './maps';
 
 
-
-const styles = theme => ({
-  todayCell: {
-    backgroundColor: fade(theme.palette.primary.main, 0.1),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.primary.main, 0.14),
-    },
-    '&:focus': {
-      backgroundColor: fade(theme.palette.primary.main, 0.16),
-    },
-  },
-  weekendCell: {
-    backgroundColor: fade(theme.palette.action.disabledBackground, 0.04),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.action.disabledBackground, 0.04),
-    },
-    '&:focus': {
-      backgroundColor: fade(theme.palette.action.disabledBackground, 0.04),
-    },
-  },
-  today: {
-    backgroundColor: fade(theme.palette.primary.main, 0.16),
-  },
-  weekend: {
-    backgroundColor: fade(theme.palette.action.disabledBackground, 0.06),
-  },
-});
-
-const ToolbarWithLoading = withStyles(styles, { name: 'Toolbar' })(
-  ({ children, classes, ...restProps }) => (
-    <div className={classes.toolbarRoot}>
-      <Toolbar.Root {...restProps}>
-        {children}
-      </Toolbar.Root>
-      <LinearProgress className={classes.progress} />
-    </div>
-  ),
-);
-
-const TimeTableCellBase = ({ classes, ...restProps }) => {
-  const { startDate } = restProps;
-  const date = new Date(startDate);
-  if (date.getDate() === new Date().getDate()) {
-    return <WeekView.TimeTableCell {...restProps} className={classes.todayCell} />;
-  } if (date.getDay() === 0 || date.getDay() === 6) {
-    return <WeekView.TimeTableCell {...restProps} className={classes.weekendCell} />;
-  } return <WeekView.TimeTableCell {...restProps} />;
-};
-
-const TimeTableCell = withStyles(styles, { name: 'TimeTableCell' })(TimeTableCellBase);
-
-const DayScaleCellBase = ({ classes, ...restProps }) => {
-  const { startDate, today } = restProps;
-  if (today) {
-    return <WeekView.DayScaleCell {...restProps} className={classes.today} />;
-  } if (startDate.getDay() === 0 || startDate.getDay() === 6) {
-    return <WeekView.DayScaleCell {...restProps} className={classes.weekend} />;
-  } return <WeekView.DayScaleCell {...restProps} />;
-};
-
-const DayScaleCell = withStyles(styles, { name: 'DayScaleCell' })(DayScaleCellBase);
-
-
-
+const today = new Date();
 export default class Calendar extends React.PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
-      loading: true
+      data: json.data.createSchedules.map(mapSchedules),
+      index: 0
     };
   }
 
-  componentDidMount() {
-    console.log('mount');
-    this.loadData();
-  }
-
-  componentDidUpdate() {
-    console.log('update');
-    this.loadData();
-  }
-
-  loadData() {
-    const { currentDate, currentViewName } = this.state;
-    // const data = json.data.createSchedules; //replace with API call
-    this.setState({
-      data: appointments,
-      loading: false,
-    });
-  }
-
   render() {
-    const { data, loading } = this.state;
-    console.log(data);
-    // const appointments = data ? data.map(mapSchedules).flat() : [];
+    const { data, index } = this.state;
     return (
-      <Grid container>
-        <Paper>
+      <Paper>
         <Scheduler
-          data={data}
+          data={data[index]}
           // height={660}
         >
-          <ViewState />
           <WeekView
-            startDayHour={9}
-            endDayHour={19}
-            timeTableCellComponent={TimeTableCell}
-            dayScaleCellComponent={DayScaleCell}
+            startDayHour={7}
+            endDayHour={20}
           />
-          <Toolbar {...loading ? { rootComponent: ToolbarWithLoading } : null}/>
-          <DateNavigator />
+          <Toolbar />
           <Appointments />
         </Scheduler>
       </Paper>
-      </Grid>
     );
   }
 }

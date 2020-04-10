@@ -13,8 +13,8 @@ const daysOfWeek = {
 const today = moment();
 
 //gets the moment for the start of the week for the given index
-function getWeekStart(index){
-    return moment(today).subtract(today.day(), 'd').add((7 * index), 'd');
+function getWeekStart(){
+    return moment(today).subtract(today.day(), 'd');
 };
 
 //takes a int from 0 - 2400 and converts it to [hour, minute]
@@ -50,8 +50,8 @@ function mapMeetingTime(meetingTime, weekStart){
 };
 
 //takes a single section and creates an array of appointments for each meetingTime
-function mapSections(section, index){
-    const weekStart = getWeekStart(index);
+function mapSections(section){
+    const weekStart = getWeekStart();
     const appts = section.meetingTimes.map(meetingTime => mapMeetingTime(meetingTime, weekStart)).flat();
   return appts.map(appt => {
     return {
@@ -64,8 +64,8 @@ function mapSections(section, index){
 };
 
 //takes a schedule and returns an array of appointments
-function mapSchedules(schedule, index){
-  const appts = schedule.map(mapSections, index).flat();
+function mapSchedules(schedule){
+  const appts = schedule.map(mapSections).flat();
   return appts;
 };
 
