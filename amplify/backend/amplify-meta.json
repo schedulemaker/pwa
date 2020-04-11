@@ -1,15 +1,20 @@
 {
 	"providers": {
 		"awscloudformation": {
-			"AuthRoleName": "amplify-schedulemaker-master-161850-authRole",
-			"UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-master-161850-unauthRole",
-			"AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-master-161850-authRole",
+			"AuthRoleName": "amplify-schedulemaker-dev-164023-authRole",
+			"UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-dev-164023-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-dev-164023-authRole",
 			"Region": "us-east-2",
-			"DeploymentBucketName": "amplify-schedulemaker-master-161850-deployment",
-			"UnauthRoleName": "amplify-schedulemaker-master-161850-unauthRole",
-			"StackName": "amplify-schedulemaker-master-161850",
-			"StackId": "arn:aws:cloudformation:us-east-2:741865850980:stack/amplify-schedulemaker-master-161850/a8a74e40-7c31-11ea-a9ae-0696b95a38c4",
+			"DeploymentBucketName": "amplify-schedulemaker-dev-164023-deployment",
+			"UnauthRoleName": "amplify-schedulemaker-dev-164023-unauthRole",
+			"StackName": "amplify-schedulemaker-dev-164023",
+			"StackId": "arn:aws:cloudformation:us-east-2:741865850980:stack/amplify-schedulemaker-dev-164023/ab52dee0-7c34-11ea-b41f-068deee6a6ae",
 			"AmplifyAppId": "dpw4vxtkh26k4"
+		},
+		"categories": {
+			"auth": {
+				"schedulemakera88a1dfe": {}
+			}
 		}
 	},
 	"auth": {
@@ -19,17 +24,17 @@
 			"dependsOn": [],
 			"customAuth": false,
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-master-161850-deployment/amplify-cfn-templates/auth/schedulemakera88a1dfe-cloudformation-template.yml",
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-dev-164023-deployment/amplify-cfn-templates/auth/schedulemakera88a1dfe-cloudformation-template.yml",
 				"logicalId": "authschedulemakera88a1dfe"
 			},
-			"lastPushTimeStamp": "2020-04-11T20:27:14.114Z",
+			"lastPushTimeStamp": "2020-04-11T20:46:10.394Z",
 			"output": {
-				"AppClientSecret": "va7be5mhhr18cdlodiiqqns8rrajnmb8q3t54r18qt8hv3vl2av",
-				"UserPoolId": "us-east-2_FPDIYK1bv",
-				"AppClientIDWeb": "4a5e814mph5mmbhgk2mkn0p4re",
-				"AppClientID": "6n7jhj08vhvnvidrashmvl19gf",
-				"IdentityPoolId": "us-east-2:365adfda-8e4c-46a6-9e64-4c5e2c638cea",
-				"IdentityPoolName": "schedulemakera88a1dfe_identitypool_a88a1dfe__master",
+				"AppClientSecret": "38cca4i36uvde6a864oa1d2u7br3a19s870mk332hlv5atejivi",
+				"UserPoolId": "us-east-2_M7XVXcEjl",
+				"AppClientIDWeb": "5j55ho3uu30lrbspadr6pr67r0",
+				"AppClientID": "5jl53dk49f784dvnvrs17mledf",
+				"IdentityPoolId": "us-east-2:a529a93a-2203-44c6-b4c1-e4ad8cf5470a",
+				"IdentityPoolName": "schedulemakera88a1dfe_identitypool_a88a1dfe__dev",
 				"UserPoolName": "schedulemakera88a1dfe_userpool_a88a1dfe"
 			},
 			"lastPushDirHash": "srwbI3LXOpKufJuOWBlDc6BB0z4="
@@ -50,16 +55,16 @@
 						}
 					}
 				},
-				"GraphQLAPIIdOutput": "kiscbmssrzelbbn4iqochz7cfq",
-				"GraphQLAPIEndpointOutput": "https://taytm4ui6fhxjf3utp7p5foos4.appsync-api.us-east-2.amazonaws.com/graphql",
-				"GraphQLAPIKeyOutput": "da2-rgmvoogzgrbljhy34766b5yipu"
+				"GraphQLAPIIdOutput": "pskjr7azg5g3hpq5zch6ud3oda",
+				"GraphQLAPIEndpointOutput": "https://pumob4expnarlgmss47e5y42ue.appsync-api.us-east-2.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-c6pu6hsllvhqxe6etzzgsrk7uq"
 			},
 			"providerMetadata": {
-				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-master-161850-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-dev-164023-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apischedulemaker"
 			},
-			"lastPushTimeStamp": "2020-04-11T20:27:15.132Z",
-			"lastPushDirHash": "y5894XvMKzTMvTgRh4SbyYoaD/g="
+			"lastPushTimeStamp": "2020-04-11T20:46:10.394Z",
+			"lastPushDirHash": "fQ049fyXXtC+9BjfycqvmgXudGw="
 		}
 	}
 }

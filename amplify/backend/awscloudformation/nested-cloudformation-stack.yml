@@ -71,7 +71,7 @@
 		"authschedulemakera88a1dfe": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-master-161850-deployment/amplify-cfn-templates/auth/schedulemakera88a1dfe-cloudformation-template.yml",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-dev-164023-deployment/amplify-cfn-templates/auth/schedulemakera88a1dfe-cloudformation-template.yml",
 				"Parameters": {
 					"identityPoolName": "schedulemakera88a1dfe_identitypool_a88a1dfe",
 					"allowUnauthenticatedIdentities": false,
@@ -112,22 +112,22 @@
 					"usernameAttributes": "email",
 					"userPoolGroupList": "",
 					"dependsOn": "",
-					"env": "master"
+					"env": "dev"
 				}
 			}
 		},
 		"apischedulemaker": {
 			"Type": "AWS::CloudFormation::Stack",
 			"Properties": {
-				"TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-master-161850-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-dev-164023-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"Parameters": {
 					"CreateAPIKey": 1,
 					"AppSyncApiName": "schedulemaker",
 					"DynamoDBBillingMode": "PAY_PER_REQUEST",
 					"DynamoDBEnableServerSideEncryption": "false",
-					"S3DeploymentBucket": "amplify-schedulemaker-master-161850-deployment",
+					"S3DeploymentBucket": "amplify-schedulemaker-dev-164023-deployment",
 					"S3DeploymentRootKey": "amplify-appsync-files/f3e6d0e1af8a55b5c6045f9c53f287c1d358c943",
-					"env": "master"
+					"env": "dev"
 				}
 			}
 		},
