@@ -1,0 +1,65 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-schedulemaker-master-161850-authRole",
+			"UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-master-161850-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-master-161850-authRole",
+			"Region": "us-east-2",
+			"DeploymentBucketName": "amplify-schedulemaker-master-161850-deployment",
+			"UnauthRoleName": "amplify-schedulemaker-master-161850-unauthRole",
+			"StackName": "amplify-schedulemaker-master-161850",
+			"StackId": "arn:aws:cloudformation:us-east-2:741865850980:stack/amplify-schedulemaker-master-161850/a8a74e40-7c31-11ea-a9ae-0696b95a38c4",
+			"AmplifyAppId": "dpw4vxtkh26k4"
+		}
+	},
+	"auth": {
+		"schedulemakera88a1dfe": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false,
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-master-161850-deployment/amplify-cfn-templates/auth/schedulemakera88a1dfe-cloudformation-template.yml",
+				"logicalId": "authschedulemakera88a1dfe"
+			},
+			"lastPushTimeStamp": "2020-04-11T20:27:14.114Z",
+			"output": {
+				"AppClientSecret": "va7be5mhhr18cdlodiiqqns8rrajnmb8q3t54r18qt8hv3vl2av",
+				"UserPoolId": "us-east-2_FPDIYK1bv",
+				"AppClientIDWeb": "4a5e814mph5mmbhgk2mkn0p4re",
+				"AppClientID": "6n7jhj08vhvnvidrashmvl19gf",
+				"IdentityPoolId": "us-east-2:365adfda-8e4c-46a6-9e64-4c5e2c638cea",
+				"IdentityPoolName": "schedulemakera88a1dfe_identitypool_a88a1dfe__master",
+				"UserPoolName": "schedulemakera88a1dfe_userpool_a88a1dfe"
+			},
+			"lastPushDirHash": "srwbI3LXOpKufJuOWBlDc6BB0z4="
+		}
+	},
+	"api": {
+		"schedulemaker": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "Default API key",
+							"apiKeyExpirationDays": "365"
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "kiscbmssrzelbbn4iqochz7cfq",
+				"GraphQLAPIEndpointOutput": "https://taytm4ui6fhxjf3utp7p5foos4.appsync-api.us-east-2.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-rgmvoogzgrbljhy34766b5yipu"
+			},
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-master-161850-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apischedulemaker"
+			},
+			"lastPushTimeStamp": "2020-04-11T20:27:15.132Z",
+			"lastPushDirHash": "y5894XvMKzTMvTgRh4SbyYoaD/g="
+		}
+	}
+}
