@@ -19,7 +19,7 @@ function getWeekStart(){
 
 //takes a int from 0 - 2400 and converts it to [hour, minute]
 function mapTime(time){
-    return [Math.floor(time / 100) - 1, time % 100]; 
+    return [Math.floor(time / 100), time % 100]; 
 };
 
 //Takes a single meeting time and maps it to startDate and endDate for the AppointmentModel
