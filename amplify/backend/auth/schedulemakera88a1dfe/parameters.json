@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "pwademo1663563cf_identitypool_663563cf",
+    "identityPoolName": "schedulemakera88a1dfe_identitypool_a88a1dfe",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "pwadem663563cf",
-    "userPoolName": "pwademo1663563cf_userpool_663563cf",
+    "resourceNameTruncated": "schedua88a1dfe",
+    "userPoolName": "schedulemakera88a1dfe_userpool_a88a1dfe",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -28,9 +28,9 @@
     "userpoolClientReadAttributes": [
         "email"
     ],
-    "userpoolClientLambdaRole": "pwadem663563cf_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "schedua88a1dfe_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "resourceName": "pwademo1663563cf",
+    "resourceName": "schedulemakera88a1dfe",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [

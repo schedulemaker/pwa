@@ -1,6 +1,14 @@
 {
+	"auth": {
+		"schedulemakera88a1dfe": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
 	"api": {
-		"original": {
+		"schedulemaker": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
@@ -9,32 +17,12 @@
 					"defaultAuthentication": {
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
-							"description": "",
-							"apiKeyExpirationDays": 7
+							"description": "Default API key",
+							"apiKeyExpirationDays": "365"
 						}
 					}
 				}
 			}
-		}
-	},
-	"auth": {
-		"pwademo1663563cf": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [],
-			"customAuth": false
-		}
-	},
-	"analytics": {
-		"pwademo1": {
-			"service": "Pinpoint",
-			"providerPlugin": "awscloudformation"
-		}
-	},
-	"storage": {
-		"s3c4695d86": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation"
 		}
 	}
 }
