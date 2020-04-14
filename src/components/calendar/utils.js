@@ -68,16 +68,3 @@ export function mapSchedule(schedule){
   const appts = schedule.map(mapSections).flat();
   return appts;
 };
-
-//takes a schedule and returns [earliest start time, latest end time]
-export function getTimes(schedule){
-    const times = schedule.map(section => {
-        return section.meetingTimes.map(mt => {
-            return [mt.startTime, mt.endTime];
-        });
-    }).flat();
-    return [
-        Math.floor(Math.min(...(times.map(t => t[0]))) /100),
-        Math.ceil(Math.max(...(times.map(t => t[1]))) / 100)
-    ]
-};

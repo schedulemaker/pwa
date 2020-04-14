@@ -9,9 +9,11 @@ import {
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
 import {
-  mapSchedule,
-  getTimes
-} from './maps';
+  mapSchedule
+} from './utils';
+import {
+  getTimeBoundries
+} from '../utils';
 
 export default function Calendar(props) {
   const [data, setData] = React.useState([]);
@@ -21,7 +23,7 @@ export default function Calendar(props) {
   React.useEffect(
     function () {
       setData(mapSchedule(props.data)); //Replace with API call
-      const [startHour, endHour] = getTimes(props.data);
+      const [startHour, endHour] = getTimeBoundries(props.data);
       setStartHour(startHour);
       setEndHour(endHour);
     },
