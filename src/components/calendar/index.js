@@ -1,7 +1,7 @@
 import React from "react";
 import { 
   Paper,
-  LinearProgress,
+  Grid,
 } from '@material-ui/core';
 import {
   Scheduler,
@@ -18,26 +18,25 @@ export default function Calendar(props) {
   const [startHour, setStartHour] = React.useState(8);
   const [endHour, setEndHour] = React.useState(17);
 
-  React.useEffect(function(){
-    setData(mapSchedule(props.data)); //Replace with API call
-    const [startHour, endHour] = getTimes(props.data);
-    setStartHour(startHour);
-    setEndHour(endHour);
-  }, [props.data]);
+  React.useEffect(
+    function () {
+      setData(mapSchedule(props.data)); //Replace with API call
+      const [startHour, endHour] = getTimes(props.data);
+      setStartHour(startHour);
+      setEndHour(endHour);
+    },
+    [props.data]
+  );
 
   return (
-    <Paper>
-      <Scheduler
-        data={data}
-        // height={660}
-      >
-        <WeekView
-          startDayHour={startHour}
-          endDayHour={endHour}
-        />
+    <Grid container item justify='center'>
+      <Paper>
+      <Scheduler data={data}>
+        <WeekView startDayHour={startHour} endDayHour={endHour} />
         <Appointments />
       </Scheduler>
     </Paper>
+    </Grid>
   );
 }
 

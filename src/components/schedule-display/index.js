@@ -1,5 +1,10 @@
 import React from "react";
-import { Paper, Grid, MobileStepper, Button } from "@material-ui/core";
+import { 
+  Paper, 
+  Grid, 
+  MobileStepper, 
+  Button 
+} from "@material-ui/core";
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
@@ -38,40 +43,38 @@ export default function ScheduleView(props) {
   }
 
   return (
-    <Grid container>
-      <Grid 
-        container
-        justify='center'
-        >
-          <Grid item>
-        <Button
-          className={classes.carouselButton}
-          variant="outlined"
-          size="large"
-          onClick={showPrev}
-          disabled={index === 0}
-        >
-          <KeyboardArrowLeft />
-        </Button>
-      </Grid>
-      <Grid item>
-        <Button
-          className={classes.carouselButton}
-          variant="outlined"
-          size="large"
-          onClick={showNext}
-          disabled={index === data.length - 1}
-        >
-          <KeyboardArrowRight />
-        </Button>
-      </Grid>
-        </Grid>
-      <Grid item>
-        <SwipeableViews axis={"x"} enableMouseEvents>
-          <Calendar data={data[index]} />
-        </SwipeableViews>
-      </Grid>
-      
+    <Grid container justify='center'>
+      <SwipeableViews axis={"x"} enableMouseEvents>
+        <Calendar data={data[index]} />
+      </SwipeableViews>
+      <MobileStepper
+        steps={data.length}
+        position="static"
+        variant="text"
+        activeStep={index}
+        nextButton={
+          <Button
+            // className={classes.carouselButton}
+            // variant="outlined"
+            size="large"
+            onClick={showNext}
+            disabled={index === data.length - 1}
+          >
+            <KeyboardArrowRight />
+          </Button>
+        }
+        backButton={
+          <Button
+            // className={classes.carouselButton}
+            // variant="outlined"
+            size="large"
+            onClick={showPrev}
+            disabled={index === 0}
+          >
+            <KeyboardArrowLeft />
+          </Button>
+        }
+      />
     </Grid>
   );
 }
