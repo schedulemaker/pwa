@@ -19,10 +19,12 @@ const data = json.data.createSchedules;
 const useStyles = makeStyles((theme) => ({
   carouselButton: {
     background: ["rgba(255,255,255,0.1)"],
+    // transform: ["translate(0, 1000%)"],
+    "z-index": 10,
   },
 }));
 
-export default function ScheduleView() {
+export default function ScheduleView(props) {
   const classes = useStyles();
   const theme = useTheme();
   const [index, setIndex] = React.useState(0);
@@ -36,17 +38,12 @@ export default function ScheduleView() {
   }
 
   return (
-    <Grid 
+    <Grid container>
+      <Grid 
         container
-        wrap='nowrap'
-    >
-        <Grid 
-        container
-        direction='column'
-        alignItems='center'
         justify='center'
         >
-            <Grid item>
+          <Grid item>
         <Button
           className={classes.carouselButton}
           variant="outlined"
@@ -57,20 +54,7 @@ export default function ScheduleView() {
           <KeyboardArrowLeft />
         </Button>
       </Grid>
-        </Grid>
-      
       <Grid item>
-      <SwipeableViews axis={"x"} enableMouseEvents>
-      <Calendar data={data} index={index} />
-        </SwipeableViews>
-      </Grid>
-      <Grid 
-        container
-        direction='column'
-        alignItems='center'
-        justify='center'
-        >
-            <Grid item>
         <Button
           className={classes.carouselButton}
           variant="outlined"
@@ -78,10 +62,16 @@ export default function ScheduleView() {
           onClick={showNext}
           disabled={index === data.length - 1}
         >
-            <KeyboardArrowRight />
+          <KeyboardArrowRight />
         </Button>
+      </Grid>
         </Grid>
-        </Grid>
+      <Grid item>
+        <SwipeableViews axis={"x"} enableMouseEvents>
+          <Calendar data={data[index]} />
+        </SwipeableViews>
+      </Grid>
+      
     </Grid>
   );
 }

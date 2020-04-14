@@ -8,48 +8,36 @@ import {
   WeekView,
   Appointments,
 } from '@devexpress/dx-react-scheduler-material-ui';
-import mapSchedules from '../calendar/maps';
+import {
+  mapSchedule,
+  getTimes
+} from './maps';
 
-export default class Calendar extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: []
-    };
-  }
+export default function Calendar(props) {
+  const [data, setData] = React.useState([]);
+  const [startHour, setStartHour] = React.useState(8);
+  const [endHour, setEndHour] = React.useState(17);
 
-  componentDidMount() {
-    this.loadData();
-  }
+  React.useEffect(function(){
+    setData(mapSchedule(props.data)); //Replace with API call
+    const [startHour, endHour] = getTimes(props.data);
+    setStartHour(startHour);
+    setEndHour(endHour);
+  }, [props.data]);
 
-  componentDidUpdate() {
-    // this.loadData();
-  }
-
-  loadData(){
-    const appointments = this.props.data.map(mapSchedules); //Replace with API call
-    this.setState({
-      data: appointments,
-      loading: false
-    });
-  }
-
-  render() {
-    const { data } = this.state;
-    return (
-      <Paper>
-        <Scheduler
-          data={data[this.props.index]}
-          // height={660}
-        >
-          <WeekView
-            startDayHour={7}
-            endDayHour={20}
-          />
-          <Appointments />
-        </Scheduler>
-      </Paper>
-    );
-  }
+  return (
+    <Paper>
+      <Scheduler
+        data={data}
+        // height={660}
+      >
+        <WeekView
+          startDayHour={startHour}
+          endDayHour={endHour}
+        />
+        <Appointments />
+      </Scheduler>
+    </Paper>
+  );
 }
 
