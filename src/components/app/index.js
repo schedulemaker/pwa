@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../logo.svg';
 import './App.css';
-import ScheduleView from '../schedule-display';
+import ScheduleView from '../schedule-view';
 import Filters from '../filters';
 import {
   Grid

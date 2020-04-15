@@ -76,7 +76,7 @@ export default function Filters(props) {
   };
 
   return (
-    <Grid container justify="center" spacing={3}>
+    <Grid container justify="center" alignItems='center' spacing={3}>
       <Grid container item justify="space-around">
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <KeyboardTimePicker
@@ -101,9 +101,9 @@ export default function Filters(props) {
           />
         </MuiPickersUtilsProvider>
       </Grid>
-      <Grid container item justify='center'>
+      <Grid container item justify='center' alignItems='center'>
         <FormControl>
-          <FormLabel component="legend">Select desired days</FormLabel>
+          <FormLabel>Select desired days</FormLabel>
           <FormGroup row>
             {days.map((day) => (
               <FormControlLabel
