@@ -11,7 +11,12 @@ function App() {
   return (
     <Grid container justify='center'>
       {/* <ScheduleView /> */}
-    <Filters minTime={800} maxTime={1700}/>
+    <Filters 
+      minTime={800} 
+      maxTime={1700}
+      school='temple'
+      term={202036}
+      />
     </Grid>
   );
 }

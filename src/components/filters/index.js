@@ -14,12 +14,6 @@ import {
   Slider,
   Typography,
   RadioGroup,
-  List,
-  ListItem,
-  ListItemIcon,
-  Divider,
-  Card, 
-  CardHeader
 } from "@material-ui/core";
 import {
   withStyles,
@@ -34,10 +28,8 @@ import {
 } from '@material-ui/pickers';
 import {
   getHoursMinutes,
-  not,
-  union,
-  intersection
 } from '../utils';
+import TransferList from '../transfer-list';
 
 const days = [
     'Sun',
@@ -167,8 +159,13 @@ export default function Filters(props) {
           </RadioGroup>
         </FormControl>
       </Grid>
+      <Grid container item justify='center'>
+        <FormControl>
+          <FormLabel>Select preferred professors</FormLabel>
+          <TransferList school={props.school} term={props.term} />
+        </FormControl>
+      </Grid>
         </Grid>
-      
     </Grid>
   );
 }
