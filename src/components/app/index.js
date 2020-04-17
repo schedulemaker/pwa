@@ -1,5 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import {
+  Container
+} from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -17,7 +20,26 @@ import BotNav from '../bottom-nav';
 import ScheduleView from '../schedule-view';
 import Filters from '../filters';
 import FixedTags from '../labs';
-import json from './schedules.json';
+import {
+  createSchedules
+} from '../../graphql/mutations';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import awsconfig from '../../aws-exports';
+Amplify.configure(awsconfig);
+
+async function makeSchedules(school, term, courses, campuses){
+  const queryParams = {
+    courses: courses,
+    campuses: campuses,
+    school: school,
+    term: term
+  };
+  const result = await API.graphql(
+    graphqlOperation(createSchedules, queryParams)
+  );
+  return result.data.createSchedules;
+}
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +54,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const times = [800, 1700], school = 'temple', term = 202036
+const courses = ['CIS-1051', 'CIS-1001', 'MATH-1041'];
+const campuses = ['MN'];
 
 function App() {
   const classes = useStyles();
@@ -39,6 +63,7 @@ function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [tab, setTab] = useState(0);
+  const [schedules, setSchedules] = useState([]);
   
   const containerStyles = {
     height: "calc(100vh - 112px)",
@@ -46,12 +71,19 @@ function App() {
     textAlign: "center"
   };
 
+  const apiCall = () => {
+    makeSchedules(school, term, courses, campuses).then(result => {
+      setSchedules(result);
+      console.log('Success');
+    });
+  };
+
   function renderView(){
     switch(tab){
       case 0:
         return (<FixedTags />);
       case 1:
-        return (<ScheduleView data={json.data.createSchedules}/>);
+        return (<ScheduleView data={schedules} auth={isAuthenticated}/>);
       case 2:
         return (<Filters times={times} school={school} term={term}/>);
       default:
@@ -86,7 +118,7 @@ function App() {
  
   return (
     !isAuthenticating && 
-    <div className={classes.root}>
+    <Grid container spacing={2}>
       <Grid container direction = "column">
       <AppBar position="static">
         <Toolbar>
@@ -98,6 +130,9 @@ function App() {
            ScheduleMaker
           </Button>
           </Typography>
+          <Button color='inherit' onClick={apiCall}>
+            API Call
+          </Button>
          
          {isAuthenticated ?
           <Button onClick={handleLogout} color="inherit">Logout</Button>
@@ -123,7 +158,7 @@ function App() {
       <BotNav value ={tab} onChange={setTab} />
       </Grid>
       <CssBaseline />
-    </div>
+    </Grid>
   );
 }
 
