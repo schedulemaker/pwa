@@ -1,25 +1,27 @@
 import React from 'react';
 import logo from '../../logo.svg';
 import './App.css';
+import ScheduleView from '../schedule-view';
+import Filters from '../filters';
+import {
+  Grid
+} from '@material-ui/core';
+
+//replace with API call
+import json from "./schedules.json";
+const data = json.data.createSchedules;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grid container justify='center'>
+      <ScheduleView data={data} auth={true}/>
+    {/* <Filters 
+      minTime={800} 
+      maxTime={1700}
+      school='temple'
+      term={202036}
+      /> */}
+    </Grid>
   );
 }
 
