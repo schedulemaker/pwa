@@ -7,16 +7,20 @@ import {
   Grid
 } from '@material-ui/core';
 
+//replace with API call
+import json from "./schedules.json";
+const data = json.data.createSchedules;
+
 function App() {
   return (
     <Grid container justify='center'>
-      {/* <ScheduleView /> */}
-    <Filters 
+      <ScheduleView data={data} auth={true}/>
+    {/* <Filters 
       minTime={800} 
       maxTime={1700}
       school='temple'
       term={202036}
-      />
+      /> */}
     </Grid>
   );
 }

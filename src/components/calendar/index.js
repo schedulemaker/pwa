@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { 
   Paper,
   Grid,
@@ -7,25 +7,18 @@ import {
   Scheduler,
   WeekView,
   Appointments,
+  AppointmentTooltip
 } from '@devexpress/dx-react-scheduler-material-ui';
 import {
   mapSchedule
 } from './utils';
-import {
-  getTimeBoundries
-} from '../utils';
 
 export default function Calendar(props) {
-  const [data, setData] = React.useState([]);
-  const [startHour, setStartHour] = React.useState(8);
-  const [endHour, setEndHour] = React.useState(17);
+  const [data, setData] = useState([]);
 
-  React.useEffect(
+  useEffect(
     function () {
-      setData(mapSchedule(props.data)); //Replace with API call
-      const [startHour, endHour] = getTimeBoundries(props.data);
-      setStartHour(startHour);
-      setEndHour(endHour);
+      setData(mapSchedule(props.data)); 
     },
     [props.data]
   );
@@ -34,8 +27,9 @@ export default function Calendar(props) {
     <Grid container item justify='center'>
       <Paper>
       <Scheduler data={data}>
-        <WeekView startDayHour={startHour} endDayHour={endHour} />
+        <WeekView startDayHour={props.hours[0]} endDayHour={props.hours[1]} />
         <Appointments />
+        <AppointmentTooltip showCloseButton />
       </Scheduler>
     </Paper>
     </Grid>

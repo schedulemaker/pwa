@@ -1,14 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import { 
-  Paper, 
   Grid, 
   MobileStepper, 
-  Button 
+  Button,
+  Fab,
+  Tooltip,
+  ClickAwayListener,
+  Snackbar,
+  Alert,
+  IconButton 
 } from "@material-ui/core";
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
-  SportsRugbySharp,
+  Save,
+  Close
 } from "@material-ui/icons";
 import SwipeableViews from "react-swipeable-views";
 import {
@@ -18,8 +24,7 @@ import {
   useTheme,
 } from "@material-ui/core/styles";
 import Calendar from "../calendar";
-import json from "./schedules.json";
-const data = json.data.createSchedules;
+import {getCalendarHours} from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   carouselButton: {
@@ -29,36 +34,58 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function ScheduleView(props) {
   const classes = useStyles();
   const theme = useTheme();
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = useState(0);
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
-  function showNext() {
+  const showNext = function showNext() {
     setIndex(index + 1);
-  }
+  };
 
-  function showPrev() {
+  const showPrev = function showPrev() {
     setIndex(index - 1);
-  }
+  };
+
+  const handleTooltipClose = () => {
+    setTooltipOpen(false);
+  };
+
+  const handleTooltipOpen = () => {
+    setTooltipOpen(true);
+  };
+
+  const handleSnackbarOpen = () => {
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   return (
-    <Grid container justify='center'>
+    <Grid container justify="center">
       <SwipeableViews axis={"x"} enableMouseEvents>
-        <Calendar data={data[index]} />
+        <Calendar
+          data={props.data[index]}
+          hours={getCalendarHours(props.data)}
+        />
       </SwipeableViews>
       <MobileStepper
-        steps={data.length}
+        steps={props.data.length}
         position="static"
         variant="text"
         activeStep={index}
         nextButton={
           <Button
             // className={classes.carouselButton}
-            // variant="outlined"
+            variant="contained"
             size="large"
             onClick={showNext}
-            disabled={index === data.length - 1}
+            disabled={index === props.data.length - 1}
           >
             <KeyboardArrowRight />
           </Button>
@@ -66,7 +93,7 @@ export default function ScheduleView(props) {
         backButton={
           <Button
             // className={classes.carouselButton}
-            // variant="outlined"
+            variant="contained"
             size="large"
             onClick={showPrev}
             disabled={index === 0}
@@ -75,6 +102,37 @@ export default function ScheduleView(props) {
           </Button>
         }
       />
+      {props.auth && (
+        <div>
+          <Tooltip disableFocusListener title="Save schedule">
+            <Fab aria-label="save" onClick={handleSnackbarOpen}>
+              <Save />
+            </Fab>
+          </Tooltip>
+          <Snackbar
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            message="Schedule saved"
+            action={
+              <React.Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleSnackbarClose}
+                >
+                  <Close fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
+        </div>
+      )}
     </Grid>
   );
 }
