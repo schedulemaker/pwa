@@ -10,7 +10,7 @@ export default function Filters(props) {
   return (
     <Grid container justify="center" alignItems="center" spacing={3}>
       <Grid container item justify="space-evenly">
-        <TimeFilters minTime={props.minTime} maxTime={props.maxTime} />
+        <TimeFilters minTime={props.times[0]} maxTime={props.times[1]} />
       </Grid>
       <Grid container item justify="center" alignItems="center">
         <DayFilters />

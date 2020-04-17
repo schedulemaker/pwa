@@ -14,7 +14,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import { onError } from "../../libs/errorLib";
 import { Grid, CssBaseline } from '@material-ui/core';
 import BotNav from '../bottom-nav';
-
+import ScheduleView from '../schedule-view';
+import Filters from '../filters';
+import json from './schedules.json';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
+const times = [800, 1700], school = 'temple', term = 202036
 
 function App() {
   const classes = useStyles();
@@ -48,9 +50,9 @@ function App() {
       case 0:
         return <h1>ScheduleMaker1</h1>;
       case 1:
-        return <h1>ScheduleMaker2</h1>;
+        return (<ScheduleView data={json.data.createSchedules}/>);
       case 2:
-        return <h1>ScheduleMaker3</h1>;
+        return (<Filters times={times} school={school} term={term}/>);
       default:
         return new Error("this view doesnot exist");
     } 
