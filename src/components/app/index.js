@@ -16,6 +16,7 @@ import { Grid, CssBaseline } from '@material-ui/core';
 import BotNav from '../bottom-nav';
 import ScheduleView from '../schedule-view';
 import Filters from '../filters';
+import FixedTags from '../labs';
 import json from './schedules.json';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,7 +49,7 @@ function App() {
   function renderView(){
     switch(tab){
       case 0:
-        return <h1>ScheduleMaker1</h1>;
+        return (<FixedTags />);
       case 1:
         return (<ScheduleView data={json.data.createSchedules}/>);
       case 2:
