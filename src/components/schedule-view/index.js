@@ -66,7 +66,7 @@ export default function ScheduleView(props) {
     <Grid container justify="center">
       <SwipeableViews axis={"x"} enableMouseEvents>
         <Calendar
-          data={props.data[index]}
+          data={props.data.length > 0 ? props.data[index] : []}
           hours={getCalendarHours(props.data)}
         />
       </SwipeableViews>

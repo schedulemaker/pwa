@@ -157,7 +157,7 @@ function App() {
       <Routes />
       </AppContext.Provider>
       </div>
-      <BotNav value ={tab} onChange={setTab} />
+      <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
       </Grid>
       <CssBaseline />
     </Grid>
