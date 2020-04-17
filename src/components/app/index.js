@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container
@@ -40,7 +41,6 @@ async function makeSchedules(school, term, courses, campuses){
   return result.data.createSchedules;
 }
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -65,6 +65,8 @@ function App() {
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   
+
+
   const containerStyles = {
     height: "calc(100vh - 112px)",
     overflow: "auto",
@@ -88,12 +90,12 @@ function App() {
         return (<Filters times={times} school={school} term={term}/>);
       default:
         return new Error("this view doesnot exist");
-    } 
-  }  
+    }
+  }
   useEffect(() => {
     onLoad();
   }, []);
-  
+
   async function onLoad() {
     try {
       await Auth.currentSession();
@@ -104,18 +106,18 @@ function App() {
         onError(e);
       }
     }
-  
+
     setIsAuthenticating(false);
   }
 
   async function handleLogout() {
     await Auth.signOut();
-  
+
     userHasAuthenticated(false);
-  
+
     history.push("/login");
   }
- 
+
   return (
     !isAuthenticating && 
     <Grid container spacing={2}>
@@ -140,13 +142,13 @@ function App() {
           <Button color="inherit" component={RouterLink} to= "/signup">
            Signup
           </Button>
-         
+
           <Button color="inherit" component={RouterLink} to= "/login">
            Login
           </Button>
           </>
           }
-          
+
         </Toolbar>
       </AppBar>
       <div style = {containerStyles}>
