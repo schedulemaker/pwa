@@ -1,10 +1,10 @@
 import React from "react";
 import "./Home.css";
-import LoaderButton from '../components/LoaderButton';
-import * as queries from '../graphql/queries';
-import * as mutations from '../graphql/mutations';
+import LoaderButton from '../LoaderButton';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
-import awsconfig from '../aws-exports';
+import awsconfig from '../../aws-exports';
 import Button from '@material-ui/core/Button';
 import { Cache } from 'aws-amplify';
 Amplify.configure(awsconfig);

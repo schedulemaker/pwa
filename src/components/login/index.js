@@ -13,11 +13,11 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Amplify, { Auth } from "aws-amplify";
-import awsconfig from '../aws-exports';
-import { useAppContext } from "../libs/contextLib";
+import awsconfig from '../../aws-exports';
+import { useAppContext } from "../../libs/contextLib";
 import { useHistory } from "react-router-dom";
-import { useFormFields } from "../libs/hooksLib";
-import { onError } from "../libs/errorLib";
+import { useFormFields } from "../../libs/hooksLib";
+import { onError } from "../../libs/errorLib";
 Amplify.configure(awsconfig);
 
 const useStyles = makeStyles((theme) => ({
