@@ -68,3 +68,17 @@ export function mapSchedule(schedule){
   const appts = schedule.map(mapSections).flat();
   return appts;
 };
+
+function hashCode(s) {
+    for(var i = 0, h = 0; i < s.length; i++)
+        h = Math.imul(31, h) + s.charCodeAt(i) | 0;
+    return h;
+};
+
+export function strToRGB(s){
+    var c = (hashCode(s) & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
+};
