@@ -12,6 +12,8 @@ import { Auth } from "aws-amplify";
 import {useHistory} from "react-router-dom";
 import { Link as RouterLink } from 'react-router-dom';
 import { onError } from "./libs/errorLib";
+import { Grid, CssBaseline } from '@material-ui/core';
+import BotNav from './containers/BotNav';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -33,8 +35,26 @@ function App() {
   const history = useHistory();
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
-
+  const [tab, setTab] = useState(0);
   
+  const containerStyles = {
+    height: "calc(100vh - 112px)",
+    overflow: "auto",
+    textAlign: "center"
+  };
+
+  function renderView(){
+    switch(tab){
+      case 0:
+        return <h1>ScheduleMaker1</h1>;
+      case 1:
+        return <h1>ScheduleMaker2</h1>;
+      case 2:
+        return <h1>ScheduleMaker3</h1>;
+      default:
+        return new Error("this view doesnot exist");
+    } 
+  }  
   useEffect(() => {
     onLoad();
   }, []);
@@ -64,6 +84,7 @@ function App() {
   return (
     !isAuthenticating && 
     <div className={classes.root}>
+      <Grid container direction = "column">
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
@@ -87,12 +108,17 @@ function App() {
           </Button>
           </>
           }
-
+          
         </Toolbar>
       </AppBar>
+      <div style = {containerStyles}>
       <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
       <Routes />
       </AppContext.Provider>
+      </div>
+      <BotNav value ={tab} onChange={setTab} />
+      </Grid>
+      <CssBaseline />
     </div>
   );
 }
