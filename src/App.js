@@ -112,6 +112,7 @@ function App() {
         </Toolbar>
       </AppBar>
       <div style = {containerStyles}>
+        {renderView()}
       <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
       <Routes />
       </AppContext.Provider>
