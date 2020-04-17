@@ -1,11 +1,52 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
+import awsconfig from '../../aws-exports';
+import {
+    getBannerMetadata
+} from '../../graphql/queries';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import Chip from '@material-ui/core/Chip';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import * as queries from '../../graphql/queries';
+import * as mutations from '../../graphql/mutations';
+Amplify.configure(awsconfig);
 
 export default function FixedTags() {
+
+  var selectedCourses = []
+  const sendScheduleRequest = async () => {
+      const result = await API.graphql(graphqlOperation(mutations.createSchedules, {
+          event: {
+              school: "temple",
+              term: 202036,
+              courses: selectedCourses,
+              campus: ["MN", "AMB"]
+          }
+      }));
+      console.log(result["data"]["CreateSchedules"]);
+      selectedCourses = [];
+  }
+
+      var source = [];
+
+      const result = API.graphql(graphqlOperation(queries.getCourseList));
+      const set = new Set();
+      const unique = [];
+      // result["getCourseList"].forEach(obj => {
+      //     if(!set.has(obj.courseName)){
+      //         set.add(obj.courseName);
+      //         unique.push({title: obj.courseName, description: obj.title});
+      //     }
+      // });
+      console.log(result);
+      source = unique;
+      console.log(unique);
+
+
   return (
+
+
     <Autocomplete
       multiple
       id="fixed-tags-demo"
@@ -24,8 +65,6 @@ export default function FixedTags() {
     />
   );
 }
-
-
 
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
