@@ -1,43 +1,39 @@
-import React, {useState} from "react";
-import { 
-  Grid, 
-  MobileStepper, 
+import React, { useState } from "react";
+import {
+  Grid,
+  MobileStepper,
   Button,
   Fab,
   Tooltip,
   ClickAwayListener,
   Snackbar,
-  Alert,
-  IconButton 
+  IconButton,
 } from "@material-ui/core";
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
   Save,
-  Close
+  Close,
 } from "@material-ui/icons";
+import { makeStyles } from "@material-ui/styles";
 import SwipeableViews from "react-swipeable-views";
-import {
-  withStyles,
-  ThemeProvider,
-  makeStyles,
-  useTheme,
-} from "@material-ui/core/styles";
 import Calendar from "../calendar";
-import {getCalendarHours} from '../utils';
+import { getCalendarHours } from "../utils";
 
-const useStyles = makeStyles((theme) => ({
-  carouselButton: {
-    background: ["rgba(255,255,255,0.1)"],
-    // transform: ["translate(0, 1000%)"],
-    "z-index": 10,
+const useStyles = makeStyles(() => ({
+  fab: {
+    position: "fixed",
+    bottom: 100,
+    right: 40,
+  },
+  stepper: {
+    maxWidth: 200,
+    flexGrow: 1,
   },
 }));
 
-
 export default function ScheduleView(props) {
   const classes = useStyles();
-  const theme = useTheme();
   const [index, setIndex] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -75,6 +71,7 @@ export default function ScheduleView(props) {
         />
       </SwipeableViews>
       <MobileStepper
+        className={classes.stepper}
         steps={props.data.length}
         position="static"
         variant="text"
@@ -105,7 +102,11 @@ export default function ScheduleView(props) {
       {props.auth && (
         <div>
           <Tooltip disableFocusListener title="Save schedule">
-            <Fab aria-label="save" onClick={handleSnackbarOpen}>
+            <Fab
+              aria-label="save"
+              onClick={handleSnackbarOpen}
+              className={classes.fab}
+            >
               <Save />
             </Fab>
           </Tooltip>
