@@ -17,7 +17,9 @@ import BotNav from '../bottom-nav';
 import ScheduleView from '../schedule-view';
 import Filters from '../filters';
 import FixedTags from '../labs';
+import Labs from '../labs';
 import json from './schedules.json';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,7 +41,7 @@ function App() {
   const [isAuthenticating, setIsAuthenticating] = useState(true);
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [tab, setTab] = useState(0);
-  
+
   const containerStyles = {
     height: "calc(100vh - 112px)",
     overflow: "auto",
@@ -56,12 +58,12 @@ function App() {
         return (<Filters times={times} school={school} term={term}/>);
       default:
         return new Error("this view doesnot exist");
-    } 
-  }  
+    }
+  }
   useEffect(() => {
     onLoad();
   }, []);
-  
+
   async function onLoad() {
     try {
       await Auth.currentSession();
@@ -72,20 +74,20 @@ function App() {
         onError(e);
       }
     }
-  
+
     setIsAuthenticating(false);
   }
 
   async function handleLogout() {
     await Auth.signOut();
-  
+
     userHasAuthenticated(false);
-  
+
     history.push("/login");
   }
- 
+
   return (
-    !isAuthenticating && 
+    !isAuthenticating &&
     <div className={classes.root}>
       <Grid container direction = "column">
       <AppBar position="static">
@@ -98,20 +100,20 @@ function App() {
            ScheduleMaker
           </Button>
           </Typography>
-         
+
          {isAuthenticated ?
           <Button onClick={handleLogout} color="inherit">Logout</Button>
           :<>
           <Button color="inherit" component={RouterLink} to= "/signup">
            Signup
           </Button>
-         
+
           <Button color="inherit" component={RouterLink} to= "/login">
            Login
           </Button>
           </>
           }
-          
+
         </Toolbar>
       </AppBar>
       <div style = {containerStyles}>
