@@ -5,6 +5,7 @@ import InstructorSearch from "../instructor-search";
 import TimeFilters from "../times";
 import Rankings from "../rankings";
 import DayFilters from "../days";
+import Labs from "../labs";
 
 export default function Filters(props) {
   return (
@@ -20,6 +21,9 @@ export default function Filters(props) {
       </Grid>
       <Grid container item justify="center">
         <InstructorSearch school={props.school} term={props.term} />
+      </Grid>
+      <Grid container item justify="center">
+        <Labs/>
       </Grid>
     </Grid>
   );

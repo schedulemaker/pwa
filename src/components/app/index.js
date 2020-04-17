@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container
@@ -64,7 +63,7 @@ function App() {
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
-  
+
 
 
   const containerStyles = {
@@ -119,7 +118,7 @@ function App() {
   }
 
   return (
-    !isAuthenticating && 
+    !isAuthenticating &&
     <Grid container spacing={2}>
       <Grid container direction = "column">
       <AppBar position="static">
@@ -135,7 +134,7 @@ function App() {
           <Button color='inherit' onClick={apiCall}>
             API Call
           </Button>
-         
+
          {isAuthenticated ?
           <Button onClick={handleLogout} color="inherit">Logout</Button>
           :<>
