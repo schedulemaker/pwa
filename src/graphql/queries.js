@@ -27,3 +27,71 @@ export const getCourseList = /* GraphQL */ `
     }
   }
 `;
+export const syncUserSchedules = /* GraphQL */ `
+  query SyncUserSchedules(
+    $filter: ModelUserScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncUserSchedules(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        commute
+        totalDistance
+        username
+        scheduleId
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getUserSchedule = /* GraphQL */ `
+  query GetUserSchedule($id: ID!) {
+    getUserSchedule(id: $id) {
+      sections {
+        isOpen
+        campus
+        courseName
+        crn
+        title
+      }
+      commute
+      totalDistance
+      username
+      scheduleId
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listUserSchedules = /* GraphQL */ `
+  query ListUserSchedules(
+    $filter: ModelUserScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listUserSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        commute
+        totalDistance
+        username
+        scheduleId
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;

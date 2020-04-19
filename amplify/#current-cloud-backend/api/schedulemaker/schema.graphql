@@ -13,9 +13,13 @@ type BannerMetadata {
 	description: String!
 }
 
-# type Schedule {
-
-# }
+type UserSchedule @model{
+    sections: [Section]
+    commute: Boolean
+    totalDistance: Float
+    username: ID
+    scheduleId: ID
+}
 
 type Section {
     isOpen: Boolean
