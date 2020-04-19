@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   MobileStepper,
@@ -37,6 +37,7 @@ export default function ScheduleView(props) {
   const [index, setIndex] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+
 
   const showNext = function showNext() {
     setIndex(index + 1);

@@ -14,7 +14,7 @@ import {
 } from '@material-ui/icons';
 import Routes from "../../Routes";
 import { AppContext } from "../../libs/contextLib";
-import { Auth } from "aws-amplify";
+import { Auth, Hub } from "aws-amplify";
 import {useHistory} from "react-router-dom";
 import { Link as RouterLink } from 'react-router-dom';
 import { onError } from "../../libs/errorLib";
@@ -84,7 +84,7 @@ function App() {
   function renderView(){
     switch(tab){
       case 0:
-        return (<FixedTags />);
+        return (<div></div>);
       case 1:
         return (<ScheduleView data={schedules} auth={isAuthenticated}/>);
       case 2:
@@ -96,6 +96,19 @@ function App() {
   useEffect(() => {
     onLoad();
   }, []);
+
+  useEffect(() => {
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      console.log('A new auth event has happened: ', data)
+       if (payload.event === 'signIn') {
+         console.log('a user has signed in!')
+       }
+       if (payload.event === 'signOut') {
+         console.log('a user has signed out!')
+       }
+    })
+  }, [])
 
   async function onLoad() {
     try {
