@@ -48,6 +48,7 @@ export const syncUserSchedules = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        version
       }
       nextToken
       startedAt
@@ -71,6 +72,7 @@ export const getUserSchedule = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      version
     }
   }
 `;
@@ -89,6 +91,7 @@ export const listUserSchedules = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        version
       }
       nextToken
       startedAt
