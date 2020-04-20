@@ -37,3 +37,72 @@ export const createSchedules = /* GraphQL */ `
     }
   }
 `;
+export const createUserSchedule = /* GraphQL */ `
+  mutation CreateUserSchedule(
+    $input: CreateUserScheduleInput!
+    $condition: ModelUserScheduleConditionInput
+  ) {
+    createUserSchedule(input: $input, condition: $condition) {
+      sections {
+        isOpen
+        campus
+        courseName
+        crn
+        title
+      }
+      commute
+      totalDistance
+      username
+      scheduleId
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateUserSchedule = /* GraphQL */ `
+  mutation UpdateUserSchedule(
+    $input: UpdateUserScheduleInput!
+    $condition: ModelUserScheduleConditionInput
+  ) {
+    updateUserSchedule(input: $input, condition: $condition) {
+      sections {
+        isOpen
+        campus
+        courseName
+        crn
+        title
+      }
+      commute
+      totalDistance
+      username
+      scheduleId
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteUserSchedule = /* GraphQL */ `
+  mutation DeleteUserSchedule(
+    $input: DeleteUserScheduleInput!
+    $condition: ModelUserScheduleConditionInput
+  ) {
+    deleteUserSchedule(input: $input, condition: $condition) {
+      sections {
+        isOpen
+        campus
+        courseName
+        crn
+        title
+      }
+      commute
+      totalDistance
+      username
+      scheduleId
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
