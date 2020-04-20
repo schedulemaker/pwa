@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -21,12 +21,14 @@ import { onError } from "../../libs/errorLib";
 import BotNav from '../bottom-nav';
 import ScheduleView from '../schedule-view';
 import Filters from '../filters';
+import Form from '../form'
 import FixedTags from '../labs';
 import {
   createSchedules
 } from '../../graphql/mutations';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
+import TopNav from '../topnav';
 Amplify.configure(awsconfig);
 
 async function makeSchedules(school, term, courses, campuses){
@@ -42,37 +44,27 @@ async function makeSchedules(school, term, courses, campuses){
   return result.data.createSchedules;
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-}));
+const containerStyles = {
+  height: "calc(100vh - 112px)",
+  overflow: "auto",
+  textAlign: "center"
+};
+
 
 const times = [800, 1700], school = 'temple', term = 202036
 const courses = ['CIS-1051', 'CIS-1001', 'MATH-1041'];
 const campuses = ['MN'];
+const initialUserState = { user: null, loading: true };
 
 function App() {
-  const classes = useStyles();
-  const history = useHistory();
-  const [isAuthenticating, setIsAuthenticating] = useState(true);
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [userState, dispatch] = useReducer(reducer, initialUserState)
+  const [formState, updateFormState] = useState('base')
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
 
 
 
-  const containerStyles = {
-    height: "calc(100vh - 112px)",
-    overflow: "auto",
-    textAlign: "center"
-  };
+ 
 
   const apiCall = () => {
     makeSchedules(school, term, courses, campuses).then(result => {
@@ -86,96 +78,80 @@ function App() {
       case 0:
         return (<div></div>);
       case 1:
-        return (<ScheduleView data={schedules} auth={isAuthenticated}/>);
+        return (<div></div>);
       case 2:
         return (<Filters times={times} school={school} term={term}/>);
       default:
         return new Error("this view doesnot exist");
     }
   }
-  useEffect(() => {
-    onLoad();
-  }, []);
+  
 
   useEffect(() => {
+    // set listener for auth events
     Hub.listen('auth', (data) => {
       const { payload } = data
-      console.log('A new auth event has happened: ', data)
-       if (payload.event === 'signIn') {
-         console.log('a user has signed in!')
-       }
-       if (payload.event === 'signOut') {
-         console.log('a user has signed out!')
-       }
+      if (payload.event === 'signIn') {
+        setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
+        setImmediate(() => window.history.pushState({}, null, 'https://www.amplifyauth.dev/'))
+        updateFormState('base')
+      }
+      // this listener is needed for form sign ups since the OAuth will redirect & reload
+      if (payload.event === 'signOut') {
+        setTimeout(() => dispatch({ type: 'setUser', user: null }), 350)
+      }
     })
+    // we check for the current user unless there is a redirect to ?signedIn=true 
+    if (!window.location.search.includes('?signedin=true')) {
+      checkUser(dispatch)
+    }
   }, [])
 
-  async function onLoad() {
-    try {
-      await Auth.currentSession();
-      userHasAuthenticated(true);
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        onError(e);
-      }
-    }
-
-    setIsAuthenticating(false);
-  }
-
-  async function handleLogout() {
-    await Auth.signOut();
-
-    userHasAuthenticated(false);
-
-    history.push("/login");
+  if (formState === 'email') {
+    return (
+      <Form updateFormState={updateFormState} />
+      )
   }
 
   return (
-    !isAuthenticating &&
-    <Grid container spacing={2}>
+    <div>
       <Grid container direction = "column">
-      <AppBar position="static">
-        <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-          <Button color="inherit" component={RouterLink} to= "/">
-           ScheduleMaker
-          </Button>
-          </Typography>
-          <Button color='inherit' onClick={apiCall}>
-            API Call
-          </Button>
-
-         {isAuthenticated ?
-          <Button onClick={handleLogout} color="inherit">Logout</Button>
-          :<>
-          <Button color="inherit" component={RouterLink} to= "/signup">
-           Signup
-          </Button>
-
-          <Button color="inherit" component={RouterLink} to= "/login">
-           Login
-          </Button>
-          </>
-          }
-
-        </Toolbar>
-      </AppBar>
-      <div style = {containerStyles}>
-        {renderView()}
-      <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
-      <Routes />
-      </AppContext.Provider>
-      </div>
+        <TopNav />
+      <div style = {containerStyles}>{renderView()}</div>
       <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
       </Grid>
       <CssBaseline />
-    </Grid>
+    </div>
   );
+}
+function reducer (state, action) {
+  switch(action.type) {
+    case 'setUser':  
+      return { ...state, user: action.user, loading: false }
+    case 'loaded':
+      return { ...state, loading: false }
+    default:
+      return state
+  }
+}
+
+async function checkUser(dispatch) {
+  try {
+    const user = await Auth.currentAuthenticatedUser()
+    console.log('user: ', user)
+    dispatch({ type: 'setUser', user })
+  } catch (err) {
+    console.log('err: ', err)
+    dispatch({ type: 'loaded' })
+  }
+}
+
+function signOut() {
+  Auth.signOut()
+    .then(data => {
+      console.log('signed out: ', data)
+    })
+    .catch(err => console.log(err));
 }
 
 export default App;
