@@ -19,6 +19,8 @@ import { makeStyles } from "@material-ui/styles";
 import SwipeableViews from "react-swipeable-views";
 import Calendar from "../calendar";
 import { getCalendarHours } from "../utils";
+import {DataStore} from '@aws-amplify/datastore';
+import {UserSchedule} from '../../models';
 
 const useStyles = makeStyles(() => ({
   fab: {
@@ -37,6 +39,26 @@ export default function ScheduleView(props) {
   const [index, setIndex] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const saveSchedule = async function(){
+    try {
+      await DataStore.save(
+        new UserSchedule({
+          username: 'test',
+          scheduleId: String(Date.now()),
+          sections: props.data[index],
+          commute: true,
+          totalDistance: 0
+        })
+      );
+      setSnackbarMessage('Schedule saved!');
+    } catch (error) {
+      console.log(error);
+      setSnackbarMessage('An error occurred');
+    }
+    handleSnackbarOpen();
+  }
 
 
   const showNext = function showNext() {
@@ -105,7 +127,7 @@ export default function ScheduleView(props) {
           <Tooltip disableFocusListener title="Save schedule">
             <Fab
               aria-label="save"
-              onClick={handleSnackbarOpen}
+              onClick={saveSchedule}
               className={classes.fab}
             >
               <Save />
@@ -119,7 +141,7 @@ export default function ScheduleView(props) {
             open={snackbarOpen}
             autoHideDuration={3000}
             onClose={handleSnackbarClose}
-            message="Schedule saved"
+            message={snackbarMessage}
             action={
               <React.Fragment>
                 <IconButton

@@ -76,9 +76,11 @@ function App() {
   function renderView(){
     switch(tab){
       case 0:
-        return (<div></div>);
+        return (<Button color="inherit" onClick={apiCall}>
+        API Call
+      </Button>);
       case 1:
-        return (<div></div>);
+        return (<ScheduleView data={schedules} auth={true}/>);
       case 2:
         return (<Filters times={times} school={school} term={term}/>);
       default:
