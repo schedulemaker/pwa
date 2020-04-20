@@ -1,6 +1,23 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const saveUserSchedule = /* GraphQL */ `
+  mutation SaveUserSchedule(
+    $username: String!
+    $scheduleId: Int!
+    $sections: [SectionInput]!
+    $commute: Boolean
+    $totalDistance: Int
+  ) {
+    saveUserSchedule(
+      username: $username
+      scheduleId: $scheduleId
+      sections: $sections
+      commute: $commute
+      totalDistance: $totalDistance
+    )
+  }
+`;
 export const createSchedules = /* GraphQL */ `
   mutation CreateSchedules(
     $courses: [String]!

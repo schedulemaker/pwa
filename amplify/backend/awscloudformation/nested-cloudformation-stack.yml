@@ -126,7 +126,7 @@
 					"DynamoDBBillingMode": "PAY_PER_REQUEST",
 					"DynamoDBEnableServerSideEncryption": "false",
 					"S3DeploymentBucket": "amplify-schedulemaker-dev-164023-deployment",
-					"S3DeploymentRootKey": "amplify-appsync-files/135cd9b753b8f50be9365c772da0aba5970635ee",
+					"S3DeploymentRootKey": "amplify-appsync-files/af038024b4ef40d67d2f75bc9b78d2a8fed03393",
 					"env": "dev"
 				}
 			}
