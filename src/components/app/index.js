@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useReducer} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   AppBar,
   Typography,
@@ -7,14 +6,15 @@ import {
   Grid,
   CssBaseline,
   Toolbar,
-  IconButton
+  IconButton,
+  ButtonBase
 } from '@material-ui/core';
 import {
   Menu as MenuIcon, PermDataSettingRounded
 } from '@material-ui/icons';
 import Routes from "../../Routes";
 import { AppContext } from "../../libs/contextLib";
-import { Auth, Hub } from "aws-amplify";
+import { Auth, Hub, API, graphqlOperation} from "aws-amplify";
 import {useHistory} from "react-router-dom";
 import { Link as RouterLink } from 'react-router-dom';
 import { onError } from "../../libs/errorLib";
@@ -26,12 +26,14 @@ import FixedTags from '../labs';
 import {
   createSchedules
 } from '../../graphql/mutations';
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
-import awsconfig from '../../aws-exports';
 import TopNav from '../topnav';
+import Amplify from 'aws-amplify';
+import awsconfig from '../../aws-exports';
 import {DataStore} from '@aws-amplify/datastore';
 import {UserSchedule} from '../../models';
+import Buttons from '../buttons';
 Amplify.configure(awsconfig);
+
 
 async function makeSchedules(school, term, courses, campuses){
   const queryParams = {
@@ -114,7 +116,7 @@ function App() {
       const { payload } = data
       if (payload.event === 'signIn') {
         setImmediate(() => dispatch({ type: 'setUser', user: payload.data }))
-        setImmediate(() => window.history.pushState({}, null, 'https://www.amplifyauth.dev/'))
+        setImmediate(() => window.history.pushState({}, null, 'http://localhost:3000/'))
         updateFormState('base')
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
@@ -128,22 +130,50 @@ function App() {
     }
   }, [])
 
-  if (formState === 'email') {
+   if (formState === 'email') {
     return (
-      <Form updateFormState={updateFormState} />
+      <div>
+      <TopNav updateFormState={updateFormState} />
+      <Form />
+      </div>
       )
-  }
+  } 
 
   return (
     <div>
       <Grid container direction = "column">
-        <TopNav />
+        <TopNav updateFormState = {updateFormState} />
+        
+        {
+          userState.loading && (
+            <p>Loading</p>
+          )
+        }
+
+        {
+        !userState.user && !userState.loading && (
+          <Buttons updateFormState={updateFormState} />
+        ) 
+        }
+       
+        { userState.user && userState.user.signInUserSession && (
+          <div>
+           <h4>
+             Welcome {userState.user.signInUserSession.idToken.payload.email}
+           </h4>
+           <Button
+             onClick={signOut}
+           >Sign Out</Button>
+           </div>
+        )
+        }
+
       <div style = {containerStyles}>{renderView()}</div>
       <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
       </Grid>
       <CssBaseline />
     </div>
-  );
+  )
 }
 
 function reducer (state, action) {
