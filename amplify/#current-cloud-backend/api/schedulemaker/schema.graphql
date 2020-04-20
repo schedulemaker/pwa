@@ -13,7 +13,7 @@ type BannerMetadata {
 	description: String!
 }
 
-type UserSchedule @model{
+type UserSchedule @model @versioned{
     sections: [Section]
     commute: Boolean
     totalDistance: Float

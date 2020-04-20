@@ -57,6 +57,7 @@ export const createUserSchedule = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      version
     }
   }
 `;
@@ -80,6 +81,7 @@ export const updateUserSchedule = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      version
     }
   }
 `;
@@ -103,6 +105,7 @@ export const deleteUserSchedule = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      version
     }
   }
 `;

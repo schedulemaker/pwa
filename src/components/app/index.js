@@ -124,6 +124,7 @@ function App() {
     </div>
   );
 }
+
 function reducer (state, action) {
   switch(action.type) {
     case 'setUser':  

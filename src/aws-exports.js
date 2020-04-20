@@ -14,6 +14,6 @@ const awsmobile = {
     "redirectSignIn": "http://localhost:3000?signedin=true",
     "redirectSignOut": "http://localhost:3000/"
 };
-    
+
 
 export default awsmobile;
