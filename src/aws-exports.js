@@ -11,7 +11,7 @@ const awsmobile = {
     "aws_appsync_region": "us-east-2",
     "aws_appsync_authenticationType": "API_KEY",
     "aws_appsync_apiKey": "da2-c6pu6hsllvhqxe6etzzgsrk7uq",
-    "redirectSignIn": "http://localhost:3000?signedin=true",
+    "redirectSignIn": "http://localhost:3000",
     "redirectSignOut": "http://localhost:3000/"
 };
     

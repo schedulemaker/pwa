@@ -1,25 +1,13 @@
 import React, {useState, useReducer} from 'react';
-import Avatar from '@material-ui/core/Avatar';
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Amplify, { Auth } from "aws-amplify";
-import awsconfig from '../../aws-exports';
-import { useAppContext } from "../../libs/contextLib";
-import { useHistory } from "react-router-dom";
-import { useFormFields } from "../../libs/hooksLib";
-import { onError } from "../../libs/errorLib";
-Amplify.configure(awsconfig);
-
+import { Auth } from "aws-amplify";
 const initialFormState = {
   email: '', password: '',confirmationCode: ''
 }
@@ -61,9 +49,9 @@ async function confirmSignUp({email, confirmationCode }, updateFormType) {
   }
 }
 
-async function signIn({ username, password }) {
+async function signIn({ email, password }) {
     try {
-      await Auth.signIn(username, password)
+      await Auth.signIn(email, password)
       console.log('sign in success!')
     } catch (err) {
       console.log('error signing up..', err)
@@ -138,7 +126,7 @@ function SignUp(props) {
        <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
-          <TextField
+        <TextField
             variant="outlined"
             margin="normal"
             required
@@ -181,7 +169,7 @@ function SignUp(props) {
             color="primary"
             onClick={props.signUp}
             //disabled={!validateForm()}
-          >
+            >
             Sign Up
           </Button>
       </div>
@@ -209,8 +197,8 @@ function ConfirmSignUp(props){
               autoComplete="confirmationCode"
               autoFocus
               onChange={e => {e.persist();props.updateFormState(e)}}
-            /> <Button
-            type="submit"
+            /> 
+            <Button
             fullWidth
             variant="contained"
             color="primary"
@@ -257,7 +245,6 @@ function ConfirmSignUp(props){
             onChange={e => {e.persist();props.updateFormState(e)}}
           />
           <Button
-            type="submit"
             fullWidth
             variant="contained"
             color="primary"
