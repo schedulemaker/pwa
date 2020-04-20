@@ -32,7 +32,7 @@
 				"IdentityPoolName": "schedulemakera88a1dfe_identitypool_a88a1dfe__dev",
 				"UserPoolName": "schedulemakera88a1dfe_userpool_a88a1dfe"
 			},
-			"lastPushTimeStamp": "2020-04-20T14:37:00.981Z",
+			"lastPushTimeStamp": "2020-04-20T21:36:20.674Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-dev-164023-deployment/amplify-cfn-templates/auth/schedulemakera88a1dfe-cloudformation-template.yml",
 				"logicalId": "authschedulemakera88a1dfe"
@@ -59,12 +59,12 @@
 				"GraphQLAPIEndpointOutput": "https://pumob4expnarlgmss47e5y42ue.appsync-api.us-east-2.amazonaws.com/graphql",
 				"GraphQLAPIKeyOutput": "da2-c6pu6hsllvhqxe6etzzgsrk7uq"
 			},
-			"lastPushTimeStamp": "2020-04-20T14:37:01.450Z",
+			"lastPushTimeStamp": "2020-04-20T21:36:20.674Z",
 			"providerMetadata": {
 				"s3TemplateURL": "https://s3.amazonaws.com/amplify-schedulemaker-dev-164023-deployment/amplify-cfn-templates/api/cloudformation-template.json",
 				"logicalId": "apischedulemaker"
 			},
-			"lastPushDirHash": "Jh+XRRcDsxL4kg8robpllrmDJ3I="
+			"lastPushDirHash": "9jT/LikkiFfb1529wZdfqAdhT5c="
 		}
 	}
 }
