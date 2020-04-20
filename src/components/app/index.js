@@ -10,7 +10,7 @@ import {
   IconButton
 } from '@material-ui/core';
 import {
-  Menu as MenuIcon
+  Menu as MenuIcon, PermDataSettingRounded
 } from '@material-ui/icons';
 import Routes from "../../Routes";
 import { AppContext } from "../../libs/contextLib";
@@ -29,6 +29,8 @@ import {
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import TopNav from '../topnav';
+import {DataStore} from '@aws-amplify/datastore';
+import {UserSchedule} from '../../models';
 Amplify.configure(awsconfig);
 
 async function makeSchedules(school, term, courses, campuses){
@@ -63,7 +65,18 @@ function App() {
   const [schedules, setSchedules] = useState([]);
 
 
+  async function loadSchedule(){
+    const saved = await DataStore.query(UserSchedule, s => s.username('eq', 'test'));
+    console.log(saved);
+  }
 
+  useEffect(() => {
+    const subscription = DataStore.observe(UserSchedule).subscribe((msg) => {
+      console.log(msg.model, msg.opType, msg.element);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
  
 
   const apiCall = () => {
@@ -76,9 +89,15 @@ function App() {
   function renderView(){
     switch(tab){
       case 0:
-        return (<Button color="inherit" onClick={apiCall}>
+        return (<div>
+          <Button color="inherit" onClick={apiCall}>
         API Call
-      </Button>);
+      </Button>
+      <Button color='inherit' onClick={loadSchedule}>
+        Load Schedule
+      </Button>
+        </div>
+          );
       case 1:
         return (<ScheduleView data={schedules} auth={true}/>);
       case 2:
