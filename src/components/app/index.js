@@ -126,10 +126,15 @@ function App() {
 
    if (formState === 'email') {
     return (
-      <div>
+      <div >
+      <Grid container direction = "column">
       <TopNav updateFormState={updateFormState} />
+      <div style ={containerStyles}>
       <Form />
       </div>
+      <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
+      </Grid>  
+      </div> 
       )
   } 
 
@@ -137,6 +142,7 @@ function App() {
     <div>
       <Grid container direction = "column">
         <TopNav updateFormState = {updateFormState} />
+        
 
         
         </Grid>
