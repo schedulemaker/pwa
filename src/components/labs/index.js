@@ -5,7 +5,7 @@ import React, {
 } from "react";
 import awsconfig from '../../aws-exports';
 import {
-    getBannerMetadata
+  getBannerMetadata, getCourseList
 } from '../../graphql/queries';
 import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import Chip from '@material-ui/core/Chip';
@@ -29,9 +29,9 @@ async function fetchCourses(school, term) {
     },
   };
   const [result] = await Promise.all([API.graphql(
-      graphqlOperation(getBannerMetadata, queryParams)
+      graphqlOperation(getCourseList, queryParams)
   )]);
-  return result.data.getBannerMetadata;
+  return result.data.getCourseList;
 }
 
 const useStyles = makeStyles((theme) => ({
