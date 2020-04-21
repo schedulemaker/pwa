@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="95f76338-3c4f-416c-9021-fa1dccaa8097" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/labs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/labs/index.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/components/labs/index.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectId" id="1an3pq5cX8kbkMoMVggaKwPPkEc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="95f76338-3c4f-416c-9021-fa1dccaa8097" name="Default Changelist" comment="" />
+      <created>1587357715570</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587357715570</updated>
+      <workItem from="1587357717119" duration="1176000" />
+      <workItem from="1587505450044" duration="1155000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1085" y="452" key="Github.ShareDialog" timestamp="1587506586888">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="1085" y="452" key="Github.ShareDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1587506586888" />
+    <state x="808" y="301" key="IDE.errors.dialog" timestamp="1587506548683">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="808" y="301" key="IDE.errors.dialog/0.23.1920.1177@0.23.1920.1177" timestamp="1587506548683" />
+    <state x="708" y="133" key="SettingsEditor" timestamp="1587506199715">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="708" y="133" key="SettingsEditor/0.23.1920.1177@0.23.1920.1177" timestamp="1587506199715" />
+    <state x="885" y="256" key="run.anything.popup" timestamp="1587357729905">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="885" y="256" key="run.anything.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1587357729905" />
+  </component>
+</project>

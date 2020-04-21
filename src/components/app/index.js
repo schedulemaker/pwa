@@ -23,6 +23,7 @@ import ScheduleView from '../schedule-view';
 import Filters from '../filters';
 import Form from '../form'
 import FixedTags from '../labs';
+import Labs from '../labs';
 import {
   createSchedules
 } from '../../graphql/mutations';
@@ -139,6 +140,7 @@ function App() {
     switch(tab){
       case 0:
         return (<div>
+          <Labs></Labs>
           <Button color="inherit" onClick={apiCall}>
         API Call
       </Button>
