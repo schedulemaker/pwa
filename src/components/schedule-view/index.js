@@ -8,7 +8,10 @@ import {
   ClickAwayListener,
   Snackbar,
   IconButton,
+  Card,
+  CardContent,
 } from "@material-ui/core";
+import { Alert, AlertTitle } from "@material-ui/lab";
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
@@ -19,9 +22,9 @@ import { makeStyles } from "@material-ui/styles";
 import SwipeableViews from "react-swipeable-views";
 import Calendar from "../calendar";
 import { getCalendarHours } from "../utils";
-import Amplify, {API, graphqlOperation} from 'aws-amplify';
-import awsconfig from '../../aws-exports';
-import {saveUserSchedule} from '../../graphql/mutations';
+import Amplify, { API, graphqlOperation } from "aws-amplify";
+import awsconfig from "../../aws-exports";
+import { saveUserSchedule } from "../../graphql/mutations";
 Amplify.configure(awsconfig);
 
 const useStyles = makeStyles(() => ({
@@ -41,23 +44,22 @@ export default function ScheduleView(props) {
   const [index, setIndex] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
-  const saveSchedule = async function(){
+  const saveSchedule = async function () {
     const params = {
       sections: props.data[index],
-      username: 'test',
-    }
+      username: "test",
+    };
     try {
       await API.graphql(graphqlOperation(saveUserSchedule, params));
-      setSnackbarMessage('Schedule saved!');
+      setSnackbarMessage("Schedule saved!");
     } catch (error) {
       console.log(error);
-      setSnackbarMessage('An error occurred');
+      setSnackbarMessage("An error occurred");
     }
     handleSnackbarOpen();
-  }
-
+  };
 
   const showNext = function showNext() {
     setIndex(index + 1);
@@ -83,14 +85,28 @@ export default function ScheduleView(props) {
     setSnackbarOpen(false);
   };
 
+  useEffect(() => {
+    setIndex(0);
+  }, [props.data]);
+
   return (
     <Grid container justify="center">
-      <SwipeableViews axis={"x"} enableMouseEvents>
+      {props.data.length > 0 ? (
         <Calendar
-          data={props.data.length > 0 ? props.data[index] : []}
-          hours={getCalendarHours(props.data)}
+          data={props.data.length > 0 ? props.data[index].sections : []}
+          hours={getCalendarHours(props.data.map((i) => i.sections))}
         />
-      </SwipeableViews>
+      ) : (
+        <Card>
+          <CardContent>
+            <Alert severity="error">
+              <AlertTitle>No schedules found</AlertTitle>
+              Try making a request on the home screen or adjusting your
+              filtering options
+            </Alert>
+          </CardContent>
+        </Card>
+      )}
       <MobileStepper
         className={classes.stepper}
         steps={props.data.length}

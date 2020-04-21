@@ -6,8 +6,8 @@ export function getTimeBoundries(schedule){
         });
     }).flat();
     return [
-        Math.floor(Math.min(...(times.map(t => t[0]))) /100),
-        Math.ceil(Math.max(...(times.map(t => t[1]))) / 100)
+        Math.floor(Math.min(...(times.map(t => t[0])))),
+        Math.ceil(Math.max(...(times.map(t => t[1]))))
     ]
 };
 
@@ -15,10 +15,25 @@ export function getTimeBoundries(schedule){
 export function getCalendarHours(schedules){
     const times = schedules.map(getTimeBoundries);
     return [
-        Math.floor(Math.min(...(times.map(t => t[0])))),
-        Math.ceil(Math.max(...(times.map(t => t[1]))))
+        Math.floor(
+            Math.min(
+                ...(times.map(t => t[0]))
+            ) / 100
+        ),
+        Math.ceil(Math.max(...(times.map(t => t[1]))) / 100)
     ]
 };
+
+export function getScheduleTimes(schedules){
+    const times = schedules.map(getTimeBoundries);
+    return [
+        Math.floor(
+            Math.min(
+                ...(times.map(t => t[0]))
+        )),
+        Math.ceil(Math.max(...(times.map(t => t[1]))))
+    ]
+}
 
 //takes a start or end time and converts it to [hours, minutes] for Javascript Date class
 export function getHoursMinutes(time){
@@ -42,3 +57,30 @@ export function intersection(a, b) {
 export function union(a, b) {
     return [...a, ...not(b, a)];
   };
+
+  export function getInstructors(schedule){
+      const profs = schedule.map(section => {
+          return section.meetingTimes.map(mt => {
+              return mt.instructors.map(i => i.ID)
+          }).flat()
+      }).flat()
+      return Array.from(new Set(profs));
+  }
+
+  export function getDays(schedule){
+      let days = {
+          sunday: false,
+          monday: false,
+          tuesday: false,
+          wendesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false
+      }
+      schedule.forEach(section => {
+          section.meetingTimes.forEach(mt => {
+            Object.keys(days).forEach(k => days[k] = mt[k] || days[k]);
+          });
+      });
+      return days;
+  }

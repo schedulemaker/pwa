@@ -46,8 +46,16 @@ Amplify.configure(awsconfig);
     const classes = useStyles();
     const [data, setData] = useState([]);
 
+    const handleInputChange = function(event, value){
+      value.length === 0 ?
+        props.changeFilters('instructors', null) :
+        props.changeFilters('instructors', value.map(v => Number.parseInt(v.code)));
+    }
+
     useEffect(() => {
-      fetchInstructors(props.school, props.term).then((data) => setData(data));
+      fetchInstructors(props.school, props.term).then((data) => {
+        setData(data);
+      });
     }, [props.school, props.term]);
 
     return (
@@ -56,11 +64,12 @@ Amplify.configure(awsconfig);
           <Skeleton animation="wave" />
         ) : (
           <Autocomplete
+          onChange={handleInputChange}
             multiple
             limitTags={2}
             // autoComplete
             id="instructor-search"
-            options={data}
+            options={data.filter(x => props.instructors.includes(Number.parseInt(x.code)))}
             getOptionLabel={(option) => option.description}
             filterSelectedOptions
             renderInput={(params) => (
