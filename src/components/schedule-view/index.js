@@ -19,8 +19,10 @@ import { makeStyles } from "@material-ui/styles";
 import SwipeableViews from "react-swipeable-views";
 import Calendar from "../calendar";
 import { getCalendarHours } from "../utils";
-import {DataStore} from '@aws-amplify/datastore';
-import {UserSchedule} from '../../models';
+import Amplify, {API, graphqlOperation} from 'aws-amplify';
+import awsconfig from '../../aws-exports';
+import {saveUserSchedule} from '../../graphql/mutations';
+Amplify.configure(awsconfig);
 
 const useStyles = makeStyles(() => ({
   fab: {
@@ -42,16 +44,12 @@ export default function ScheduleView(props) {
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const saveSchedule = async function(){
+    const params = {
+      sections: props.data[index],
+      username: 'test',
+    }
     try {
-      await DataStore.save(
-        new UserSchedule({
-          username: 'test',
-          scheduleId: String(Date.now()),
-          sections: props.data[index],
-          commute: true,
-          totalDistance: 0
-        })
-      );
+      await API.graphql(graphqlOperation(saveUserSchedule, params));
       setSnackbarMessage('Schedule saved!');
     } catch (error) {
       console.log(error);

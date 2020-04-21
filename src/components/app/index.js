@@ -14,7 +14,7 @@ import {
 } from '@material-ui/icons';
 import Routes from "../../Routes";
 import { AppContext } from "../../libs/contextLib";
-import { Auth, Hub, API, graphqlOperation} from "aws-amplify";
+import Amplify, { Auth, Hub, API, graphqlOperation} from "aws-amplify";
 import {useHistory} from "react-router-dom";
 import { Link as RouterLink } from 'react-router-dom';
 import { onError } from "../../libs/errorLib";
@@ -26,11 +26,9 @@ import FixedTags from '../labs';
 import {
   createSchedules
 } from '../../graphql/mutations';
+import {getUserSchedules} from '../../graphql/queries';
 import TopNav from '../topnav';
-import Amplify from 'aws-amplify';
 import awsconfig from '../../aws-exports';
-import {DataStore} from '@aws-amplify/datastore';
-import {UserSchedule} from '../../models';
 import Buttons from '../buttons';
 Amplify.configure(awsconfig);
 
@@ -66,19 +64,14 @@ function App() {
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
 
-
-  async function loadSchedule(){
-    const saved = await DataStore.query(UserSchedule, s => s.username('eq', 'test'));
-    console.log(saved);
+  const loadSchedules = async function(){
+    try {
+      const result = await API.graphql(graphqlOperation(getUserSchedules, {username: 'test'}));
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-  useEffect(() => {
-    const subscription = DataStore.observe(UserSchedule).subscribe((msg) => {
-      console.log(msg.model, msg.opType, msg.element);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
  
 
   const apiCall = () => {
@@ -95,8 +88,8 @@ function App() {
           <Button color="inherit" onClick={apiCall}>
         API Call
       </Button>
-      <Button color='inherit' onClick={loadSchedule}>
-        Load Schedule
+      <Button color='inherit' onClick={loadSchedules}>
+        Load Schedules
       </Button>
         </div>
           );
