@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95f76338-3c4f-416c-9021-fa1dccaa8097" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/labs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/labs/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -46,7 +45,8 @@
       <option name="presentableId" value="Default" />
       <updated>1587357715570</updated>
       <workItem from="1587357717119" duration="1176000" />
-      <workItem from="1587505450044" duration="1155000" />
+      <workItem from="1587505450044" duration="2593000" />
+      <workItem from="1587509699917" duration="12000" />
     </task>
     <servers />
   </component>
@@ -66,6 +66,10 @@
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state x="708" y="133" key="SettingsEditor/0.23.1920.1177@0.23.1920.1177" timestamp="1587506199715" />
+    <state x="897" y="350" key="com.intellij.ide.util.TipDialog" timestamp="1587509699477">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="897" y="350" key="com.intellij.ide.util.TipDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1587509699477" />
     <state x="885" y="256" key="run.anything.popup" timestamp="1587357729905">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
