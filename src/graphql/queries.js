@@ -7,6 +7,20 @@ export const getUserSchedules = /* GraphQL */ `
       sections {
         isOpen
         campus
+        meetingTimes {
+          startTime
+          endTime
+          building
+          room
+          weeks
+          monday
+          tuesday
+          wednesday
+          thursday
+          friday
+          saturday
+          sunday
+        }
         courseName
         crn
         title
@@ -15,10 +29,6 @@ export const getUserSchedules = /* GraphQL */ `
       totalDistance
       username
       scheduleId
-      _version
-      _deleted
-      _lastChangedAt
-      version
     }
   }
 `;
@@ -45,77 +55,6 @@ export const getCourseList = /* GraphQL */ `
     getCourseList {
       courseName
       title
-    }
-  }
-`;
-export const syncUserSchedules = /* GraphQL */ `
-  query SyncUserSchedules(
-    $filter: ModelUserScheduleFilterInput
-    $limit: Int
-    $nextToken: String
-    $lastSync: AWSTimestamp
-  ) {
-    syncUserSchedules(
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-      lastSync: $lastSync
-    ) {
-      items {
-        commute
-        totalDistance
-        username
-        scheduleId
-        _version
-        _deleted
-        _lastChangedAt
-        version
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getUserSchedule = /* GraphQL */ `
-  query GetUserSchedule($id: ID!) {
-    getUserSchedule(id: $id) {
-      sections {
-        isOpen
-        campus
-        courseName
-        crn
-        title
-      }
-      commute
-      totalDistance
-      username
-      scheduleId
-      _version
-      _deleted
-      _lastChangedAt
-      version
-    }
-  }
-`;
-export const listUserSchedules = /* GraphQL */ `
-  query ListUserSchedules(
-    $filter: ModelUserScheduleFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listUserSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        commute
-        totalDistance
-        username
-        scheduleId
-        _version
-        _deleted
-        _lastChangedAt
-        version
-      }
-      nextToken
-      startedAt
     }
   }
 `;

@@ -13,7 +13,7 @@ type BannerMetadata {
 	description: String!
 }
 
-type UserSchedule @model @versioned{
+type UserSchedule {
     sections: [Section]
     commute: Boolean
     totalDistance: Float
@@ -35,7 +35,7 @@ type MeetingTime {
     endTime: Int
     building: String
     room: String
-    instructors: [String]
+    instructors: [Instructor]
     weeks: [Int]
     monday: Boolean
     tuesday: Boolean
@@ -44,6 +44,16 @@ type MeetingTime {
     friday: Boolean
     saturday: Boolean
     sunday: Boolean
+}
+
+type Instructor {
+    ID: Int,
+    Name: String
+}
+
+input InstructorInput {
+    ID: Int,
+    Name: String
 }
 
 input SectionInput {
@@ -60,7 +70,7 @@ input MeetingTimeInput {
     endTime: Int
     building: String
     room: String
-    instructors: [String]
+    instructors: [InstructorInput]
     weeks: [Int]
     monday: Boolean
     tuesday: Boolean
@@ -90,7 +100,7 @@ type Query {
 }
 
 type Mutation {
-    saveUserSchedule(username: String!, scheduleId: Int!, sections: [SectionInput]!, commute: Boolean, totalDistance: Int): String
+    saveUserSchedule(username: String!, sections: [SectionInput]!, commute: Boolean, totalDistance: Int): String
     createSchedules(courses: [String]!, campuses: [String]!, school: String!, term: Int!): [[Section]]
 }
 
