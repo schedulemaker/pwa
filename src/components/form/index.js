@@ -7,6 +7,9 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import { Auth } from "aws-amplify";
 const initialFormState = {
   email: '', password: '',confirmationCode: ''
@@ -118,9 +121,11 @@ export default function Form() {
 }
 function SignUp(props) {
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div>
+    <Grid container justify="center" alignItems="center">
+    <Grid item>
+  <Card>
+      
+      <CardContent>
        <Typography component="h1" variant="h5">
           Sign Up
         </Typography>
@@ -160,6 +165,8 @@ function SignUp(props) {
             id="confirmPassword"
             onChange={e => {e.persist();props.updateFormState(e)}}
           />
+          </CardContent>
+          <CardActions>
           <Button
             type="submit"
             fullWidth
@@ -170,8 +177,10 @@ function SignUp(props) {
             >
             Sign Up
           </Button>
-      </div>
-    </Container>
+          </CardActions>
+    </Card>
+    </Grid>
+    </Grid>
   )
 } 
 
