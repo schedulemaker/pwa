@@ -28,9 +28,9 @@ async function fetchCourses(school, term) {
       term: term,
     },
   };
-  const result = await API.graphql(
-    graphqlOperation(getBannerMetadata, queryParams)
-  );
+  const [result] = await Promise.all([API.graphql(
+      graphqlOperation(getBannerMetadata, queryParams)
+  )]);
   return result.data.getBannerMetadata;
 }
 
