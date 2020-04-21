@@ -91,10 +91,11 @@ function App() {
       <Button color='inherit' onClick={loadSchedules}>
         Load Schedules
       </Button>
+      
         </div>
           );
       case 1:
-        return (<ScheduleView data={schedules} auth={true}/>);
+        return (<ScheduleView data={schedules} />);
       case 2:
         return (<Filters times={times} school={school} term={term}/>);
       default:
@@ -136,6 +137,11 @@ function App() {
     <div>
       <Grid container direction = "column">
         <TopNav updateFormState = {updateFormState} />
+
+        
+        </Grid>
+      <CssBaseline />
+    
         
         {
           userState.loading && (
@@ -160,12 +166,11 @@ function App() {
            </div>
         )
         }
+        <div style = {containerStyles}>{renderView()}</div>
 
-      <div style = {containerStyles}>{renderView()}</div>
       <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
-      </Grid>
-      <CssBaseline />
-    </div>
+      </div>
+    
   )
 }
 

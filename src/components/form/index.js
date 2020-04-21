@@ -29,9 +29,7 @@ function reducer(state, action) {
 
 async function signUp({ email, password}, updateFormType) {
   try {
-    await Auth.signUp({
-      email, password
-    })
+    await Auth.signUp(email, password)
     console.log('sign up success!')
     updateFormType('confirmSignUp')
   } catch (err) {
