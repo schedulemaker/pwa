@@ -26,6 +26,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="js.last.introduce.type" value="CONST" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -47,7 +48,7 @@
       <workItem from="1587357717119" duration="1176000" />
       <workItem from="1587505450044" duration="2593000" />
       <workItem from="1587509699917" duration="12000" />
-      <workItem from="1587511046318" duration="616000" />
+      <workItem from="1587511046318" duration="2086000" />
     </task>
     <servers />
   </component>
