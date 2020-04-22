@@ -10,17 +10,12 @@ export default function Filters(props) {
   return (
     <Grid container justify="center" alignItems="center" spacing={3}>
       {props.count > 0 ? (
-        <Alert severity='success'>
+        <Grid container justify="center" alignItems="center" spacing={3}>
+          <Alert severity='success'>
           <AlertTitle>{props.count} schedules found</AlertTitle>
           Use the options below to customize your schedule
         </Alert>
-      ) : (
-        <Alert severity='error'>
-          <AlertTitle>No schedules found</AlertTitle>
-          Try changing some of the options below to be less restrictive
-        </Alert>
-      )}
-      <Grid container item justify="space-evenly">
+        <Grid container item justify="space-evenly">
         <TimeFilters times={props.times} changeFilters={props.changeFilters} />
       </Grid>
       <Grid container item justify="center" alignItems="center">
@@ -38,6 +33,13 @@ export default function Filters(props) {
           instructorFilter={props.instructorFilter}
           />
       </Grid>
+        </Grid>
+      ) : (
+        <Alert severity='error'>
+          <AlertTitle>No schedules found</AlertTitle>
+          Try changing some of the options below to be less restrictive
+        </Alert>
+      )}
     </Grid>
   );
 }
