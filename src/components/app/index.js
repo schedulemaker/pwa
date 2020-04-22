@@ -70,9 +70,11 @@ const initialUserState = { user: null, loading: true };
 function App() {
   const [userState, dispatch] = useReducer(reducer, initialUserState)
   const [formState, updateFormState] = useState('base')
+  const[open, setOpen] = useState(false)
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [filters, setFilters] = useState({
+
     start: 0,
     end: 2400,
     days: null,
