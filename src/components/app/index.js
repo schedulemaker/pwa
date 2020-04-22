@@ -173,6 +173,7 @@ function App() {
           instructors={getProfs(schedules)}
           instructorFilter={filters.instructors}
           changeFilters={changeFilters}
+          days={filters.days}
           />);
       default:
         return new Error("this view doesnot exist");

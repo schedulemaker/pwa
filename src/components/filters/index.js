@@ -24,7 +24,7 @@ export default function Filters(props) {
         <TimeFilters times={props.times} changeFilters={props.changeFilters} />
       </Grid>
       <Grid container item justify="center" alignItems="center">
-        <DayFilters changeFilters={props.changeFilters}/>
+        <DayFilters changeFilters={props.changeFilters} days={props.days}/>
       </Grid>
       <Grid container item justify="space-evenly">
         <Rankings changeFilters={props.changeFilters}/>

@@ -72,7 +72,7 @@ export function union(a, b) {
           sunday: false,
           monday: false,
           tuesday: false,
-          wendesday: false,
+          wednesday: false,
           thursday: false,
           friday: false,
           saturday: false

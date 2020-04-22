@@ -8,15 +8,21 @@ import {
   Grid,
 } from "@material-ui/core";
 
-const days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+const days = [["Sun", "sunday"], ["Mon", 'monday'], ["Tues", 'tuesday'], ["Wed", 'wednesday'], ["Thurs", 'thursday'], ["Fri", 'friday'], ["Sat", 'saturday']];
 
 export default function DayFilters(props) {
   const [state, setState] = useState(
-    Object.fromEntries(days.map((day) => [day, false]))
+    props.days ? props.days : Object.fromEntries(days.map((day) => [day[1], false]))
   );
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    const newState = { ...state, [event.target.name]: event.target.checked };
+    setState(newState);
+    if (Object.keys(newState).some(k => newState[k])){
+      props.changeFilters('days', newState);
+    } else {
+      props.changeFilters('days', null);
+    }
   };
 
   return (
@@ -29,16 +35,16 @@ export default function DayFilters(props) {
           <FormGroup row>
             {days.map((day) => (
               <FormControlLabel
-                key={day}
-                value={day}
+                key={day[0]}
+                value={day[1]}
                 control={
                   <Checkbox
-                    checked={state[day]}
+                    checked={state[day[1]]}
                     onChange={handleChange}
-                    name={day}
+                    name={day[1]}
                   />
                 }
-                label={day}
+                label={day[0]}
                 labelPlacement="top"
               />
             ))}
