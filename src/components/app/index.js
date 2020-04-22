@@ -7,7 +7,9 @@ import {
   CssBaseline,
   Toolbar,
   IconButton,
-  ButtonBase
+  ButtonBase,
+  SwipeableDrawer,
+  Backdrop
 } from '@material-ui/core';
 import {
   Menu as MenuIcon, PermDataSettingRounded
@@ -68,10 +70,12 @@ const initialUserState = { user: null, loading: true };
 function App() {
   const [userState, dispatch] = useReducer(reducer, initialUserState)
   const [formState, updateFormState] = useState('base')
+  const[open, setOpen] = useState(false)
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [index, setIndex] = useState(0);
   const [filters, setFilters] = useState({
+
     start: 0,
     end: 2400,
     days: null,
@@ -235,13 +239,15 @@ function App() {
    if (formState === 'email') {
     return (
       <div >
+
       <Grid container direction = "column">
       <TopNav updateFormState={updateFormState} />
-      <div style ={containerStyles}>
+      <div style ={containerStyles}> 
       <Form />
       </div>
       <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
       </Grid>  
+      
       </div> 
       )
   } 
@@ -249,10 +255,10 @@ function App() {
   return (
     <div>
       <Grid container direction = "column">
-        <TopNav updateFormState = {updateFormState} />
-        
+        <TopNav updateFormState = {updateFormState} >
+     
 
-        
+</TopNav>
         </Grid>
       <CssBaseline />
     
@@ -268,24 +274,38 @@ function App() {
           <Buttons updateFormState={updateFormState} />
         ) 
         }
+
+      { userState.user && userState.user.signInUserSession && (
+          <SwipeableDrawer
+            open ={open}
+            onClose ={() => setOpen(false)}
+            onOpen ={() => setOpen(true)}
+            disableSwipeToOpen={false}
+            PaperProps ={{ style: { minWidth: "50vw"}}}
+                >
+          <span>Welcome {userState.user.signInUserSession.idToken.payload.email}</span>
+          <Button onClick = {signOut} >
+        Sign Out
+        </Button>
+        <Button onClick = {loadSchedules} >
+        Load Schedule
+        </Button>
+        <Button onClick ={apiCall}>
+        Save Schedule
+        </Button>
+        </SwipeableDrawer>
        
-        { userState.user && userState.user.signInUserSession && (
-          <div>
-           <h4>
-             Welcome {userState.user.signInUserSession.idToken.payload.email}
-           </h4>
-           <Button
-             onClick={signOut}
-           >Sign Out</Button>
-           </div>
         )
-        }
+}
+       
+   
         <div style = {containerStyles}>{renderView()}</div>
 
       <BotNav value ={tab} onChange={setTab} />
       </div>
     
   )
+
 }
 
 function reducer (state, action) {
