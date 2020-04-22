@@ -85,9 +85,12 @@ export default function ScheduleView(props) {
     setSnackbarOpen(false);
   };
 
-  useEffect(() => {
-    setIndex(0);
-  }, [props.data]);
+  // useEffect(() => {
+  //   console.log(index, props.data.length);
+  //   if(props.data.length <= index){
+  //     setIndex(0);
+  //   }
+  // }, [props.data.length]);
 
   return (
     <Grid container justify="center">

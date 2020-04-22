@@ -1,3 +1,13 @@
+const days = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday'
+];
+
 //takes a schedule and returns [earliest start time, latest end time]
 export function getTimeBoundries(schedule){
     const times = schedule.map(section => {
@@ -83,4 +93,30 @@ export function union(a, b) {
           });
       });
       return days;
+  }
+
+  function getMeetingTimes(schedule){
+      return schedule.map(section => section.meetingTimes).flat();
+  }
+
+  export function getDensity(schedule){
+      let times = Object.fromEntries(days.map(k => [k, []]));
+      getMeetingTimes(schedule).forEach(mt => {
+        days.forEach(d => {
+            if(mt[d]){
+                times[d] = [
+                    ...times[d],
+                    mt.startTime,
+                    mt.endTime
+                ]
+            }
+        });
+      });
+      const densityByDay = Object.keys(times)
+        .filter(k => times[k].length > 0)
+        .map(k => 
+            //adds a weight to the density value based on the number of classes on that day
+            (Math.max(...times[k]) - Math.min(...times[k])) * (times[k].length / 2 / 10) 
+        );
+      return densityByDay.reduce((acc, value) => acc + value) / densityByDay.length;
   }

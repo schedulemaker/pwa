@@ -27,7 +27,7 @@ export default function Filters(props) {
         <DayFilters changeFilters={props.changeFilters} days={props.days}/>
       </Grid>
       <Grid container item justify="space-evenly">
-        <Rankings changeFilters={props.changeFilters}/>
+        <Rankings changeFilters={props.changeFilters} rankings={props.rankings}/>
       </Grid>
       <Grid container item justify="center">
         <InstructorSearch 

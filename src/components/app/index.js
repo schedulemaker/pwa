@@ -31,7 +31,7 @@ import {getUserSchedules} from '../../graphql/queries';
 import TopNav from '../topnav';
 import awsconfig from '../../aws-exports';
 import Buttons from '../buttons';
-import {getTimeBoundries, getInstructors, getDays, getScheduleTimes} from '../utils';
+import {getTimeBoundries, getInstructors, getDays, getScheduleTimes, getDensity} from '../utils';
 Amplify.configure(awsconfig);
 
 
@@ -75,7 +75,9 @@ function App() {
     end: 2400,
     days: null,
     instructors: null,
-    commute: null
+    commute: false,
+    distance: 'Default',
+    density: 'Default'
   });
 
   const loadSchedules = async function(){
@@ -108,7 +110,30 @@ function App() {
       if (filters.commute){
         result = result && s.commute
       }
+
       return result;
+  }
+
+  const sortDistance = function(a, b){
+    switch (filters.distance){
+      case 'Shortest':
+        return a.totalDistance - b.totalDistance;
+      case 'Longest':
+        return b.totalDistance - a.totalDistance;
+      default:
+        return 0;
+    }
+  }
+
+  const sortDensity = function(a, b){
+    switch (filters.density){
+      case 'Compact':
+        return a.density - b.density;
+      case 'Spread out':
+        return b.density - a.density;
+      default:
+        return 0;
+    }
   }
 
   const changeFilters = function(key, value){
@@ -118,9 +143,9 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    console.log(filters);
-  }, [filters])
+  // useEffect(() => {
+  //   console.log(filters);
+  // }, [filters])
 
   useEffect(() => {
     const [start, end] = getScheduleTimes(schedules.map(s => s.sections));
@@ -135,14 +160,16 @@ function App() {
   const apiCall = () => {
     makeSchedules(school, term, courses, campuses).then(result => {
       const data = result.map(schedule => {
-        return {
+        let result = {
           sections: schedule,
           commute: false,
           totalDistance: -1,
           times: getTimeBoundries(schedule),
           instructors: getInstructors(schedule),
-          days: getDays(schedule)
+          days: getDays(schedule),
         }
+        result.density = getDensity(schedule)
+        return result;
       });
       setSchedules(data);
       console.log('Success');
@@ -163,7 +190,7 @@ function App() {
       </Button>
         </div>);
       case 1:
-        return (<ScheduleView data={schedules.filter(filterSchedule)} />);
+        return (<ScheduleView data={schedules.filter(filterSchedule).sort(sortDistance).sort(sortDensity)} />);
       case 2:
         return (<Filters 
           times={[filters.start, filters.end]} 
@@ -174,6 +201,7 @@ function App() {
           instructorFilter={filters.instructors}
           changeFilters={changeFilters}
           days={filters.days}
+          rankings={[filters.density, filters.distance, filters.commute]}
           />);
       default:
         return new Error("this view doesnot exist");
