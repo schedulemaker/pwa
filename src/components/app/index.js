@@ -63,10 +63,8 @@ const school = "temple",
   term = 202036;
 const courses = ["CIS-1051", "CIS-1001", "MATH-1041"];
 const campuses = ["MN"];
-const initialUserState = { user: null, loading: true };
 
 function App() {
-  const [userState, dispatch] = useReducer(reducer, initialUserState);
   const [formState, updateFormState] = useState("base");
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
@@ -248,21 +246,12 @@ function App() {
     Hub.listen("auth", (data) => {
       const { payload } = data;
       if (payload.event === "signIn") {
-        setImmediate(() => dispatch({ type: "setUser", user: payload.data }));
-        setImmediate(() =>
-          window.history.pushState({}, null, "http://localhost:3000/")
-        );
         updateFormState("base");
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
       if (payload.event === "signOut") {
-        setTimeout(() => dispatch({ type: "setUser", user: null }), 350);
       }
     });
-    // we check for the current user unless there is a redirect to ?signedIn=true
-    if (!window.location.search.includes("?signedin=true")) {
-      checkUser(dispatch);
-    }
   }, []);
 
   if (formState === "email") {
@@ -289,14 +278,8 @@ function App() {
         <TopNav updateFormState={updateFormState}></TopNav>
       </Grid>
 
-      {userState.loading && <p>Loading</p>}
 
-      {!userState.user && !userState.loading && (
-        <Buttons updateFormState={updateFormState} />
-      )}
-
-      {userState.user && userState.user.signInUserSession && (
-        <SwipeableDrawer
+      <SwipeableDrawer
           open={open}
           onClose={() => setOpen(false)}
           onOpen={() => setOpen(true)}
@@ -304,13 +287,12 @@ function App() {
           PaperProps={{ style: { minWidth: "50vw" } }}
         >
           <span>
-            Welcome {userState.user.signInUserSession.idToken.payload.email}
+            Welcome 
           </span>
           <Button onClick={signOut}>Sign Out</Button>
           <Button onClick={loadSchedules}>Load Schedule</Button>
           <Button onClick={apiCall}>Save Schedule</Button>
         </SwipeableDrawer>
-      )}
 
       <div style={containerStyles}>{renderView()}</div>
 
@@ -319,27 +301,6 @@ function App() {
   );
 }
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "setUser":
-      return { ...state, user: action.user, loading: false };
-    case "loaded":
-      return { ...state, loading: false };
-    default:
-      return state;
-  }
-}
-
-async function checkUser(dispatch) {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    console.log("user: ", user);
-    dispatch({ type: "setUser", user });
-  } catch (err) {
-    console.log("err: ", err);
-    dispatch({ type: "loaded" });
-  }
-}
 
 function signOut() {
   Auth.signOut()
