@@ -3,12 +3,12 @@ import {AppBar, Toolbar, Avatar, IconButton, SwipeableDrawer, Typography, Button
 import {Menu} from "@material-ui/icons";
 
 export default function TopNav(props){
-const [open, setOpen] = useState(false);
+
 
 return(
 <AppBar position="static">
 <Toolbar>
-  <IconButton color="inherit" onClick={() => setOpen(!open)}>
+  <IconButton color="inherit">
     <Menu />
   </IconButton>
   <Typography variant="h6">
@@ -16,17 +16,7 @@ return(
    ScheduleMaker
   </Button>
   </Typography>
-  <SwipeableDrawer
-    open ={open}
-    onClose ={() => setOpen(false)}
-    onOpen ={() => setOpen(true)}
-    disableSwipeToOpen={false}
-    PaperProps ={{ style: { minWidth: "50vw"}}}
-    >
-        <span>Hello</span>
-    </SwipeableDrawer>
   </Toolbar>
-  
       </AppBar>
 );
 }

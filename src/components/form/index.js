@@ -186,9 +186,10 @@ function SignUp(props) {
 
 function ConfirmSignUp(props){
   return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div>
+    <Grid container justify="center" alignItems="center">
+     <Grid item>
+  <Card>
+    <CardContent>
           <Typography component="h1" variant="h5">
             Enter Confirmation Code
           </Typography>
@@ -205,6 +206,8 @@ function ConfirmSignUp(props){
               autoFocus
               onChange={e => {e.persist();props.updateFormState(e)}}
             /> 
+            </CardContent>
+            <CardActions>
             <Button
             fullWidth
             variant="contained"
@@ -214,16 +217,20 @@ function ConfirmSignUp(props){
           >
             Verify
           </Button>
-    </div>
-  </Container>
+         </CardActions>
+         </Card>
+    </Grid>
+    </Grid>
   )
 }
   
  function SignIn(props) {
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div>
+    <Grid container justify="center" alignItems="center">
+     <Grid item>
+  <Card>
+      
+      <CardContent>
         <Typography component="h1" variant="h5">
           Login
         </Typography>
@@ -251,6 +258,8 @@ function ConfirmSignUp(props){
             autoComplete="current-password"
             onChange={e => {e.persist();props.updateFormState(e)}}
           />
+           </CardContent>
+          <CardActions>
           <Button
             fullWidth
             variant="contained"
@@ -260,20 +269,10 @@ function ConfirmSignUp(props){
           >
             Sign In
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
-            </Grid>
-          </Grid>
-      </div>
-    </Container>
+          </CardActions>
+          </Card>
+    </Grid>
+    </Grid> 
   )
 }
 
