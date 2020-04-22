@@ -70,7 +70,7 @@ export default function CourseSearch(props) {
           limitTags={2}
           // autoComplete
           id="Search-courses"
-          options={data.filter(x => props.courses.includes(Number.parseInt(x.code)))}
+          options={data}
           getOptionLabel={(option) => option.description}
           filterSelectedOptions
           renderInput={(params) => (

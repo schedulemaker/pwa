@@ -32,7 +32,6 @@ import TopNav from '../topnav';
 import awsconfig from '../../aws-exports';
 import Buttons from '../buttons';
 import {getTimeBoundries, getInstructors, getDays, getScheduleTimes} from '../utils';
-import { getTime } from 'date-fns';
 Amplify.configure(awsconfig);
 
 
@@ -60,7 +59,7 @@ function getProfs(schedules){
 }
 
 
-const times = [800, 1700], school = 'temple', term = 202036
+const school = 'temple', term = 202036
 const courses = ['CIS-1051', 'CIS-1001', 'MATH-1041'];
 const campuses = ['MN'];
 const initialUserState = { user: null, loading: true };
@@ -72,9 +71,10 @@ function App() {
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [filters, setFilters] = useState({
-    times: null,
+    start: 0,
+    end: 2400,
     days: null,
-    instructors: schedules.length > 0 ? getProfs(schedules) : null,
+    instructors: null,
     commute: null
   });
 
@@ -86,10 +86,15 @@ function App() {
       console.log(error);
     }
   }
+
   const filterSchedule = function(s){
     let result = true;
-      if (filters.times){
-        result = result && s.times[0] >= filters.times[0] && s.times[1] <= filters.times[1];
+      if (filters.start){
+        result = result && s.times[0] >= filters.start;
+      }
+
+      if (filters.end){
+        result = result && s.times[1] <= filters.end;
       }
 
       if (filters.days){
@@ -97,7 +102,7 @@ function App() {
       }
 
       if(filters.instructors){
-        result = result && s.instructors.every(i => filters.instructors.includes(i));
+        result = result && filters.instructors.every(i => s.instructors.includes(i));
       }
 
       if (filters.commute){
@@ -116,6 +121,15 @@ function App() {
   useEffect(() => {
     console.log(filters);
   }, [filters])
+
+  useEffect(() => {
+    const [start, end] = getScheduleTimes(schedules.map(s => s.sections));
+    setFilters({
+      ...filters,
+      start: start,
+      end: end
+    });
+  }, [schedules]);
  
 
   const apiCall = () => {
@@ -152,11 +166,12 @@ function App() {
         return (<ScheduleView data={schedules.filter(filterSchedule)} />);
       case 2:
         return (<Filters 
-          times={getScheduleTimes(schedules.map(s => s.sections))} 
+          times={[filters.start, filters.end]} 
           school={school} 
           term={term} 
           count={schedules.filter(filterSchedule).length} 
           instructors={getProfs(schedules)}
+          instructorFilter={filters.instructors}
           changeFilters={changeFilters}
           />);
       default:

@@ -21,16 +21,22 @@ export default function Filters(props) {
         </Alert>
       )}
       <Grid container item justify="space-evenly">
-        <TimeFilters minTime={props.times[0]} maxTime={props.times[1]} />
+        <TimeFilters times={props.times} changeFilters={props.changeFilters} />
       </Grid>
       <Grid container item justify="center" alignItems="center">
-        <DayFilters />
+        <DayFilters changeFilters={props.changeFilters}/>
       </Grid>
       <Grid container item justify="space-evenly">
-        <Rankings />
+        <Rankings changeFilters={props.changeFilters}/>
       </Grid>
       <Grid container item justify="center">
-        <InstructorSearch school={props.school} term={props.term} instructors={props.instructors} changeFilters={props.changeFilters}/>
+        <InstructorSearch 
+          school={props.school} 
+          term={props.term} 
+          instructors={props.instructors} 
+          changeFilters={props.changeFilters}
+          instructorFilter={props.instructorFilter}
+          />
       </Grid>
     </Grid>
   );
