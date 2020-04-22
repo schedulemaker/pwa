@@ -11,6 +11,8 @@ import {
   SwipeableDrawer,
   Backdrop,
 } from "@material-ui/core";
+import { Menu as MenuIcon, PermDataSettingRounded } from "@material-ui/icons";
+import Routes from "../../Routes";
 import { AppContext } from "../../libs/contextLib";
 import Amplify, { Auth, Hub, API, graphqlOperation } from "aws-amplify";
 import { useHistory } from "react-router-dom";
