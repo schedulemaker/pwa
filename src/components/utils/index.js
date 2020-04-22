@@ -1,3 +1,13 @@
+const days = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday'
+];
+
 //takes a schedule and returns [earliest start time, latest end time]
 export function getTimeBoundries(schedule){
     const times = schedule.map(section => {
@@ -6,8 +16,8 @@ export function getTimeBoundries(schedule){
         });
     }).flat();
     return [
-        Math.floor(Math.min(...(times.map(t => t[0]))) /100),
-        Math.ceil(Math.max(...(times.map(t => t[1]))) / 100)
+        Math.floor(Math.min(...(times.map(t => t[0])))),
+        Math.ceil(Math.max(...(times.map(t => t[1]))))
     ]
 };
 
@@ -15,10 +25,25 @@ export function getTimeBoundries(schedule){
 export function getCalendarHours(schedules){
     const times = schedules.map(getTimeBoundries);
     return [
-        Math.floor(Math.min(...(times.map(t => t[0])))),
-        Math.ceil(Math.max(...(times.map(t => t[1]))))
+        Math.floor(
+            Math.min(
+                ...(times.map(t => t[0]))
+            ) / 100
+        ),
+        Math.ceil(Math.max(...(times.map(t => t[1]))) / 100)
     ]
 };
+
+export function getScheduleTimes(schedules){
+    const times = schedules.map(getTimeBoundries);
+    return [
+        Math.floor(
+            Math.min(
+                ...(times.map(t => t[0]))
+        )),
+        Math.ceil(Math.max(...(times.map(t => t[1]))))
+    ]
+}
 
 //takes a start or end time and converts it to [hours, minutes] for Javascript Date class
 export function getHoursMinutes(time){
@@ -42,3 +67,56 @@ export function intersection(a, b) {
 export function union(a, b) {
     return [...a, ...not(b, a)];
   };
+
+  export function getInstructors(schedule){
+      const profs = schedule.map(section => {
+          return section.meetingTimes.map(mt => {
+              return mt.instructors.map(i => i.ID)
+          }).flat()
+      }).flat()
+      return Array.from(new Set(profs));
+  }
+
+  export function getDays(schedule){
+      let days = {
+          sunday: false,
+          monday: false,
+          tuesday: false,
+          wednesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false
+      }
+      schedule.forEach(section => {
+          section.meetingTimes.forEach(mt => {
+            Object.keys(days).forEach(k => days[k] = mt[k] || days[k]);
+          });
+      });
+      return days;
+  }
+
+  function getMeetingTimes(schedule){
+      return schedule.map(section => section.meetingTimes).flat();
+  }
+
+  export function getDensity(schedule){
+      let times = Object.fromEntries(days.map(k => [k, []]));
+      getMeetingTimes(schedule).forEach(mt => {
+        days.forEach(d => {
+            if(mt[d]){
+                times[d] = [
+                    ...times[d],
+                    mt.startTime,
+                    mt.endTime
+                ]
+            }
+        });
+      });
+      const densityByDay = Object.keys(times)
+        .filter(k => times[k].length > 0)
+        .map(k => 
+            //adds a weight to the density value based on the number of classes on that day
+            (Math.max(...times[k]) - Math.min(...times[k])) * (times[k].length / 2 / 10) 
+        );
+      return densityByDay.reduce((acc, value) => acc + value) / densityByDay.length;
+  }

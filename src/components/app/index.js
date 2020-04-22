@@ -24,7 +24,7 @@ import BotNav from '../bottom-nav';
 import ScheduleView from '../schedule-view';
 import Filters from '../filters';
 import Form from '../form'
-import FixedTags from '../labs';
+// import Labs from '../labs';
 import {
   createSchedules
 } from '../../graphql/mutations';
@@ -32,6 +32,7 @@ import {getUserSchedules} from '../../graphql/queries';
 import TopNav from '../topnav';
 import awsconfig from '../../aws-exports';
 import Buttons from '../buttons';
+import {getTimeBoundries, getInstructors, getDays, getScheduleTimes, getDensity} from '../utils';
 Amplify.configure(awsconfig);
 
 
@@ -42,8 +43,9 @@ async function makeSchedules(school, term, courses, campuses){
     school: school,
     term: term
   };
+  const query = createSchedules.replace('isOpen', '').replace('weeks', '');
   const result = await API.graphql(
-    graphqlOperation(createSchedules, queryParams)
+    graphqlOperation(query, queryParams)
   );
   return result.data.createSchedules;
 }
@@ -54,18 +56,31 @@ const containerStyles = {
   textAlign: "center"
 };
 
+function getProfs(schedules){
+  return Array.from(new Set(schedules.map(s => s.instructors).flat()));
+}
 
-const times = [800, 1700], school = 'temple', term = 202036
+
+const school = 'temple', term = 202036
 const courses = ['CIS-1051', 'CIS-1001', 'MATH-1041'];
 const campuses = ['MN'];
 const initialUserState = { user: null, loading: true };
+
 
 function App() {
   const [userState, dispatch] = useReducer(reducer, initialUserState)
   const [formState, updateFormState] = useState('base')
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    start: 0,
+    end: 2400,
+    days: null,
+    instructors: null,
+    commute: false,
+    distance: 'Default',
+    density: 'Default'
+  });
 
   const loadSchedules = async function(){
     try {
@@ -75,12 +90,89 @@ function App() {
       console.log(error);
     }
   }
+
+  const filterSchedule = function(s){
+    let result = true;
+      if (filters.start){
+        result = result && s.times[0] >= filters.start;
+      }
+
+      if (filters.end){
+        result = result && s.times[1] <= filters.end;
+      }
+
+      if (filters.days){
+        result = result && Object.keys(filters.days).every(k => filters.days[k] === s.days[k]);
+      }
+
+      if(filters.instructors){
+        result = result && filters.instructors.every(i => s.instructors.includes(i));
+      }
+
+      if (filters.commute){
+        result = result && s.commute
+      }
+
+      return result;
+  }
+
+  const sortDistance = function(a, b){
+    switch (filters.distance){
+      case 'Shortest':
+        return a.totalDistance - b.totalDistance;
+      case 'Longest':
+        return b.totalDistance - a.totalDistance;
+      default:
+        return 0;
+    }
+  }
+
+  const sortDensity = function(a, b){
+    switch (filters.density){
+      case 'Compact':
+        return a.density - b.density;
+      case 'Spread out':
+        return b.density - a.density;
+      default:
+        return 0;
+    }
+  }
+
+  const changeFilters = function(key, value){
+    setFilters({
+      ...filters,
+      [key]: value,
+    });
+  }
+
+  // useEffect(() => {
+  //   console.log(filters);
+  // }, [filters])
+
+  useEffect(() => {
+    const [start, end] = getScheduleTimes(schedules.map(s => s.sections));
+    setFilters({
+      ...filters,
+      start: start,
+      end: end
+    });
+  }, [schedules]);
  
 
   const apiCall = () => {
     makeSchedules(school, term, courses, campuses).then(result => {
-      setSchedules(result);
+      const data = result.map(schedule => {
+        return {
+          ...schedule,
+          times: getTimeBoundries(schedule.sections),
+          instructors: getInstructors(schedule.sections),
+          days: getDays(schedule.sections),
+          density: getDensity(schedule.sections)
+        }
+      });
+      setSchedules(data);
       console.log('Success');
+      console.log(data);
     });
   };
 
@@ -88,19 +180,28 @@ function App() {
     switch(tab){
       case 0:
         return (<div>
+          {/* <Labs></Labs> */}
           <Button color="inherit" onClick={apiCall}>
         API Call
       </Button>
       <Button color='inherit' onClick={loadSchedules}>
         Load Schedules
       </Button>
-      
-        </div>
-          );
+        </div>);
       case 1:
-        return (<ScheduleView data={schedules} />);
+        return (<ScheduleView data={schedules.filter(filterSchedule).sort(sortDistance).sort(sortDensity)} />);
       case 2:
-        return (<Filters times={times} school={school} term={term}/>);
+        return (<Filters 
+          times={[filters.start, filters.end]} 
+          school={school} 
+          term={term} 
+          count={schedules.filter(filterSchedule).length} 
+          instructors={getProfs(schedules)}
+          instructorFilter={filters.instructors}
+          changeFilters={changeFilters}
+          days={filters.days}
+          rankings={[filters.density, filters.distance, filters.commute]}
+          />);
       default:
         return new Error("this view doesnot exist");
     }
@@ -192,7 +293,7 @@ function App() {
    
         <div style = {containerStyles}>{renderView()}</div>
 
-      <BotNav value ={tab} onChange={setTab} disableCalendarView={schedules.length === 0} />
+      <BotNav value ={tab} onChange={setTab} />
       </div>
     
   )

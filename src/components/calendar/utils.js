@@ -44,7 +44,7 @@ function mapMeetingTime(meetingTime, weekStart){
         return {
             ...appt,
             location: `${meetingTime.building} ${meetingTime.room}`,
-            instructors: meetingTime.instructors
+            instructors: meetingTime.instructors.map(i => i.Name)
         };
     });
 };

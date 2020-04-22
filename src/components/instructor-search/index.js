@@ -45,10 +45,30 @@ Amplify.configure(awsconfig);
   export default function IntructorSearch(props) {
     const classes = useStyles();
     const [data, setData] = useState([]);
+    const [current, setCurrent] = useState([]);
+    // const [searchDefault, setSearchDefault] = useState([]);
+
+    const handleInputChange = function(event, value){
+      value.length === 0 ?
+        props.changeFilters('instructors', null) :
+        props.changeFilters('instructors', value.map(v => v.code));
+        // setSearchDefault(value);
+    }
 
     useEffect(() => {
-      fetchInstructors(props.school, props.term).then((data) => setData(data));
+      fetchInstructors(props.school, props.term).then((data) => {
+        setData(data.map(d => {
+          return {
+            code: Number.parseInt(d.code),
+            description: d.description
+          }
+        }));
+      });
     }, [props.school, props.term]);
+
+    useEffect(() => {
+      setCurrent(data.filter(x => props.instructors.includes(x.code)));
+    }, [data, props.instructors])
 
     return (
       <div className={classes.root}>
@@ -56,11 +76,13 @@ Amplify.configure(awsconfig);
           <Skeleton animation="wave" />
         ) : (
           <Autocomplete
+            onChange={handleInputChange}
             multiple
             limitTags={2}
+            value={props.instructorFilter ? current.filter(x => props.instructorFilter.includes(x.code)) : []}
             // autoComplete
             id="instructor-search"
-            options={data}
+            options={current}
             getOptionLabel={(option) => option.description}
             filterSelectedOptions
             renderInput={(params) => (

@@ -9,25 +9,28 @@ import {
   RadioGroup,
 } from "@material-ui/core";
 
-const densityOptions = ["Compact", "Default", "Spread out"];
+const densityOptions = ["Default", "Compact", "Spread out"];
 
-const distanceOptions = ["Shortest", "Default", "Longest"];
+const distanceOptions = ["Default", "Shortest", "Longest"];
 
 export default function Rankings(props) {
-  const [density, setDensity] = useState('Default');
-  const [distance, setDistance] = useState('Default');
-  const [commute, setCommute] = useState(false);
+  const [density, setDensity] = useState(props.rankings[0]);
+  const [distance, setDistance] = useState(props.rankings[1]);
+  const [commute, setCommute] = useState(props.rankings[2]);
 
   const handleDensity = (event) => {
     setDensity(event.target.value);
+    props.changeFilters('density', event.target.value);
   };
 
   const handleDistance = (event) => {
     setDistance(event.target.value);
+    props.changeFilters('distance', event.target.value);
   };
 
   const handleSwitch = (event) => {
     setCommute(event.target.checked);
+    props.changeFilters('commute', event.target.checked);
   };
 
   return (

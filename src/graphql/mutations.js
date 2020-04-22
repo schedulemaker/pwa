@@ -2,18 +2,8 @@
 // this is an auto generated file. This will be overwritten
 
 export const saveUserSchedule = /* GraphQL */ `
-  mutation SaveUserSchedule(
-    $username: String!
-    $sections: [SectionInput]!
-    $commute: Boolean
-    $totalDistance: Int
-  ) {
-    saveUserSchedule(
-      username: $username
-      sections: $sections
-      commute: $commute
-      totalDistance: $totalDistance
-    )
+  mutation SaveUserSchedule($username: String!, $schedule: UserScheduleInput!) {
+    saveUserSchedule(username: $username, schedule: $schedule)
   }
 `;
 export const createSchedules = /* GraphQL */ `
@@ -29,29 +19,33 @@ export const createSchedules = /* GraphQL */ `
       school: $school
       term: $term
     ) {
-      isOpen
-      campus
-      meetingTimes {
-        startTime
-        endTime
-        building
-        room
-        instructors {
-          ID
-          Name
+      sections {
+        isOpen
+        campus
+        meetingTimes {
+          startTime
+          endTime
+          building
+          room
+          weeks
+          monday
+          tuesday
+          wednesday
+          thursday
+          friday
+          saturday
+          sunday
+          instructors {
+            ID
+            Name
+          }
         }
-        weeks
-        monday
-        tuesday
-        wednesday
-        thursday
-        friday
-        saturday
-        sunday
+        courseName
+        crn
+        title
       }
-      courseName
-      crn
-      title
+      commute
+      totalDistance
     }
   }
 `;
