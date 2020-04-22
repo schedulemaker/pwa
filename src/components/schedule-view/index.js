@@ -41,14 +41,13 @@ const useStyles = makeStyles(() => ({
 
 export default function ScheduleView(props) {
   const classes = useStyles();
-  const [index, setIndex] = useState(0);
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const saveSchedule = async function () {
     const params = {
-      sections: props.data[index],
+      sections: props.data[props.index],
       username: "test",
     };
     try {
@@ -62,11 +61,11 @@ export default function ScheduleView(props) {
   };
 
   const showNext = function showNext() {
-    setIndex(index + 1);
+    props.setIndex(props.index + 1);
   };
 
   const showPrev = function showPrev() {
-    setIndex(index - 1);
+    props.setIndex(props.index - 1);
   };
 
   const handleTooltipClose = () => {
@@ -86,43 +85,33 @@ export default function ScheduleView(props) {
   };
 
   // useEffect(() => {
-  //   console.log(index, props.data.length);
-  //   if(props.data.length <= index){
-  //     setIndex(0);
+  //   console.log(props.index, props.data.length);
+  //   if(props.data.length <= props.index){
+  //     props.setIndex(0);
   //   }
   // }, [props.data.length]);
 
   return (
     <Grid container justify="center">
       {props.data.length > 0 ? (
-        <Calendar
-          data={props.data.length > 0 ? props.data[index].sections : []}
+        <Grid container justify="center">
+          <Calendar
+          data={props.data.length > 0 ? props.data[props.index].sections : []}
           hours={getCalendarHours(props.data.map((i) => i.sections))}
-        />
-      ) : (
-        <Card>
-          <CardContent>
-            <Alert severity="error">
-              <AlertTitle>No schedules found</AlertTitle>
-              Try making a request on the home screen or adjusting your
-              filtering options
-            </Alert>
-          </CardContent>
-        </Card>
-      )}
-      <MobileStepper
+          />
+        <MobileStepper
         className={classes.stepper}
         steps={props.data.length}
         position="static"
         variant="text"
-        activeStep={index}
+        activeStep={props.index}
         nextButton={
           <Button
             // className={classes.carouselButton}
             variant="contained"
             size="large"
             onClick={showNext}
-            disabled={index === props.data.length - 1}
+            disabled={props.index === props.data.length - 1}
           >
             <KeyboardArrowRight />
           </Button>
@@ -133,7 +122,7 @@ export default function ScheduleView(props) {
             variant="contained"
             size="large"
             onClick={showPrev}
-            disabled={index === 0}
+            disabled={props.index === 0}
           >
             <KeyboardArrowLeft />
           </Button>
@@ -173,6 +162,14 @@ export default function ScheduleView(props) {
             }
           />
         </div>
+      )}
+      </Grid>
+      ) : (
+        <Alert severity="error">
+              <AlertTitle>No schedules found</AlertTitle>
+              Try making a request on the home screen or adjusting your
+              filtering options
+            </Alert>
       )}
     </Grid>
   );

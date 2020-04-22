@@ -70,6 +70,7 @@ function App() {
   const [formState, updateFormState] = useState('base')
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
+  const [index, setIndex] = useState(0);
   const [filters, setFilters] = useState({
     start: 0,
     end: 2400,
@@ -171,6 +172,7 @@ function App() {
       setSchedules(data);
       console.log('Success');
       console.log(data);
+      setTab(1);
     });
   };
 
@@ -187,7 +189,11 @@ function App() {
       </Button>
         </div>);
       case 1:
-        return (<ScheduleView data={schedules.filter(filterSchedule).sort(sortDistance).sort(sortDensity)} />);
+        return (<ScheduleView 
+          data={schedules.filter(filterSchedule).sort(sortDistance).sort(sortDensity)} 
+          index={index}
+          setIndex={setIndex}
+        />);
       case 2:
         return (<Filters 
           times={[filters.start, filters.end]} 
