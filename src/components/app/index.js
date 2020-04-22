@@ -51,7 +51,6 @@ async function makeSchedules(school, term, courses, campuses){
 }
 
 const containerStyles = {
-  height: "calc(100vh - 112px)",
   overflow: "auto",
   textAlign: "center"
 };
