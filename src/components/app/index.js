@@ -22,8 +22,7 @@ import BotNav from '../bottom-nav';
 import ScheduleView from '../schedule-view';
 import Filters from '../filters';
 import Form from '../form'
-import FixedTags from '../labs';
-import Labs from '../labs';
+// import Labs from '../labs';
 import {
   createSchedules
 } from '../../graphql/mutations';
@@ -42,8 +41,9 @@ async function makeSchedules(school, term, courses, campuses){
     school: school,
     term: term
   };
+  const query = createSchedules.replace('isOpen', '').replace('weeks', '');
   const result = await API.graphql(
-    graphqlOperation(createSchedules, queryParams)
+    graphqlOperation(query, queryParams)
   );
   return result.data.createSchedules;
 }
@@ -160,16 +160,13 @@ function App() {
   const apiCall = () => {
     makeSchedules(school, term, courses, campuses).then(result => {
       const data = result.map(schedule => {
-        let result = {
-          sections: schedule,
-          commute: false,
-          totalDistance: -1,
-          times: getTimeBoundries(schedule),
-          instructors: getInstructors(schedule),
-          days: getDays(schedule),
+        return {
+          ...schedule,
+          times: getTimeBoundries(schedule.sections),
+          instructors: getInstructors(schedule.sections),
+          days: getDays(schedule.sections),
+          density: getDensity(schedule.sections)
         }
-        result.density = getDensity(schedule)
-        return result;
       });
       setSchedules(data);
       console.log('Success');
@@ -181,7 +178,7 @@ function App() {
     switch(tab){
       case 0:
         return (<div>
-          <Labs></Labs>
+          {/* <Labs></Labs> */}
           <Button color="inherit" onClick={apiCall}>
         API Call
       </Button>

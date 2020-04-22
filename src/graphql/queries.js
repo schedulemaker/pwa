@@ -29,6 +29,18 @@ export const getUserSchedules = /* GraphQL */ `
       totalDistance
       username
       scheduleId
+      times
+      density
+      days {
+        monday
+        tuesday
+        wednesday
+        thursday
+        friday
+        saturday
+        sunday
+      }
+      instructors
     }
   }
 `;

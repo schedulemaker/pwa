@@ -18,7 +18,43 @@ type UserSchedule {
     commute: Boolean
     totalDistance: Float
     username: ID
-    scheduleId: ID
+    scheduleId: ID,
+    times: [Int],
+    density: Int,
+    days: Days,
+    instructors: [Int]
+}
+
+input UserScheduleInput {
+    sections: [SectionInput]
+    commute: Boolean
+    totalDistance: Float
+    username: ID
+    scheduleId: ID,
+    times: [Int],
+    density: Int,
+    days: DaysInput,
+    instructors: [Int]
+}
+
+type Days {
+    monday: Boolean,
+    tuesday: Boolean,
+    wednesday: Boolean,
+    thursday: Boolean,
+    friday: Boolean,
+    saturday: Boolean,
+    sunday: Boolean
+}
+
+input DaysInput {
+    monday: Boolean,
+    tuesday: Boolean,
+    wednesday: Boolean,
+    thursday: Boolean,
+    friday: Boolean,
+    saturday: Boolean,
+    sunday: Boolean
 }
 
 type Section {
@@ -87,6 +123,12 @@ input TimeBlock {
     endTime: Int! 
 }
 
+type Schedule {
+    sections: [Section],
+    commute: Boolean,
+    totalDistance: Float
+}
+
 type Course {
     courseName: String!
     title: String!
@@ -100,8 +142,8 @@ type Query {
 }
 
 type Mutation {
-    saveUserSchedule(username: String!, sections: [SectionInput]!, commute: Boolean, totalDistance: Int): String
-    createSchedules(courses: [String]!, campuses: [String]!, school: String!, term: Int!): [[Section]]
+    saveUserSchedule(username: String!, schedule: UserScheduleInput!): String
+    createSchedules(courses: [String]!, campuses: [String]!, school: String!, term: Int!): [Schedule]
 }
 
 schema {
