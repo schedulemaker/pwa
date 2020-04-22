@@ -50,10 +50,7 @@ async function makeSchedules(school, term, courses, campuses) {
 }
 
 const containerStyles = {
-<<<<<<< HEAD
-=======
   // height: "calc(100vh - 112px)",
->>>>>>> e9d2c87c3b1ffcc3e675d6769df807fd03b1cd65
   overflow: "auto",
   textAlign: "center",
 };
@@ -75,6 +72,7 @@ function App() {
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [index, setIndex] = useState(0);
+  const [signedIn, setSignedIn] = useState(false);
   const [filters, setFilters] = useState({
     start: 0,
     end: 2400,
@@ -84,6 +82,22 @@ function App() {
     distance: "Default",
     density: "Default",
   });
+
+  useEffect(() => {
+    // set listener for auth events
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      if (payload.event === 'signIn') {
+        setSignedIn(true)
+      }
+      // this listener is needed for form sign ups since the OAuth will redirect & reload
+      if (payload.event === 'signOut') {
+        setSignedIn(false)
+      }
+    })
+    // we check for the current user unless there is a redirect to ?signedIn=true 
+
+  }, [])
 
   const loadSchedules = async function () {
     try {
@@ -207,6 +221,7 @@ function App() {
               .sort(sortDensity)}
             index={index}
             setIndex={setIndex}
+            auth={signedIn}
           />
         );
       case 2:

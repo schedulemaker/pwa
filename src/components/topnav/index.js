@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {AppBar, Toolbar, Avatar, IconButton, SwipeableDrawer, Typography, Button} from "@material-ui/core"
 import {Menu} from "@material-ui/icons";
-import {Auth} from "aws-amplify"; 
+import {Auth, Hub} from "aws-amplify"; 
 
 async function checkUser(dispatch) {
   try {
@@ -12,8 +12,11 @@ async function checkUser(dispatch) {
     console.log('err: ', err)
     dispatch({ type: 'loaded' })
   }
+}
 
-  
+
+export default function TopNav(props){
+  const [signedIn, setSignedIn] = useState(false)
   useEffect(() => {
     // set listener for auth events
     Hub.listen('auth', (data) => {
@@ -30,13 +33,7 @@ async function checkUser(dispatch) {
 
   }, [])
 
-
-export default function TopNav(props){
-  const [signedIn, setSignedIn] = useState(false)
-
-
   return(
-    if(!signedIn &&
 <AppBar position="static">
 <Toolbar>
   <IconButton color="inherit">
@@ -46,22 +43,9 @@ export default function TopNav(props){
  <Button color="inherit" onClick={() => props.updateFormState('base')}>
    ScheduleMaker
   </Button>
-
-  <Button color="inherit" onClick={() => props.updateFormState('base')}>
-   Sign In
-  </Button>
+  
   </Typography>
   </Toolbar>
       </AppBar>
-}
       )
-
-
-
-       /*   <Button color="inherit" onClick={() => props.updateFormState('email')}>
-           Signup
-          </Button>
-
-          <Button color="inherit" onClick={() => props.updateFormState('email')}>
-           Login
-          </Button> */
+  }

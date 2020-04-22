@@ -25,6 +25,7 @@ import { getCalendarHours } from "../utils";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import awsconfig from "../../aws-exports";
 import { saveUserSchedule } from "../../graphql/mutations";
+import {Hub} from 'aws-amplify';
 Amplify.configure(awsconfig);
 
 const useStyles = makeStyles(() => ({
@@ -83,13 +84,6 @@ export default function ScheduleView(props) {
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
-
-  // useEffect(() => {
-  //   console.log(props.index, props.data.length);
-  //   if(props.data.length <= props.index){
-  //     props.setIndex(0);
-  //   }
-  // }, [props.data.length]);
 
   return (
     <Grid container justify="center">
