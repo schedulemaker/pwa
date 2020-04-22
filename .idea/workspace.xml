@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="95f76338-3c4f-416c-9021-fa1dccaa8097" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/labs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/labs/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +27,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="js.last.introduce.type" value="CONST" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -47,7 +49,7 @@
       <workItem from="1587357717119" duration="1176000" />
       <workItem from="1587505450044" duration="2593000" />
       <workItem from="1587509699917" duration="12000" />
-      <workItem from="1587511046318" duration="616000" />
+      <workItem from="1587511046318" duration="2276000" />
     </task>
     <servers />
   </component>

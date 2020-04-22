@@ -19,69 +19,62 @@ import * as queries from '../../graphql/queries';
 import * as mutations from '../../graphql/mutations';
 Amplify.configure(awsconfig);
 
-async function fetchCourses(school, term) {
+
+export async function fetchCourses(courseName, title) {
   const queryParams = {
-    school: school,
-    term: term,
-    method: "getCourseList",
-    params: {
-      term: term,
-    },
+    courseName: courseName,
+    title: title,
   };
-  const [result] = await Promise.all([API.graphql(
-      graphqlOperation(getCourseList, queryParams)
-  )]);
-  return result.data.getCourseList;
+  const result = await API.graphql(
+    graphqlOperation(getCourseList, queryParams)
+  );
+  return result.data.title;
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: 300,
-    "& > * + *": {
-      marginTop: theme.spacing(3),
+const useStyles = makeStyles(function (theme) {
+  return {
+    root: {
+      width: 300,
+      "& > * + *": {
+        marginTop: theme.spacing(3),
+      },
     },
-  },
-}));
+  };
+});
 
 export default function CourseSearch(props) {
-  const classes = useStyles();
-  const [data, setData] = useState([]);
-
-  const handleInputChange = function(event, value){
-    value.length === 0 ?
-      props.changeFilters('courses', null) :
-      props.changeFilters('courses', value.map(v => Number.parseInt(v.code)));
-  }
+  const classes = useStyles(), [data, setData] = useState([]), handleInputChange = function (event, value) {
+    value.length !== 0 ? props.changeFilters('courses', value.map(v => Number.parseInt(v.code))) : props.changeFilters('courses', null);
+  };
 
   useEffect(() => {
-    fetchCourses(props.school, props.term).then((data) => {
+    fetchCourses(props.courseName, props.title).then((data) => {
       setData(data);
     });
-  }, [props.school, props.term]);
+  }, [props.courseName, props.title]);
 
   return (
     <div className={classes.root}>
       {data.length === 0 ? (
-        <Skeleton animation="wave" />
+          <Skeleton animation="wave"/>
       ) : (
-        <Autocomplete
-        onChange={handleInputChange}
-          multiple
-          limitTags={2}
-          // autoComplete
-          id="Search-courses"
-          options={data}
-          getOptionLabel={(option) => option.description}
-          filterSelectedOptions
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              label="SEARCH"
-              placeholder="Courses"
-            />
-          )}
-        />
+          <Autocomplete
+              onInputChange={handleInputChange}
+              multiple
+              limitTags={2}
+              // autoComplete
+              id="Search-courses"
+              options={data.filter(x => props.title.includes(Number.parseInt(x.code)))}
+              getOptionLabel={(option) => option.description}
+              filterSelectedOptions
+              renderInput={(params) => (
+                  <TextField
+                      {...params}
+                      variant="outlined"
+                      label="SEARCH"
+                      placeholder="Courses"
+                  />
+              )}/>
       )}
     </div>
   );
