@@ -30,7 +30,7 @@ export default function FixedTags() {
     var tempCourses = res.data["getCourseList"];
 
     tempCourses.forEach(course => {
-          if(!set.has(course.coureName)){
+          if(!set.has(course.courseName)){
             set.add(course.courseName);
             unique.push(course);
           }
