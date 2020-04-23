@@ -43,10 +43,10 @@ export default function FixedTags() {
           multiple
           id="fixed-tags-demo"
           options={courses}
-          getOptionLabel={(option) => option.courseName}
+          getOptionLabel={(option) => option.title}
           renderTags={(value, getTagProps) =>
               value.map((option, index) => (
-                  <Chip label={option.coureName} {...getTagProps({ index })} />
+                  <Chip label={option.title} {...getTagProps({ index })} />
               ))
           }
           style={{ width: 500 }}
