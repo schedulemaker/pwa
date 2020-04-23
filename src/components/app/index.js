@@ -267,18 +267,14 @@ function App() {
   }
 
   return (
-    <Grid container>
-       <Grid container item direction="column">
-        <TopNav loadSchedules={loadSchedules} />
-      </Grid>
-      <Grid container justify='center' className={classes.main} >
-        {renderView()}
-      </Grid>
+    <div>
+        <TopNav/>
+      <div className = {classes.main}> {renderView()} </div>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
       </Backdrop>
       <BotNav value={tab} onChange={setTab} />
-    </Grid>
+      </div>
   );
 }
 
