@@ -10,6 +10,7 @@ import {
   ButtonBase,
   SwipeableDrawer,
   Backdrop,
+  CircularProgress,
 } from "@material-ui/core";
 import { Menu as MenuIcon, PermDataSettingRounded } from "@material-ui/icons";
 import Routes from "../../Routes";
@@ -35,19 +36,15 @@ import {
   getScheduleTimes,
   getDensity,
 } from "../utils";
+import {makeStyles} from '@material-ui/core/styles';
 Amplify.configure(awsconfig);
 
-async function makeSchedules(school, term, courses, campuses) {
-  const queryParams = {
-    courses: courses,
-    campuses: campuses,
-    school: school,
-    term: term,
-  };
-  const query = createSchedules.replace("isOpen", "").replace("weeks", "");
-  const result = await API.graphql(graphqlOperation(query, queryParams));
-  return result.data.createSchedules;
-}
+const useStyles = makeStyles((theme) => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+}));
 
 const containerStyles = {  
   // height: "calc(100vh - 112px)",
@@ -59,18 +56,20 @@ function getProfs(schedules) {
   return Array.from(new Set(schedules.map((s) => s.instructors).flat()));
 }
 
-const school = "temple",
-  term = 202036;
-const courses = ["CIS-1051", "CIS-1001", "MATH-1041"];
-const campuses = ["MN"];
-
 function App() {
+  const classes = useStyles();
+  const [backdropContent, setBackdropContent] = useState((<div></div>));
+  const [courses, setCourses] = useState(["CIS-1051", "CIS-1001", "MATH-1041"]);
+  const [campuses, setCampuses] = useState(["MN"]);
+  const [school, setSchool] = useState('temple');
+  const [term, setTerm] = useState(202036);
   const [formState, updateFormState] = useState("base");
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [index, setIndex] = useState(0);
   const [signedIn, setSignedIn] = useState(false);
+  const [backdrop, setBackdrop] = useState(false);
   const [filters, setFilters] = useState({
     start: 0,
     end: 2400,
@@ -80,6 +79,10 @@ function App() {
     distance: "Default",
     density: "Default",
   });
+
+  const handleBackdrop = function(){
+
+  }
 
   useEffect(() => {
     // set listener for auth events
@@ -96,6 +99,18 @@ function App() {
     // we check for the current user unless there is a redirect to ?signedIn=true 
 
   }, [])
+
+  const makeSchedules = async function() {
+    const queryParams = {
+      courses: courses,
+      campuses: campuses,
+      school: school,
+      term: term,
+    };
+    const query = createSchedules.replace("isOpen", "").replace("weeks", "");
+    const result = await API.graphql(graphqlOperation(query, queryParams));
+    return result.data.createSchedules;
+  }
 
   const loadSchedules = async function () {
     try {
@@ -179,7 +194,9 @@ function App() {
   }, [schedules]);
 
   const apiCall = () => {
-    makeSchedules(school, term, courses, campuses).then((result) => {
+    setBackdropContent((<CircularProgress color='inherit' />));
+    setBackdrop(true);
+    makeSchedules().then((result) => {
       const data = result.map((schedule) => {
         return {
           ...schedule,
@@ -192,6 +209,7 @@ function App() {
       setSchedules(data);
       console.log("Success");
       console.log(data);
+      setBackdrop(false);
       setTab(1);
     });
   };
@@ -265,7 +283,6 @@ function App() {
           <BotNav
             value={tab}
             onChange={setTab}
-            disableCalendarView={schedules.length === 0}
           />
         </Grid>
       </div>
@@ -285,6 +302,7 @@ function App() {
           onOpen={() => setOpen(true)}
           disableSwipeToOpen={false}
           PaperProps={{ style: { minWidth: "50vw" } }}
+          swipeAreaWidth={50}
         >
           <span>
             Welcome 
@@ -295,7 +313,9 @@ function App() {
         </SwipeableDrawer>
 
       <div style={containerStyles}>{renderView()}</div>
-
+      <Backdrop className={classes.backdrop} open={backdrop}>
+        {backdropContent}
+      </Backdrop>
       <BotNav value={tab} onChange={setTab} />
     </div>
   );
