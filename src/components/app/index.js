@@ -266,11 +266,7 @@ function App() {
 
   return (
     <div>
-      <Grid container direction="column">
-        <TopNav></TopNav>
-      </Grid>
-
-
+        <TopNav/>
       <div style={containerStyles}>{renderView()}</div>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}

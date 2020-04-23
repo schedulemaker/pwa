@@ -8,9 +8,9 @@ import DayFilters from "../days";
 
 export default function Filters(props) {
   return (
-    <Grid container justify="center">
+    <Grid container justify="center"> 
       {props.count > 0 ? (
-        <Grid container justify="center" alignItems="center" spacing={3}>
+        <Grid container justify="center" alignItems="center">
           <Alert severity="success">
             <AlertTitle>{props.count} schedule{props.count > 1 && ('s')} found</AlertTitle>
             Use the options below to customize your schedule
