@@ -23,7 +23,7 @@ import BotNav from "../bottom-nav";
 import ScheduleView from "../schedule-view";
 import Filters from "../filters";
 import Form from "../form";
-// import Labs from '../labs';
+import Labs from '../labs';
 import { createSchedules } from "../../graphql/mutations";
 import { getUserSchedules } from "../../graphql/queries";
 import TopNav from "../topnav";
@@ -225,7 +225,7 @@ function App() {
       case 0:
         return (
           <div>
-            {/* <Labs></Labs> */}
+            { <Labs></Labs> }
             <Button color="inherit" onClick={apiCall}>
               API Call
             </Button>
