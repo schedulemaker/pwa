@@ -22,6 +22,8 @@ async function getCourses(school, term) {
   return unique;
 }
 
+
+
 export default function FixedTags(props) {
   const [current, setCurrent] = useState([]);
   const [courses, setCourses] = useState([]);
@@ -49,12 +51,13 @@ export default function FixedTags(props) {
           multiple
           id="fixed-tags-demo"
           options={courses}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => option.courseName}
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
               <Chip label={option.courseName} {...getTagProps({ index })} />
             ))
           }
+          // groupBy={(option) => option.courseName[0]}
           style={{ width: 500 }}
           onChange={handleInputChange}
           value={current}

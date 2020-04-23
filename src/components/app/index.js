@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
   main: {
     overflow: "auto",
-    marginBottom: "10%",
+    marginBottom: "15%",
   },
 }));
 
@@ -57,7 +57,7 @@ function getProfs(schedules) {
 function App() {
   const classes = useStyles();
   const [backdropContent, setBackdropContent] = useState(<div></div>);
-  const [courses, setCourses] = useState(["CIS-1051", "CIS-1001", "MATH-1041"]);
+  const [courses, setCourses] = useState([]);
   const [campuses, setCampuses] = useState(["MN"]);
   const [school, setSchool] = useState("temple");
   const [term, setTerm] = useState(202036);
@@ -272,7 +272,7 @@ function App() {
 
   return (
     <div>
-      <TopNav />
+      <TopNav loadSchedules={loadSchedules}/>
       <div className={classes.main}> {renderView()} </div>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
