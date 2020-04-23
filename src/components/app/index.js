@@ -44,12 +44,12 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  main: {
+    overflow: 'auto',
+  marginBottom: '10%'
+  }
 }));
 
-const containerStyles = {
-  overflow: "auto",
-  textAlign: "center",
-};
 
 function getProfs(schedules) {
   return Array.from(new Set(schedules.map((s) => s.instructors).flat()));
@@ -62,7 +62,6 @@ function App() {
   const [campuses, setCampuses] = useState(["MN"]);
   const [school, setSchool] = useState('temple');
   const [term, setTerm] = useState(202036);
-  const [formState, updateFormState] = useState("base");
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
@@ -80,10 +79,6 @@ function App() {
     density: "Default",
   });
 
-  const handleBackdrop = function(){
-
-  }
-
   useEffect(() => {
     // set listener for auth events
     Hub.listen('auth', (data) => {
@@ -98,6 +93,7 @@ function App() {
       if (payload.event === 'signOut') {
         setSignedIn(false)
         setUser(null);
+        setSchedules([]);
       }
     })
     // we check for the current user unless there is a redirect to ?signedIn=true 
@@ -233,9 +229,6 @@ function App() {
             <Button color="inherit" onClick={apiCall}>
               API Call
             </Button>
-            <Button color="inherit" onClick={loadSchedules}>
-              Load Schedules
-            </Button>
           </div>
         );
       case 1:
@@ -265,63 +258,25 @@ function App() {
           />
         );
       default:
-        return new Error("this view doesnot exist");
+        return new Error("this view does not exist");
     }
   }
 
-  useEffect(() => {
-    // set listener for auth events
-    Hub.listen("auth", (data) => {
-      const { payload } = data;
-      if (payload.event === "signIn") {
-        updateFormState("base");
-      }
-      // this listener is needed for form sign ups since the OAuth will redirect & reload
-      if (payload.event === "signOut") {
-      }
-    });
-  }, []);
-
-  if (formState === "email") {
-    return (
-      <div>
-        <Grid container direction="column">
-          <TopNav updateFormState={updateFormState} />
-          <div style={containerStyles}>
-            <Form />
-          </div>
-          <BotNav
-            value={tab}
-            onChange={setTab}
-          />
-        </Grid>
-      </div>
-    );
-  }
-
   return (
-    <div>
-      <Grid container direction="column">
-        <TopNav updateFormState={updateFormState}></TopNav>
+    <Grid container>
+       <Grid container item direction="column">
+        <TopNav loadSchedules={loadSchedules} />
       </Grid>
-
-
-      <div style={containerStyles}>{renderView()}</div>
+      <Grid container className={classes.main} justify='center'>
+        {renderView()}
+      </Grid>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
       </Backdrop>
       <BotNav value={tab} onChange={setTab} />
-    </div>
+    </Grid>
   );
 }
 
-
-export function signOut() {
-  Auth.signOut()
-    .then((data) => {
-      console.log("signed out: ", data);
-    })
-    .catch((err) => console.log(err));
-}
 
 export default App;
