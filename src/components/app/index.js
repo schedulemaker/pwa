@@ -23,7 +23,7 @@ import BotNav from "../bottom-nav";
 import ScheduleView from "../schedule-view";
 import Filters from "../filters";
 import Form from "../form";
-import Labs from '../labs';
+import Labs from "../labs";
 import { createSchedules } from "../../graphql/mutations";
 import { getUserSchedules } from "../../graphql/queries";
 import TopNav from "../topnav";
@@ -36,20 +36,19 @@ import {
   getScheduleTimes,
   getDensity,
 } from "../utils";
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from "@material-ui/core/styles";
 Amplify.configure(awsconfig);
 
 const useStyles = makeStyles((theme) => ({
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
+    color: "#fff",
   },
   main: {
-    overflow: 'auto',
-  marginBottom: '10%'
-  }
+    overflow: "auto",
+    marginBottom: "10%",
+  },
 }));
-
 
 function getProfs(schedules) {
   return Array.from(new Set(schedules.map((s) => s.instructors).flat()));
@@ -57,10 +56,10 @@ function getProfs(schedules) {
 
 function App() {
   const classes = useStyles();
-  const [backdropContent, setBackdropContent] = useState((<div></div>));
+  const [backdropContent, setBackdropContent] = useState(<div></div>);
   const [courses, setCourses] = useState(["CIS-1051", "CIS-1001", "MATH-1041"]);
   const [campuses, setCampuses] = useState(["MN"]);
-  const [school, setSchool] = useState('temple');
+  const [school, setSchool] = useState("temple");
   const [term, setTerm] = useState(202036);
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
@@ -81,28 +80,27 @@ function App() {
 
   useEffect(() => {
     // set listener for auth events
-    Hub.listen('auth', (data) => {
-      const { payload } = data
-      if (payload.event === 'signIn') {
-        setSignedIn(true)
+    Hub.listen("auth", (data) => {
+      const { payload } = data;
+      if (payload.event === "signIn") {
+        setSignedIn(true);
         Auth.currentAuthenticatedUser()
-          .then(user => setUser(user))
-          .catch(err => console.log(err));
+          .then((user) => setUser(user))
+          .catch((err) => console.log(err));
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
-      if (payload.event === 'signOut') {
-        setSignedIn(false)
+      if (payload.event === "signOut") {
+        setSignedIn(false);
         setUser(null);
         setSchedules([]);
       }
-    })
-    // we check for the current user unless there is a redirect to ?signedIn=true 
+    });
+    // we check for the current user unless there is a redirect to ?signedIn=true
+  }, []);
 
-  }, [])
-
-  const makeSchedules = async function() {
+  const makeSchedules = async function () {
     const queryParams = {
-      courses: courses.map(c =>c.courseName),
+      courses: courses.map((c) => c.courseName),
       campuses: campuses,
       school: school,
       term: term,
@@ -110,18 +108,18 @@ function App() {
     const query = createSchedules.replace("isOpen", "").replace("weeks", "");
     const result = await API.graphql(graphqlOperation(query, queryParams));
     return result.data.createSchedules;
-  }
+  };
 
   const loadSchedules = async function () {
-    setBackdropContent((<CircularProgress color='inherit' />));
+    setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
     try {
-      const query = getUserSchedules//.replace('scheduleId', '').replace('username', '');
+      const query = getUserSchedules; //.replace('scheduleId', '').replace('username', '');
       const result = await API.graphql(
-        graphqlOperation(query, { username: user.username})
+        graphqlOperation(query, { username: user.username })
       );
       console.log(result);
-      setSchedules(result.data.getUserSchedules.map(x => x.schedule));
+      setSchedules(result.data.getUserSchedules.map((x) => x.schedule));
       setTab(1);
       setBackdrop(false);
     } catch (error) {
@@ -200,7 +198,7 @@ function App() {
   }, [schedules]);
 
   const apiCall = () => {
-    setBackdropContent((<CircularProgress color='inherit' />));
+    setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
     makeSchedules().then((result) => {
       const data = result.map((schedule) => {
@@ -224,14 +222,19 @@ function App() {
     switch (tab) {
       case 0:
         return (
-          <Grid container direction='column' justify='center'>
-              <Grid container justify='center'>
-              <Labs term={term} school={school} courses={courses} setCourses={setCourses} />
-              </Grid>
-            <Grid container justify='center'>
-            <Button variant='contained' color="inherit" onClick={apiCall}>
-              Create Schedules
-            </Button>
+          <Grid container direction="column" justify="center">
+            <Grid container justify="center">
+              <Labs
+                term={term}
+                school={school}
+                courses={courses}
+                setCourses={setCourses}
+              />
+            </Grid>
+            <Grid container justify="center">
+              <Button variant="contained" color="inherit" onClick={apiCall}>
+                Create Schedules
+              </Button>
             </Grid>
           </Grid>
         );
@@ -268,15 +271,14 @@ function App() {
 
   return (
     <div>
-        <TopNav/>
-      <div className = {classes.main}> {renderView()} </div>
+      <TopNav />
+      <div className={classes.main}> {renderView()} </div>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
       </Backdrop>
       <BotNav value={tab} onChange={setTab} />
-      </div>
+    </div>
   );
 }
-
 
 export default App;
