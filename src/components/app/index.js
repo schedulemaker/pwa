@@ -58,7 +58,7 @@ function App() {
   const classes = useStyles();
   const [backdropContent, setBackdropContent] = useState(<div></div>);
   const [courses, setCourses] = useState([]);
-  const [campuses, setCampuses] = useState(["MN"]);
+  const [campuses, setCampuses] = useState(["MN", "AMB", "CC"]);
   const [school, setSchool] = useState("temple");
   const [term, setTerm] = useState(202036);
   const [open, setOpen] = useState(false);
