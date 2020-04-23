@@ -224,11 +224,19 @@ function App() {
     switch (tab) {
       case 0:
         return (
-          <div>
-            { <Labs></Labs> }
-            <Button color="inherit" onClick={apiCall}>
-              API Call
-            </Button>
+          <div style = {{ padding: 20 }}>
+            <Grid container justify="center">
+            <Labs>
+            </Labs> 
+            </Grid>
+            <div style = {{ padding: 20 }}/>
+            <Grid container justify="center">
+            <Button onClick={apiCall}  
+                    variant="contained"
+                    color="primary"            
+              >API Call
+              </Button>
+              </Grid>
           </div>
         );
       case 1:
