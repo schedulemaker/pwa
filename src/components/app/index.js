@@ -44,12 +44,12 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  main: {
+    overflow: 'auto',
+  marginBottom: '10%'
+  }
 }));
 
-const containerStyles = {
-  overflow: "auto",
-  textAlign: "center",
-};
 
 function getProfs(schedules) {
   return Array.from(new Set(schedules.map((s) => s.instructors).flat()));
@@ -93,6 +93,7 @@ function App() {
       if (payload.event === 'signOut') {
         setSignedIn(false)
         setUser(null);
+        setSchedules([]);
       }
     })
     // we check for the current user unless there is a redirect to ?signedIn=true 
@@ -228,9 +229,6 @@ function App() {
             <Button color="inherit" onClick={apiCall}>
               API Call
             </Button>
-            <Button color="inherit" onClick={loadSchedules}>
-              Load Schedules
-            </Button>
           </div>
         );
       case 1:
@@ -265,18 +263,18 @@ function App() {
   }
 
   return (
-    <div>
-      <Grid container direction="column">
-        <TopNav></TopNav>
+    <Grid container>
+       <Grid container item direction="column">
+        <TopNav loadSchedules={loadSchedules} />
       </Grid>
-
-
-      <div style={containerStyles}>{renderView()}</div>
+      <Grid container className={classes.main} justify='center'>
+        {renderView()}
+      </Grid>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
       </Backdrop>
       <BotNav value={tab} onChange={setTab} />
-    </div>
+    </Grid>
   );
 }
 

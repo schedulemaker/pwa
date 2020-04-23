@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
 export default function BotNav(props) {
   const classes = useStyles();
   return (
-    <Grid container justify="center" className={classes.bnav}>
+    <Grid container direction='column' alignItems='stretch' justify="center" className={classes.bnav}>
       <BottomNavigation
         value={props.value}
         onChange={(e, tab) => props.onChange(tab)}

@@ -36,10 +36,11 @@ async function confirmSignUp(email, confirmationCode, updateFormType) {
   }
 }
 
-async function signIn(email, password) {
+async function signIn(email, password, updateFormType) {
     try {
       await Auth.signIn(email, password)
       console.log('sign in success!')
+      updateFormType('base');
     } catch (err) {
       console.log('error signing up..', err)
     }
@@ -97,7 +98,7 @@ export default function Form() {
               variant="contained"
               color="primary"
               //disabled={!validateForm()}
-              onClick={() => signIn(emailRef.current.value, passwordRef.current.value)}
+              onClick={() => signIn(emailRef.current.value, passwordRef.current.value, updateFormType)}
             >
               Sign In
             </Button>
