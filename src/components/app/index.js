@@ -23,7 +23,7 @@ import BotNav from "../bottom-nav";
 import ScheduleView from "../schedule-view";
 import Filters from "../filters";
 import Form from "../form";
-// import Labs from '../labs';
+import Labs from '../labs';
 import { createSchedules } from "../../graphql/mutations";
 import { getUserSchedules } from "../../graphql/queries";
 import TopNav from "../topnav";
@@ -44,12 +44,12 @@ const useStyles = makeStyles((theme) => ({
     zIndex: theme.zIndex.drawer + 1,
     color: '#fff',
   },
+  main: {
+    overflow: 'auto',
+  marginBottom: '10%'
+  }
 }));
 
-const containerStyles = {
-  overflow: "auto",
-  textAlign: "center",
-};
 
 function getProfs(schedules) {
   return Array.from(new Set(schedules.map((s) => s.instructors).flat()));
@@ -93,6 +93,7 @@ function App() {
       if (payload.event === 'signOut') {
         setSignedIn(false)
         setUser(null);
+        setSchedules([]);
       }
     })
     // we check for the current user unless there is a redirect to ?signedIn=true 
@@ -224,12 +225,9 @@ function App() {
       case 0:
         return (
           <div>
-            {/* <Labs></Labs> */}
+            { <Labs></Labs> }
             <Button color="inherit" onClick={apiCall}>
               API Call
-            </Button>
-            <Button color="inherit" onClick={loadSchedules}>
-              Load Schedules
             </Button>
           </div>
         );
@@ -272,7 +270,7 @@ function App() {
         {backdropContent}
       </Backdrop>
       <BotNav value={tab} onChange={setTab} />
-    </div>
+      </div>
   );
 }
 

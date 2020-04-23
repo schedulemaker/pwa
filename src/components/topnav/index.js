@@ -56,8 +56,8 @@ export default function TopNav(props) {
     Hub.listen("auth", (data) => {
       const { payload } = data;
       if (payload.event === "signIn") {
-        setSignedIn(true);
         setBackdrop(false);
+        setSignedIn(true);
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
       if (payload.event === "signOut") {
@@ -69,6 +69,11 @@ export default function TopNav(props) {
 
   const handleBackdrop = function(){
     setBackdrop(false);
+  }
+
+  const loadSchedules = function(){
+    setOpen(!open);
+    props.loadSchedules();
   }
 
   return (
@@ -89,7 +94,7 @@ export default function TopNav(props) {
             disableSwipeToOpen={false}
             PaperProps={{ style: { minWidth: "50vw" } }}
           >
-            {signedIn && (
+            {signedIn ? (
               <Button
                 onClick={() => {
                   setOpen(!open);
@@ -98,8 +103,7 @@ export default function TopNav(props) {
               >
                 Sign Out
               </Button>
-            )}
-            {!signedIn && (
+            ) : (
               <Button
                 onClick={() => {
                   setOpen(!open);
@@ -109,8 +113,11 @@ export default function TopNav(props) {
                 Sign In
               </Button>
             )}
-            <Button>Load Schedule</Button>
-            <Button>Save Schedule</Button>
+            {signedIn && (
+              <Button onClick={loadSchedules}>Load Schedules</Button>
+            )}
+            
+            {/* <Button>Save Schedule</Button> */}
           </SwipeableDrawer>
         </Typography>
       </Toolbar>

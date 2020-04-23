@@ -12,7 +12,7 @@ export default function Filters(props) {
       {props.count > 0 ? (
         <Grid container justify="center" alignItems="center">
           <Alert severity="success">
-            <AlertTitle>{props.count} schedule{props.count > 1 && ('s')} found</AlertTitle>
+            <AlertTitle>{props.count} schedule{props.count !== 1 && ('s')} found</AlertTitle>
             Use the options below to customize your schedule
           </Alert>
           <Grid container item justify="space-evenly">
@@ -40,12 +40,13 @@ export default function Filters(props) {
             />
           </Grid>
         </Grid>
-      ) : (
-        <Alert severity="error">
+      {/* ) : (
+        
+      )} */}
+      {/* <Alert severity="error">
           <AlertTitle>No schedules found</AlertTitle>
           Try changing some of the options below
-        </Alert>
-      )}
+        </Alert> */}
     </Grid>
   );
 }
