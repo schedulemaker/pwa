@@ -49,12 +49,7 @@ async function makeSchedules(school, term, courses, campuses) {
   return result.data.createSchedules;
 }
 
-<<<<<<< HEAD
 const containerStyles = {
-=======
-const containerStyles = {  
-  // height: "calc(100vh - 112px)",
->>>>>>> 091d16abea1c80aad31e09db8e19833e5efbe0ed
   overflow: "auto",
   textAlign: "center",
 };
@@ -282,10 +277,10 @@ function App() {
         <TopNav updateFormState={updateFormState}></TopNav>
       </Grid>
 
-
+{/* 
       {!userState.user && !userState.loading && (
         <Buttons updateFormState={updateFormState} />
-      )}
+      )} */}
 
       {/* {userState.user && userState.user.signInUserSession && (
         

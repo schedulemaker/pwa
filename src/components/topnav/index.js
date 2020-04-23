@@ -1,16 +1,9 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { AppBar, Toolbar, Avatar, IconButton, SwipeableDrawer, Typography, Button } from "@material-ui/core"
 import { Menu } from "@material-ui/icons";
 import { Hub, Auth } from "aws-amplify";
 import { signOut } from "../app";
 
-=======
-import React, {useState, useEffect} from "react";
-import {AppBar, Toolbar, Avatar, IconButton, SwipeableDrawer, Typography, Button} from "@material-ui/core"
-import {Menu} from "@material-ui/icons";
-import {Auth, Hub} from "aws-amplify"; 
->>>>>>> 091d16abea1c80aad31e09db8e19833e5efbe0ed
 
 async function checkUser(dispatch) {
   try {
@@ -22,7 +15,6 @@ async function checkUser(dispatch) {
     dispatch({ type: 'loaded' })
   }
 }
-<<<<<<< HEAD
 
 
 
@@ -31,12 +23,6 @@ async function checkUser(dispatch) {
 export default function TopNav(props) {
   const [signedIn, setSignedIn] = useState(false)
   const [open, setOpen] = useState(false)
-=======
-
-
-export default function TopNav(props){
-  const [signedIn, setSignedIn] = useState(false)
->>>>>>> 091d16abea1c80aad31e09db8e19833e5efbe0ed
   useEffect(() => {
     // set listener for auth events
     Hub.listen('auth', (data) => {
@@ -53,7 +39,6 @@ export default function TopNav(props){
 
   }, [])
 
-<<<<<<< HEAD
 
   return (
 
@@ -104,21 +89,3 @@ export default function TopNav(props){
 
 
 
-=======
-  return(
-<AppBar position="static">
-<Toolbar>
-  <IconButton color="inherit">
-    <Menu />
-  </IconButton>
-  <Typography variant="h6">
- <Button color="inherit" onClick={() => props.updateFormState('base')}>
-   ScheduleMaker
-  </Button>
-  
-  </Typography>
-  </Toolbar>
-      </AppBar>
-      )
-  }
->>>>>>> 091d16abea1c80aad31e09db8e19833e5efbe0ed
