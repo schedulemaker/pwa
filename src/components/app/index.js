@@ -49,7 +49,7 @@ async function makeSchedules(school, term, courses, campuses) {
   return result.data.createSchedules;
 }
 
-const containerStyles = {
+const containerStyles = {  
   // height: "calc(100vh - 112px)",
   overflow: "auto",
   textAlign: "center",

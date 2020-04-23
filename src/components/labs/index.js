@@ -16,66 +16,45 @@ import {
 } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 import * as queries from '../../graphql/queries';
-import * as mutations from '../../graphql/mutations';
 Amplify.configure(awsconfig);
 
+export default function FixedTags() {
 
-export async function fetchCourses(courseName, title) {
-  const queryParams = {
-    courseName: courseName,
-    title: title,
-  };
-  const result = await API.graphql(
-    graphqlOperation(getCourseList, queryParams)
-  );
-  return result.data.title;
-}
+  const [courses, setCourses] = useState([]);
+  const result =  API.graphql(graphqlOperation(queries.getCourseList));
 
-const useStyles = makeStyles(function (theme) {
-  return {
-    root: {
-      width: 300,
-      "& > * + *": {
-        marginTop: theme.spacing(3),
-      },
-    },
-  };
-});
+  result.then(function(res){
+    console.log(res.data["getCourseList"]);
+    var set = new Set();
+    var unique = [];
+    var tempCourses = res.data["getCourseList"];
 
-export default function CourseSearch(props) {
-  const classes = useStyles(), [data, setData] = useState([]), handleInputChange = function (event, value) {
-    value.length !== 0 ? props.changeFilters('courses', value.map(v => Number.parseInt(v.code))) : props.changeFilters('courses', null);
-  };
-
-  useEffect(() => {
-    fetchCourses(props.courseName, props.title).then((data) => {
-      setData(data);
-    });
-  }, [props.courseName, props.title]);
+    tempCourses.forEach(course => {
+          if(!set.has(course.title)){
+            set.add(course.title);
+            unique.push(course);
+          }
+        }
+    );
+    setCourses(unique);
+  });
 
   return (
-    <div className={classes.root}>
-      {data.length === 0 ? (
-          <Skeleton animation="wave"/>
-      ) : (
-          <Autocomplete
-              onInputChange={handleInputChange}
-              multiple
-              limitTags={2}
-              // autoComplete
-              id="Search-courses"
-              options={data.filter(x => props.title.includes(Number.parseInt(x.code)))}
-              getOptionLabel={(option) => option.description}
-              filterSelectedOptions
-              renderInput={(params) => (
-                  <TextField
-                      {...params}
-                      variant="outlined"
-                      label="SEARCH"
-                      placeholder="Courses"
-                  />
-              )}/>
-      )}
-    </div>
+      <Autocomplete
+          multiple
+          id="fixed-tags-demo"
+          options={courses}
+          getOptionLabel={(option) => option.title}
+          renderTags={(value, getTagProps) =>
+              value.map((option, index) => (
+                  <Chip label={option.title} {...getTagProps({ index })} />
+              ))
+          }
+          style={{ width: 500 }}
+          renderInput={(params) => (
+              <TextField {...params} label="SEARCH" variant="outlined" placeholder="Courses" />
+          )}
+      />
   );
+
 }
