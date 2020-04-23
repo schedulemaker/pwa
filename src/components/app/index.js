@@ -50,10 +50,8 @@ async function makeSchedules(school, term, courses, campuses) {
 }
 
 const containerStyles = {
-<<<<<<< HEAD
-=======
+
   // height: "calc(100vh - 112px)",
->>>>>>> e9d2c87c3b1ffcc3e675d6769df807fd03b1cd65
   overflow: "auto",
   textAlign: "center",
 };

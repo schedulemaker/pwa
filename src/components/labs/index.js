@@ -54,7 +54,7 @@ export default function FixedTags() {
           getOptionLabel={(option) => option.title}
           renderTags={(value, getTagProps) =>
               value.map((option, index) => (
-                  <Chip label={option.title} {...getTagProps({ index })} disabled={index === 0} />
+                  <Chip label={option.title} {...getTagProps({ index })} />
               ))
           }
           style={{ width: 500 }}
