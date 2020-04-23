@@ -69,6 +69,7 @@ function App() {
   const [index, setIndex] = useState(0);
   const [signedIn, setSignedIn] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
+  const [user, setUser] = useState(null);
   const [filters, setFilters] = useState({
     start: 0,
     end: 2400,
@@ -89,10 +90,14 @@ function App() {
       const { payload } = data
       if (payload.event === 'signIn') {
         setSignedIn(true)
+        Auth.currentAuthenticatedUser()
+          .then(user => setUser(user))
+          .catch(err => console.log(err));
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
       if (payload.event === 'signOut') {
         setSignedIn(false)
+        setUser(null);
       }
     })
     // we check for the current user unless there is a redirect to ?signedIn=true 
@@ -112,11 +117,17 @@ function App() {
   }
 
   const loadSchedules = async function () {
+    setBackdropContent((<CircularProgress color='inherit' />));
+    setBackdrop(true);
     try {
+      const query = getUserSchedules//.replace('scheduleId', '').replace('username', '');
       const result = await API.graphql(
-        graphqlOperation(getUserSchedules, { username: "test" })
+        graphqlOperation(query, { username: user.username})
       );
       console.log(result);
+      setSchedules(result.data.getUserSchedules.map(x => x.schedule));
+      setTab(1);
+      setBackdrop(false);
     } catch (error) {
       console.log(error);
     }
@@ -236,7 +247,7 @@ function App() {
               .sort(sortDensity)}
             index={index}
             setIndex={setIndex}
-            auth={signedIn}
+            auth={user}
           />
         );
       case 2:

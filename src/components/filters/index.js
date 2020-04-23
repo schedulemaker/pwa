@@ -12,7 +12,7 @@ export default function Filters(props) {
       {props.count > 0 ? (
         <Grid container justify="center" alignItems="center" spacing={3}>
           <Alert severity="success">
-            <AlertTitle>{props.count} schedules found</AlertTitle>
+            <AlertTitle>{props.count} schedule{props.count > 1 && ('s')} found</AlertTitle>
             Use the options below to customize your schedule
           </Alert>
           <Grid container item justify="space-evenly">

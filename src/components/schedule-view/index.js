@@ -47,8 +47,8 @@ export default function ScheduleView(props) {
 
   const saveSchedule = async function () {
     const params = {
-      sections: props.data[props.index],
-      username: "test",
+      schedule: props.data[props.index],
+      username: props.auth.username,
     };
     try {
       await API.graphql(graphqlOperation(saveUserSchedule, params));

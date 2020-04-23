@@ -14,11 +14,15 @@ type BannerMetadata {
 }
 
 type UserSchedule {
+    username: ID
+    scheduleId: ID,
+    schedule: LoadUserSchedule 
+}
+
+type LoadUserSchedule {
     sections: [Section]
     commute: Boolean
     totalDistance: Float
-    username: ID
-    scheduleId: ID,
     times: [Int],
     density: Int,
     days: Days,

@@ -4,7 +4,8 @@
 export const getUserSchedules = /* GraphQL */ `
   query GetUserSchedules($username: String!) {
     getUserSchedules(username: $username) {
-      sections {
+      schedule {
+        sections {
         isOpen
         campus
         meetingTimes {
@@ -20,6 +21,10 @@ export const getUserSchedules = /* GraphQL */ `
           friday
           saturday
           sunday
+          instructors {
+            ID
+            Name
+          }
         }
         courseName
         crn
@@ -27,8 +32,6 @@ export const getUserSchedules = /* GraphQL */ `
       }
       commute
       totalDistance
-      username
-      scheduleId
       times
       density
       days {
@@ -41,6 +44,7 @@ export const getUserSchedules = /* GraphQL */ `
         sunday
       }
       instructors
+      }
     }
   }
 `;
