@@ -1,4 +1,4 @@
-import React, {useState, useReducer} from 'react';
+import React, {useState, createRef} from 'react';
 
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,26 +11,12 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import { Auth } from "aws-amplify";
-const initialFormState = {
-  email: '', password: '',confirmationCode: ''
-}
-
-function reducer(state, action) {
-  switch(action.type) {
-    case 'updateFormState':
-      return {
-        ...state, [action.e.target.name]: action.e.target.value
-      }
-    default:
-      return state
-  }
-}
 
 /*function validateForm() {
   return fields.email.length > 0 && fields.password.length > 0;
 }*/
 
-async function signUp({ email, password}, updateFormType) {
+async function signUp(email, password, updateFormType) {
   try {
     await Auth.signUp(email, password)
     console.log('sign up success!')
@@ -40,7 +26,7 @@ async function signUp({ email, password}, updateFormType) {
   }
 }
 
-async function confirmSignUp({email, confirmationCode }, updateFormType) {
+async function confirmSignUp(email, confirmationCode, updateFormType) {
   try {
     await Auth.confirmSignUp(email, confirmationCode)
     console.log('confirm sign up success!')
@@ -50,7 +36,7 @@ async function confirmSignUp({email, confirmationCode }, updateFormType) {
   }
 }
 
-async function signIn({ email, password }) {
+async function signIn(email, password) {
     try {
       await Auth.signIn(email, password)
       console.log('sign in success!')
@@ -60,222 +46,205 @@ async function signIn({ email, password }) {
   }
 
 export default function Form() {
-  const [formType, updateFormType] = useState('signIn')
-  const [formState, updateFormState] = useReducer(reducer, initialFormState)
+  const [formType, updateFormType] = useState('signIn');
+  const [email, setEmail] = useState('');
+  const emailRef = createRef();
+  const passwordRef = createRef();
+  const passwordConfirmRef = createRef();
+  const codeRef = createRef();
 
-  function renderForm() {
-    switch(formType) {
-      case 'signUp':
-        return (
-          <SignUp
-            signUp={() => signUp(formState, updateFormType)}
-            updateFormState={e => updateFormState({ type: 'updateFormState', e })}
-          />
-        )
-      case 'confirmSignUp':
-        return (
-          <ConfirmSignUp
-            confirmSignUp={() => confirmSignUp(formState, updateFormType)}
-            updateFormState={e => updateFormState({ type: 'updateFormState', e })}
-          />
-        )
-      case 'signIn':
-        return (
-          <SignIn
-            signIn={() => signIn(formState)}
-            updateFormState={e => updateFormState({ type: 'updateFormState', e })}
-          />
-        )
-      default:
-        return null
-    }
-  }
-
-  return (
-    <div>
-      <div>
-        {renderForm(formState)}
-      </div>
-      {
-        formType === 'signUp' && (
-          <p style={styles.footer}>
-            Already have an account? <span
-              style={styles.anchor}
-              onClick={() => updateFormType('signIn')}
-            >Sign In</span>
-          </p>
-        )
-      }
-      {
-        formType === 'signIn' && (
-          <p style={styles.footer}>
-            Need an account? <span
-              style={styles.anchor}
-              onClick={() => updateFormType('signUp')}
-            >Sign Up</span>
-          </p>
-        )
-      }
-    </div>
-  )
-}
-function SignUp(props) {
-  return (
-    <Grid container justify="center" alignItems="center">
-    <Grid item>
-  <Card>
-      
-      <CardContent>
-       <Typography component="h1" variant="h5">
-          Sign Up
-        </Typography>
-        <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={e => {e.persist();props.updateFormState(e)}}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={e => {e.persist();props.updateFormState(e)}}
-          />
-
-         <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            id="confirmPassword"
-            onChange={e => {e.persist();props.updateFormState(e)}}
-          />
-          </CardContent>
-          <CardActions>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={props.signUp}
-            //disabled={!validateForm()}
-            >
-            Sign Up
-          </Button>
-          </CardActions>
-    </Card>
-    </Grid>
-    </Grid>
-  )
-} 
-
-function ConfirmSignUp(props){
-  return (
-    <Grid container justify="center" alignItems="center">
-     <Grid item>
-  <Card>
-    <CardContent>
+  const SignIn = function() {
+    return (
+      <Grid container justify="center" alignItems="center">
+       <Grid item>
+    <Card>
+        
+        <CardContent>
           <Typography component="h1" variant="h5">
-            Enter Confirmation Code
+            Login
           </Typography>
             <TextField
               variant="outlined"
               margin="normal"
               required
               fullWidth
-              id="confirmationCode"
-              type="tel"
-              label="Confirmation Code"
-              name="confirmationCode"
-              autoComplete="confirmationCode"
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              // key="loginemail"
               autoFocus
-              onChange={e => {e.persist();props.updateFormState(e)}}
-            /> 
+              inputRef={emailRef}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              // key="loginpassword"
+              // autoFocus
+              autoComplete="current-password"
+              inputRef={passwordRef}
+            />
+             </CardContent>
+            <CardActions>
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              //disabled={!validateForm()}
+              onClick={() => signIn(emailRef.current.value, passwordRef.current.value)}
+            >
+              Sign In
+            </Button>
+            </CardActions>
+            <p style={styles.footer}>
+            Need an account? <span
+              style={styles.anchor}
+              onClick={() => updateFormType('signUp')}
+            >Sign Up</span>
+          </p>
+            </Card>
+      </Grid>
+      </Grid> 
+    )
+  }
+
+  const SignUp = function() {
+    return (
+      <Grid container justify="center" alignItems="center">
+      <Grid item>
+    <Card>
+        
+        <CardContent>
+         <Typography component="h1" variant="h5">
+            Sign Up
+          </Typography>
+          <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              key="signupemail"
+              // autoFocus
+              // onChange={e => {e.persist();}}
+              inputRef={emailRef}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="password"
+              label="Password"
+              type="password"
+              id="password"
+              key="signuppassword"
+              autoComplete="current-password"
+              inputRef={passwordRef}
+              // autoFocus
+              // onChange={e => {e.persist();}}
+            />
+  
+           <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="confirmPassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmPassword"
+              key="confirmpassword"
+              inputRef={passwordConfirmRef}
+              // onChange={e => {e.persist();}}
+            />
             </CardContent>
             <CardActions>
             <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={props.confirmSignUp}
-            //disabled={!validateForm()}
-          >
-            Verify
-          </Button>
-         </CardActions>
-         </Card>
-    </Grid>
-    </Grid>
-  )
-}
+              type="submit"
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                setEmail(emailRef.current.value);
+                signUp(emailRef.current.value, passwordRef.current.value, updateFormType);
+              }}
+              //disabled={!validateForm()}
+              >
+              Sign Up
+            </Button>
+            </CardActions>
+            <p style={styles.footer}>
+            Already have an account? <span
+              style={styles.anchor}
+              onClick={() => updateFormType('signIn')}
+            >Sign In</span>
+          </p>
+      </Card>
+      </Grid>
+      </Grid>
+    )
+  } 
   
- function SignIn(props) {
-  return (
-    <Grid container justify="center" alignItems="center">
-     <Grid item>
-  <Card>
-      
+  const ConfirmSignUp = function(){
+    return (
+      <Grid container justify="center" alignItems="center">
+       <Grid item>
+    <Card>
       <CardContent>
-        <Typography component="h1" variant="h5">
-          Login
-        </Typography>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={e => {e.persist();props.updateFormState(e)}}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={e => {e.persist();props.updateFormState(e)}}
-          />
-           </CardContent>
-          <CardActions>
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            //disabled={!validateForm()}
-            onClick={props.signIn}
-          >
-            Sign In
-          </Button>
-          </CardActions>
-          </Card>
-    </Grid>
-    </Grid> 
+            <Typography component="h1" variant="h5">
+              Enter Confirmation Code
+            </Typography>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="confirmationCode"
+                type="tel"
+                label="Confirmation Code"
+                name="confirmationCode"
+                autoComplete="confirmationCode"
+                autoFocus
+                key="code"
+                // onChange={e => {e.persist();}}
+                inputRef={codeRef}
+              /> 
+              </CardContent>
+              <CardActions>
+              <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              onClick={() => confirmSignUp(email, codeRef.current.value, updateFormType)}
+              //disabled={!validateForm()}
+            >
+              Verify
+            </Button>
+           </CardActions>
+           </Card>
+      </Grid>
+      </Grid>
+    )
+  }
+
+  return (
+    <div>
+        {formType === 'signUp' && (<SignUp key="signupForm"/>)}
+        {formType === 'signIn' && (<SignIn key="signinForm"/>)}
+        {formType === 'confirmSignUp' && (<ConfirmSignUp key="confirmForm"/>)}
+    </div>
   )
 }
-
 
 const styles = {
     container: {

@@ -62,7 +62,6 @@ function App() {
   const [campuses, setCampuses] = useState(["MN"]);
   const [school, setSchool] = useState('temple');
   const [term, setTerm] = useState(202036);
-  const [formState, updateFormState] = useState("base");
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
@@ -79,10 +78,6 @@ function App() {
     distance: "Default",
     density: "Default",
   });
-
-  const handleBackdrop = function(){
-
-  }
 
   useEffect(() => {
     // set listener for auth events
@@ -265,44 +260,14 @@ function App() {
           />
         );
       default:
-        return new Error("this view doesnot exist");
+        return new Error("this view does not exist");
     }
-  }
-
-  useEffect(() => {
-    // set listener for auth events
-    Hub.listen("auth", (data) => {
-      const { payload } = data;
-      if (payload.event === "signIn") {
-        updateFormState("base");
-      }
-      // this listener is needed for form sign ups since the OAuth will redirect & reload
-      if (payload.event === "signOut") {
-      }
-    });
-  }, []);
-
-  if (formState === "email") {
-    return (
-      <div>
-        <Grid container direction="column">
-          <TopNav updateFormState={updateFormState} />
-          <div style={containerStyles}>
-            <Form />
-          </div>
-          <BotNav
-            value={tab}
-            onChange={setTab}
-          />
-        </Grid>
-      </div>
-    );
   }
 
   return (
     <div>
       <Grid container direction="column">
-        <TopNav updateFormState={updateFormState}></TopNav>
+        <TopNav></TopNav>
       </Grid>
 
 
@@ -315,13 +280,5 @@ function App() {
   );
 }
 
-
-export function signOut() {
-  Auth.signOut()
-    .then((data) => {
-      console.log("signed out: ", data);
-    })
-    .catch((err) => console.log(err));
-}
 
 export default App;
