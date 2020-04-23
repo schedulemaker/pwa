@@ -18,13 +18,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import * as queries from '../../graphql/queries';
 Amplify.configure(awsconfig);
 
- var Array2 = [];
-
-function saveCourses(courses) {
-    Array2 = courses;
-
-  }
-
 export default function FixedTags() {
 
   const [courses, setCourses] = useState([]);
