@@ -49,7 +49,12 @@ async function makeSchedules(school, term, courses, campuses) {
   return result.data.createSchedules;
 }
 
+<<<<<<< HEAD
 const containerStyles = {
+=======
+const containerStyles = {  
+  // height: "calc(100vh - 112px)",
+>>>>>>> 091d16abea1c80aad31e09db8e19833e5efbe0ed
   overflow: "auto",
   textAlign: "center",
 };
@@ -62,15 +67,14 @@ const school = "temple",
   term = 202036;
 const courses = ["CIS-1051", "CIS-1001", "MATH-1041"];
 const campuses = ["MN"];
-const initialUserState = { user: null, loading: true };
 
 function App() {
-  const [userState, dispatch] = useReducer(reducer, initialUserState);
   const [formState, updateFormState] = useState("base");
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [index, setIndex] = useState(0);
+  const [signedIn, setSignedIn] = useState(false);
   const [filters, setFilters] = useState({
     start: 0,
     end: 2400,
@@ -80,6 +84,22 @@ function App() {
     distance: "Default",
     density: "Default",
   });
+
+  useEffect(() => {
+    // set listener for auth events
+    Hub.listen('auth', (data) => {
+      const { payload } = data
+      if (payload.event === 'signIn') {
+        setSignedIn(true)
+      }
+      // this listener is needed for form sign ups since the OAuth will redirect & reload
+      if (payload.event === 'signOut') {
+        setSignedIn(false)
+      }
+    })
+    // we check for the current user unless there is a redirect to ?signedIn=true 
+
+  }, [])
 
   const loadSchedules = async function () {
     try {
@@ -203,6 +223,7 @@ function App() {
               .sort(sortDensity)}
             index={index}
             setIndex={setIndex}
+            auth={signedIn}
           />
         );
       case 2:
@@ -229,21 +250,12 @@ function App() {
     Hub.listen("auth", (data) => {
       const { payload } = data;
       if (payload.event === "signIn") {
-        setImmediate(() => dispatch({ type: "setUser", user: payload.data }));
-        setImmediate(() =>
-          window.history.pushState({}, null, "http://localhost:3000/")
-        );
         updateFormState("base");
       }
       // this listener is needed for form sign ups since the OAuth will redirect & reload
       if (payload.event === "signOut") {
-        setTimeout(() => dispatch({ type: "setUser", user: null }), 350);
       }
     });
-    // we check for the current user unless there is a redirect to ?signedIn=true
-    if (!window.location.search.includes("?signedin=true")) {
-      checkUser(dispatch);
-    }
   }, []);
 
   if (formState === "email") {
@@ -270,7 +282,6 @@ function App() {
         <TopNav updateFormState={updateFormState}></TopNav>
       </Grid>
 
-      {userState.loading && <p>Loading</p>}
 
       {!userState.user && !userState.loading && (
         <Buttons updateFormState={updateFormState} />
@@ -289,27 +300,6 @@ function App() {
   );
 }
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "setUser":
-      return { ...state, user: action.user, loading: false };
-    case "loaded":
-      return { ...state, loading: false };
-    default:
-      return state;
-  }
-}
-
-async function checkUser(dispatch) {
-  try {
-    const user = await Auth.currentAuthenticatedUser();
-    console.log("user: ", user);
-    dispatch({ type: "setUser", user });
-  } catch (err) {
-    console.log("err: ", err);
-    dispatch({ type: "loaded" });
-  }
-}
 
 export function signOut() {
   Auth.signOut()

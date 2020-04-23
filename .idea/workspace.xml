@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="95f76338-3c4f-416c-9021-fa1dccaa8097" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/app/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/app/index.js" afterDir="false" />
+    <list default="true" id="95f76338-3c4f-416c-9021-fa1dccaa8097" name="Default Changelist" comment="Search Integration working">
       <change beforePath="$PROJECT_DIR$/src/components/labs/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/labs/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +25,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="js.last.introduce.type" value="CONST" />
+    <property name="js.last.introduce.type" value="VAR" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -49,7 +47,7 @@
       <workItem from="1587357717119" duration="1176000" />
       <workItem from="1587505450044" duration="2593000" />
       <workItem from="1587509699917" duration="12000" />
-      <workItem from="1587511046318" duration="2276000" />
+      <workItem from="1587511046318" duration="25957000" />
     </task>
     <servers />
   </component>
@@ -57,6 +55,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="821" y="205" key="CommitChangelistDialog2" timestamp="1587599230168">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="821" y="205" key="CommitChangelistDialog2/0.23.1920.1177@0.23.1920.1177" timestamp="1587599230168" />
     <state x="1085" y="452" key="Github.ShareDialog" timestamp="1587506586888">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
@@ -65,6 +67,10 @@
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state x="808" y="301" key="IDE.errors.dialog/0.23.1920.1177@0.23.1920.1177" timestamp="1587506548683" />
+    <state x="1119" y="329" key="RollbackChangesDialog" timestamp="1587596789683">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="1119" y="329" key="RollbackChangesDialog/0.23.1920.1177@0.23.1920.1177" timestamp="1587596789683" />
     <state x="708" y="133" key="SettingsEditor" timestamp="1587506199715">
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
@@ -77,5 +83,9 @@
       <screen x="0" y="23" width="1920" height="1177" />
     </state>
     <state x="885" y="256" key="run.anything.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1587357729905" />
+    <state x="1185" y="335" width="670" height="676" key="search.everywhere.popup" timestamp="1587598578876">
+      <screen x="0" y="23" width="1920" height="1177" />
+    </state>
+    <state x="1185" y="335" width="670" height="676" key="search.everywhere.popup/0.23.1920.1177@0.23.1920.1177" timestamp="1587598578876" />
   </component>
 </project>
