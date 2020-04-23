@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {AppBar, Toolbar, Avatar, IconButton, SwipeableDrawer, Typography, Button} from "@material-ui/core"
-import {Menu} from "@material-ui/icons";
-import {Auth, Hub} from "aws-amplify"; 
+import React, { useState, useEffect } from "react";
+import { AppBar, Toolbar, Avatar, IconButton, SwipeableDrawer, Typography, Button } from "@material-ui/core"
+import { Menu } from "@material-ui/icons";
+import { Hub, Auth } from "aws-amplify";
+import { signOut } from "../app";
+
 
 async function checkUser(dispatch) {
   try {
@@ -15,8 +17,12 @@ async function checkUser(dispatch) {
 }
 
 
-export default function TopNav(props){
+
+
+
+export default function TopNav(props) {
   const [signedIn, setSignedIn] = useState(false)
+  const [open, setOpen] = useState(false)
   useEffect(() => {
     // set listener for auth events
     Hub.listen('auth', (data) => {
@@ -33,19 +39,53 @@ export default function TopNav(props){
 
   }, [])
 
-  return(
-<AppBar position="static">
-<Toolbar>
-  <IconButton color="inherit">
-    <Menu />
-  </IconButton>
-  <Typography variant="h6">
- <Button color="inherit" onClick={() => props.updateFormState('base')}>
-   ScheduleMaker
+
+  return (
+
+    <AppBar position="static">
+      <Toolbar>
+        <IconButton color="inherit" onClick={() => setOpen(!open)}>
+          <Menu />
+        </IconButton>
+        <Typography variant="h6">
+          <Button color="inherit" onClick={() => props.updateFormState('base')}>
+            ScheduleMaker
   </Button>
-  
-  </Typography>
-  </Toolbar>
-      </AppBar>
-      )
-  }
+          <SwipeableDrawer
+            open={open}
+            onClose={() => setOpen(false)}
+            onOpen={() => setOpen(true)}
+            disableSwipeToOpen={false}
+            PaperProps={{ style: { minWidth: "50vw" } }}>           
+            {signedIn && (
+            <Button onClick={() =>  {
+              props.updateFormState('base') 
+               setOpen(!open)
+         }}>
+              Sign Out
+              </Button>
+            )
+        }
+            {!signedIn && (
+            <Button onClick={() =>  {
+                 props.updateFormState('email') 
+                  setOpen(!open)
+            }}>
+              Sign In
+              </Button>
+            )
+        }
+             <Button >Load Schedule</Button>
+             <Button >Save Schedule</Button> 
+          </SwipeableDrawer>
+
+        
+
+        </Typography>
+      </Toolbar>
+    </AppBar>
+  )
+}
+
+
+

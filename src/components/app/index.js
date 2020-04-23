@@ -46,8 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const containerStyles = {  
-  // height: "calc(100vh - 112px)",
+const containerStyles = {
   overflow: "auto",
   textAlign: "center",
 };
@@ -296,22 +295,6 @@ function App() {
       </Grid>
 
 
-      <SwipeableDrawer
-          open={open}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          disableSwipeToOpen={false}
-          PaperProps={{ style: { minWidth: "50vw" } }}
-          swipeAreaWidth={50}
-        >
-          <span>
-            Welcome 
-          </span>
-          <Button onClick={signOut}>Sign Out</Button>
-          <Button onClick={loadSchedules}>Load Schedule</Button>
-          <Button onClick={apiCall}>Save Schedule</Button>
-        </SwipeableDrawer>
-
       <div style={containerStyles}>{renderView()}</div>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
@@ -322,7 +305,7 @@ function App() {
 }
 
 
-function signOut() {
+export function signOut() {
   Auth.signOut()
     .then((data) => {
       console.log("signed out: ", data);
