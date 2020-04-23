@@ -50,10 +50,6 @@ async function makeSchedules(school, term, courses, campuses) {
 }
 
 const containerStyles = {
-<<<<<<< HEAD
-=======
-  // height: "calc(100vh - 112px)",
->>>>>>> e9d2c87c3b1ffcc3e675d6769df807fd03b1cd65
   overflow: "auto",
   textAlign: "center",
 };
@@ -280,22 +276,11 @@ function App() {
         <Buttons updateFormState={updateFormState} />
       )}
 
-      {userState.user && userState.user.signInUserSession && (
-        <SwipeableDrawer
-          open={open}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          disableSwipeToOpen={false}
-          PaperProps={{ style: { minWidth: "50vw" } }}
-        >
-          <span>
-            Welcome {userState.user.signInUserSession.idToken.payload.email}
-          </span>
-          <Button onClick={signOut}>Sign Out</Button>
-          <Button onClick={loadSchedules}>Load Schedule</Button>
-          <Button onClick={apiCall}>Save Schedule</Button>
-        </SwipeableDrawer>
-      )}
+      {/* {userState.user && userState.user.signInUserSession && (
+        
+
+          
+      )} */}
 
       <div style={containerStyles}>{renderView()}</div>
 
@@ -326,7 +311,7 @@ async function checkUser(dispatch) {
   }
 }
 
-function signOut() {
+export function signOut() {
   Auth.signOut()
     .then((data) => {
       console.log("signed out: ", data);
