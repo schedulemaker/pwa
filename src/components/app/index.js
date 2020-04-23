@@ -265,7 +265,7 @@ function App() {
   return (
     <div>
         <TopNav/>
-      <div style={containerStyles}>{renderView()}</div>
+      <div className = {classes.main}> {renderView()} </div>
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
       </Backdrop>

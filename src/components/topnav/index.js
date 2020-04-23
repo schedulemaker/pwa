@@ -96,6 +96,8 @@ export default function TopNav(props) {
           >
             {signedIn ? (
               <Button
+              
+              color="primary"
                 onClick={() => {
                   setOpen(!open);
                   signOut();
@@ -105,6 +107,8 @@ export default function TopNav(props) {
               </Button>
             ) : (
               <Button
+              
+              color="primary"
                 onClick={() => {
                   setOpen(!open);
                   setBackdrop(true);
@@ -114,7 +118,9 @@ export default function TopNav(props) {
               </Button>
             )}
             {signedIn && (
-              <Button onClick={loadSchedules}>Load Schedules</Button>
+              <Button 
+              color="primary"
+              onClick={loadSchedules}>Load Schedules</Button>
             )}
             
             {/* <Button>Save Schedule</Button> */}
