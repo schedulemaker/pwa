@@ -16,8 +16,8 @@ export function getTimeBoundries(schedule){
         });
     }).flat();
     return [
-        Math.floor(Math.min(...(times.map(t => t[0])))),
-        Math.ceil(Math.max(...(times.map(t => t[1]))))
+        Math.floor(Math.min(...(times.map(t => t[0]).filter(t => t > 0 && t < 2400)))),
+        Math.ceil(Math.max(...(times.map(t => t[1]).filter(t => t > 0 && t < 2400))))
     ]
 };
 
