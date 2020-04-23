@@ -197,6 +197,10 @@ function App() {
     });
   }, [schedules]);
 
+  useEffect(() => {
+    setIndex(0);
+  }, [filters]);
+
   const apiCall = () => {
     setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
@@ -212,7 +216,6 @@ function App() {
       });
       setSchedules(data);
       console.log("Success");
-      console.log(data);
       setBackdrop(false);
       setTab(1);
     });
@@ -222,21 +225,19 @@ function App() {
     switch (tab) {
       case 0:
         return (
-          <Grid container direction="column" justify="center">
+          <div style = {{ padding: 20 }}>
             <Grid container justify="center">
-              <Labs
-                term={term}
-                school={school}
-                courses={courses}
-                setCourses={setCourses}
-              />
+            <Labs courses={courses} setCourses={setCourses} school={school} term={term}/>
             </Grid>
+            <div style = {{ padding: 20 }}/>
             <Grid container justify="center">
-              <Button variant="contained" color="inherit" onClick={apiCall}>
-                Create Schedules
+            <Button onClick={apiCall}  
+                    variant="contained"
+                    color="primary"            
+              >Create Schedules
               </Button>
-            </Grid>
-          </Grid>
+              </Grid>
+          </div>
         );
       case 1:
         return (
