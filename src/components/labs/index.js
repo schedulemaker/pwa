@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import awsconfig from "../../aws-exports";
 import { getCourseList } from "../../graphql/queries";
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import { Chip, TextField, Grid } from "@material-ui/core";
+import { Chip, TextField, Grid, List, ListItem, ListItemText } from "@material-ui/core";
 import { Autocomplete, Skeleton } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 import * as queries from "../../graphql/queries";
@@ -51,7 +51,15 @@ export default function FixedTags(props) {
           multiple
           id="fixed-tags-demo"
           options={courses}
-          getOptionLabel={(option) => option.courseName}
+          limitTags={2}
+          getOptionLabel={(option) => `${option.courseName} ${option.title}`}
+          renderOption={(option) => (
+            <ListItemText 
+                  key={option.courseName}
+                  primary={option.courseName}
+                  secondary={option.title}
+                  />
+          )}
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
               <Chip label={option.courseName} {...getTagProps({ index })} />
@@ -61,6 +69,7 @@ export default function FixedTags(props) {
           style={{ width: 500 }}
           onChange={handleInputChange}
           value={current}
+          key="coursesearch"
           renderInput={(params) => (
             <TextField
               {...params}
