@@ -102,7 +102,7 @@ function App() {
 
   const makeSchedules = async function() {
     const queryParams = {
-      courses: courses,
+      courses: courses.map(c =>c.courseName),
       campuses: campuses,
       school: school,
       term: term,
@@ -224,12 +224,16 @@ function App() {
     switch (tab) {
       case 0:
         return (
-          <div>
-            { <Labs></Labs> }
-            <Button color="inherit" onClick={apiCall}>
-              API Call
+          <Grid container direction='column' justify='center'>
+              <Grid container justify='center'>
+              <Labs term={term} school={school} courses={courses} setCourses={setCourses} />
+              </Grid>
+            <Grid container justify='center'>
+            <Button variant='contained' color="inherit" onClick={apiCall}>
+              Create Schedules
             </Button>
-          </div>
+            </Grid>
+          </Grid>
         );
       case 1:
         return (
@@ -267,7 +271,7 @@ function App() {
        <Grid container item direction="column">
         <TopNav loadSchedules={loadSchedules} />
       </Grid>
-      <Grid container className={classes.main} justify='center'>
+      <Grid container justify='center' className={classes.main} >
         {renderView()}
       </Grid>
       <Backdrop className={classes.backdrop} open={backdrop}>
