@@ -24,7 +24,6 @@ export default function FixedTags() {
   const result =  API.graphql(graphqlOperation(queries.getCourseList));
 
   result.then(function(res){
-    console.log(res.data["getCourseList"]);
     var set = new Set();
     var unique = [];
     var tempCourses = res.data["getCourseList"];
