@@ -30,8 +30,8 @@ export default function FixedTags() {
     var tempCourses = res.data["getCourseList"];
 
     tempCourses.forEach(course => {
-          if(!set.has(course.title)){
-            set.add(course.title);
+          if(!set.has(course.courseName)){
+            set.add(course.courseName);
             unique.push(course);
           }
         }
@@ -44,10 +44,10 @@ export default function FixedTags() {
           multiple
           id="fixed-tags-demo"
           options={courses}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={(option) => option.courseName}
           renderTags={(value, getTagProps) =>
               value.map((option, index) => (
-                  <Chip label={option.title} {...getTagProps({ index })} />
+                  <Chip label={option.coureName} {...getTagProps({ index })} />
               ))
           }
           style={{ width: 500 }}
