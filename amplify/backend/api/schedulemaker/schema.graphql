@@ -127,12 +127,6 @@ input TimeBlock {
     endTime: Int! 
 }
 
-type Schedule {
-    sections: [Section],
-    commute: Boolean,
-    totalDistance: Float
-}
-
 type Course {
     courseName: String!
     title: String!
@@ -147,7 +141,7 @@ type Query {
 
 type Mutation {
     saveUserSchedule(username: String!, schedule: UserScheduleInput!): String
-    createSchedules(courses: [String]!, campuses: [String]!, school: String!, term: Int!): [Schedule]
+    createSchedules(courses: [String]!, campuses: [String]!, school: String!, term: Int!): [[Section]]
 }
 
 schema {

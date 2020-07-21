@@ -22,8 +22,7 @@ export function getTimeBoundries(schedule){
 };
 
 //finds the earliest start time and latest end time out of all the schedules to determine the start and end hours for the calendar
-export function getCalendarHours(schedules){
-    const times = schedules.map(getTimeBoundries);
+export function getCalendarHours(times){
     return [
         Math.floor(
             Math.min(
@@ -34,8 +33,7 @@ export function getCalendarHours(schedules){
     ]
 };
 
-export function getScheduleTimes(schedules){
-    const times = schedules.map(getTimeBoundries);
+export function getScheduleTimes(times){
     return [
         Math.floor(
             Math.min(

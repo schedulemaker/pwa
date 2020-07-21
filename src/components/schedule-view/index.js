@@ -90,7 +90,7 @@ export default function ScheduleView(props) {
         <Grid container justify="center">
           <Calendar
           data={props.data.length > 0 ? props.data[props.index].sections : []}
-          hours={getCalendarHours(props.data.map((i) => i.sections))}
+          hours={getCalendarHours(props.data.map((i) => i.times))}
           />
         <MobileStepper
         className={classes.stepper}

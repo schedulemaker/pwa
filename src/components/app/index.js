@@ -25,7 +25,7 @@ import Filters from "../filters";
 import Form from "../form";
 import Labs from "../labs";
 import { createSchedules } from "../../graphql/mutations";
-import { getUserSchedules } from "../../graphql/queries";
+import * as queries from "../../graphql/queries";
 import TopNav from "../topnav";
 import awsconfig from "../../aws-exports";
 import Buttons from "../buttons";
@@ -54,6 +54,21 @@ function getProfs(schedules) {
   return Array.from(new Set(schedules.map((s) => s.instructors).flat()));
 }
 
+async function fetchInstructors(school, term) {
+    const queryParams = {
+      school: school,
+      term: term,
+      method: "getInstructors",
+      params: {
+        term: term,
+      },
+    };
+    const result = await API.graphql(
+      graphqlOperation(queries.getBannerMetadata, queryParams)
+    );
+    return result.data.getBannerMetadata;
+  }
+
 function App() {
   const classes = useStyles();
   const [backdropContent, setBackdropContent] = useState(<div></div>);
@@ -68,6 +83,9 @@ function App() {
   const [signedIn, setSignedIn] = useState(false);
   const [backdrop, setBackdrop] = useState(false);
   const [user, setUser] = useState(null);
+  const [courseList, setCourseList] = useState([]);
+  const [instructors, setInstructors] = useState([]);
+  const [scheduleInstructors, setScheduleInstructors] = useState([]);
   const [filters, setFilters] = useState({
     start: 0,
     end: 2400,
@@ -114,11 +132,10 @@ function App() {
     setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
     try {
-      const query = getUserSchedules; //.replace('scheduleId', '').replace('username', '');
+      const query = queries.getUserSchedules; //.replace('scheduleId', '').replace('username', '');
       const result = await API.graphql(
         graphqlOperation(query, { username: user.username })
       );
-      console.log(result);
       setSchedules(result.data.getUserSchedules.map((x) => x.schedule));
       setTab(1);
       setBackdrop(false);
@@ -146,10 +163,6 @@ function App() {
     if (filters.instructors) {
       result =
         result && filters.instructors.every((i) => s.instructors.includes(i));
-    }
-
-    if (filters.commute) {
-      result = result && s.commute;
     }
 
     return result;
@@ -189,7 +202,7 @@ function App() {
   // }, [filters])
 
   useEffect(() => {
-    const [start, end] = getScheduleTimes(schedules.map((s) => s.sections));
+    const [start, end] = getScheduleTimes(schedules.map((s) => s.times));
     setFilters({
       ...filters,
       start: start,
@@ -201,17 +214,52 @@ function App() {
     setIndex(0);
   }, [filters]);
 
+  useEffect(() => {
+    setScheduleInstructors(getProfs(schedules));
+  }, [schedules]);
+
+  const getCourses = async function(school, term) {
+    const result = await API.graphql(graphqlOperation(queries.getCourseList));
+    var set = new Set();
+    var unique = [];
+    result.data.getCourseList.forEach((course) => {
+      if (!set.has(course.courseName)) {
+        set.add(course.courseName);
+        unique.push(course);
+      }
+    });
+    return unique;
+  }
+
+  useEffect(() => {
+    getCourses(school, term).then((data) => {
+        setCourseList(data);
+    });
+  }, [school, term]);
+
+  useEffect(() => {
+    fetchInstructors(school, term).then((data) => {
+      setInstructors(data.map(d => {
+        return {
+          code: Number.parseInt(d.code),
+          description: d.description
+        }
+      }));
+    });
+  }, [school, term]);
+
   const apiCall = () => {
     setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
     makeSchedules().then((result) => {
+        console.log(result)
       const data = result.map((schedule) => {
         return {
-          ...schedule,
-          times: getTimeBoundries(schedule.sections),
-          instructors: getInstructors(schedule.sections),
-          days: getDays(schedule.sections),
-          density: getDensity(schedule.sections),
+          sections: schedule,
+          times: getTimeBoundries(schedule),
+          instructors: getInstructors(schedule),
+          days: getDays(schedule),
+          density: getDensity(schedule),
         };
       });
       setSchedules(data);
@@ -227,13 +275,14 @@ function App() {
         return (
           <div style = {{ padding: 20 }}>
             <Grid container justify="center">
-            <Labs courses={courses} setCourses={setCourses} school={school} term={term}/>
+            <Labs courses={courses} courseList={courseList} setCourses={setCourses} school={school} term={term}/>
             </Grid>
             <div style = {{ padding: 20 }}/>
             <Grid container justify="center">
             <Button onClick={apiCall}  
                     variant="contained"
-                    color="primary"            
+                    color="primary" 
+                    disabled={courses.length < 2}           
               >Create Schedules
               </Button>
               </Grid>
@@ -258,7 +307,7 @@ function App() {
             school={school}
             term={term}
             count={schedules.filter(filterSchedule).length}
-            instructors={getProfs(schedules)}
+            instructors={instructors.filter(i => scheduleInstructors.includes(i.code))}
             instructorFilter={filters.instructors}
             changeFilters={changeFilters}
             days={filters.days}

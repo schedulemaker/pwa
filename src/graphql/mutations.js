@@ -19,33 +19,29 @@ export const createSchedules = /* GraphQL */ `
       school: $school
       term: $term
     ) {
-      sections {
-        isOpen
-        campus
-        meetingTimes {
-          startTime
-          endTime
-          building
-          room
-          weeks
-          monday
-          tuesday
-          wednesday
-          thursday
-          friday
-          saturday
-          sunday
-          instructors {
-            ID
-            Name
-          }
+      isOpen
+      campus
+      meetingTimes {
+        startTime
+        endTime
+        building
+        room
+        instructors {
+          ID
+          Name
         }
-        courseName
-        crn
-        title
+        weeks
+        monday
+        tuesday
+        wednesday
+        thursday
+        friday
+        saturday
+        sunday
       }
-      commute
-      totalDistance
+      courseName
+      crn
+      title
     }
   }
 `;

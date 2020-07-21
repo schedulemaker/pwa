@@ -4,16 +4,21 @@
 export const getUserSchedules = /* GraphQL */ `
   query GetUserSchedules($username: String!) {
     getUserSchedules(username: $username) {
+      username
+      scheduleId
       schedule {
         sections {
-        isOpen
-        campus
-        meetingTimes {
-          startTime
-          endTime
-          building
-          room
-          weeks
+          isOpen
+          campus
+          courseName
+          crn
+          title
+        }
+        commute
+        totalDistance
+        times
+        density
+        days {
           monday
           tuesday
           wednesday
@@ -21,29 +26,8 @@ export const getUserSchedules = /* GraphQL */ `
           friday
           saturday
           sunday
-          instructors {
-            ID
-            Name
-          }
         }
-        courseName
-        crn
-        title
-      }
-      commute
-      totalDistance
-      times
-      density
-      days {
-        monday
-        tuesday
-        wednesday
-        thursday
-        friday
-        saturday
-        sunday
-      }
-      instructors
+        instructors
       }
     }
   }

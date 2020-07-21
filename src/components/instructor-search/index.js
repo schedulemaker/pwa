@@ -11,27 +11,9 @@ import {
   Skeleton
 } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-    getBannerMetadata
-} from '../../graphql/queries';
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 Amplify.configure(awsconfig);
-
-  async function fetchInstructors(school, term) {
-    const queryParams = {
-      school: school,
-      term: term,
-      method: "getInstructors",
-      params: {
-        term: term,
-      },
-    };
-    const result = await API.graphql(
-      graphqlOperation(getBannerMetadata, queryParams)
-    );
-    return result.data.getBannerMetadata;
-  }
 
   const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,8 +26,6 @@ Amplify.configure(awsconfig);
 
   export default function IntructorSearch(props) {
     const classes = useStyles();
-    const [data, setData] = useState([]);
-    const [current, setCurrent] = useState([]);
     // const [searchDefault, setSearchDefault] = useState([]);
 
     const handleInputChange = function(event, value){
@@ -55,34 +35,19 @@ Amplify.configure(awsconfig);
         // setSearchDefault(value);
     }
 
-    useEffect(() => {
-      fetchInstructors(props.school, props.term).then((data) => {
-        setData(data.map(d => {
-          return {
-            code: Number.parseInt(d.code),
-            description: d.description
-          }
-        }));
-      });
-    }, [props.school, props.term]);
-
-    useEffect(() => {
-      setCurrent(data.filter(x => props.instructors.includes(x.code)));
-    }, [data, props.instructors])
-
     return (
       <div className={classes.root}>
-        {data.length === 0 ? (
+        {props.instructors.length === 0 ? (
           <Skeleton animation="wave" />
         ) : (
           <Autocomplete
             onChange={handleInputChange}
             multiple
             limitTags={2}
-            value={props.instructorFilter ? current.filter(x => props.instructorFilter.includes(x.code)) : []}
+            value={props.instructorFilter ? props.instructors.filter(x => props.instructorFilter.includes(x.code)) : []}
             // autoComplete
             id="instructor-search"
-            options={current}
+            options={props.instructors}
             getOptionLabel={(option) => option.description}
             filterSelectedOptions
             renderInput={(params) => (

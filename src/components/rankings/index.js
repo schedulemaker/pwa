@@ -70,6 +70,7 @@ export default function Rankings(props) {
                 value={option}
                 control={<Radio />}
                 label={option}
+                disabled
               />
             ))}
           </RadioGroup>
@@ -84,6 +85,7 @@ export default function Rankings(props) {
                 onChange={handleSwitch}
                 name="trip-planner"
                 color="primary"
+                disabled
               />
             }
             label="Account for commute time"
