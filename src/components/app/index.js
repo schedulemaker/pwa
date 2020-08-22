@@ -11,9 +11,9 @@ import {
   SwipeableDrawer,
   Backdrop,
   CircularProgress,
-  FormHelperText,
+  Snackbar,
 } from "@material-ui/core";
-import { Menu as MenuIcon, PermDataSettingRounded } from "@material-ui/icons";
+import { Close, PermDataSettingRounded } from "@material-ui/icons";
 import Routes from "../../Routes";
 import { AppContext } from "../../libs/contextLib";
 import Amplify, { Auth, Hub, API, graphqlOperation } from "aws-amplify";
@@ -86,6 +86,7 @@ function App() {
   const [user, setUser] = useState(null);
   const [courseList, setCourseList] = useState([]);
   const [instructors, setInstructors] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [scheduleInstructors, setScheduleInstructors] = useState([]);
   const [filters, setFilters] = useState({
     start: 0,
@@ -96,6 +97,12 @@ function App() {
     distance: "Default",
     density: "Default",
   });
+
+  const snackbarMessage = "Whoops! Something bad happened";
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
 
   const reset = function(){
       setFilters({
@@ -152,8 +159,15 @@ function App() {
       term: term,
     };
     const query = createSchedules.replace("isOpen", "").replace("weeks", "");
-    const result = await API.graphql(graphqlOperation(query, queryParams));
-    return result.data.createSchedules;
+    try{
+        const result = await API.graphql(graphqlOperation(query, queryParams));
+        return result.data.createSchedules;
+    } catch (error){
+        console.error(error);
+        setBackdrop(false);
+        setSnackbarOpen(true);
+        return [];
+      }
   };
 
   const loadSchedules = async function () {
@@ -162,9 +176,15 @@ function App() {
     try {
       const query = queries.getUserSchedules; //.replace('scheduleId', '').replace('username', '');
     //   console.log(query);
-      const result = await API.graphql(
-        graphqlOperation(query, { username: user.username })
-      );
+      try{
+        var result = await API.graphql(
+            graphqlOperation(query, { username: user.username })
+          );
+      } catch (error){
+        console.error(error);
+        setBackdrop(false);
+        setSnackbarOpen(true);
+      }
     //   console.log(result);
       const data = result.data.getUserSchedules.map(s => s.schedule);
     //   console.log(data);
@@ -284,7 +304,7 @@ function App() {
     setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
     makeSchedules().then((result) => {
-        console.log(result);
+        // console.log(result);
         const data = mapSchedules(result);
       setSchedules(data);
       console.log("Success");
@@ -359,6 +379,28 @@ function App() {
       <Backdrop className={classes.backdrop} open={backdrop}>
         {backdropContent}
       </Backdrop>
+      <Snackbar
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            message={snackbarMessage}
+            action={
+              <React.Fragment>
+                <IconButton
+                  size="small"
+                  aria-label="close"
+                  color="inherit"
+                  onClick={handleSnackbarClose}
+                >
+                  <Close fontSize="small" />
+                </IconButton>
+              </React.Fragment>
+            }
+          />
       <BotNav value={tab} onChange={setTab} />
     </div>
   );
