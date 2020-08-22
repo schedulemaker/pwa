@@ -24,7 +24,7 @@ type LoadUserSchedule {
     commute: Boolean
     totalDistance: Float
     times: [Int],
-    density: Int,
+    density: Float,
     days: Days,
     instructors: [Int]
 }
@@ -36,7 +36,7 @@ input UserScheduleInput {
     username: ID
     scheduleId: ID,
     times: [Int],
-    density: Int,
+    density: Float,
     days: DaysInput,
     instructors: [Int]
 }

@@ -11,6 +11,7 @@ import {
   SwipeableDrawer,
   Backdrop,
   CircularProgress,
+  FormHelperText,
 } from "@material-ui/core";
 import { Menu as MenuIcon, PermDataSettingRounded } from "@material-ui/icons";
 import Routes from "../../Routes";
@@ -96,6 +97,33 @@ function App() {
     density: "Default",
   });
 
+  const reset = function(){
+      setFilters({
+        start: 0,
+        end: 2400,
+        days: null,
+        instructors: null,
+        commute: false,
+        distance: "Default",
+        density: "Default",
+      });
+    //   setCourseList([]);
+      setScheduleInstructors([]);
+      setSchedules([]);
+  }
+
+  const mapSchedules = function(result){
+    return result.map((schedule) => {
+        return {
+          sections: schedule,
+          times: getTimeBoundries(schedule),
+          instructors: getInstructors(schedule),
+          days: getDays(schedule),
+          density: getDensity(schedule),
+        };
+      });
+  }
+
   useEffect(() => {
     // set listener for auth events
     Hub.listen("auth", (data) => {
@@ -110,7 +138,7 @@ function App() {
       if (payload.event === "signOut") {
         setSignedIn(false);
         setUser(null);
-        setSchedules([]);
+        reset();
       }
     });
     // we check for the current user unless there is a redirect to ?signedIn=true
@@ -133,10 +161,14 @@ function App() {
     setBackdrop(true);
     try {
       const query = queries.getUserSchedules; //.replace('scheduleId', '').replace('username', '');
+    //   console.log(query);
       const result = await API.graphql(
         graphqlOperation(query, { username: user.username })
       );
-      setSchedules(result.data.getUserSchedules.map((x) => x.schedule));
+    //   console.log(result);
+      const data = result.data.getUserSchedules.map(s => s.schedule);
+    //   console.log(data);
+      setSchedules(data);
       setTab(1);
       setBackdrop(false);
     } catch (error) {
@@ -252,16 +284,8 @@ function App() {
     setBackdropContent(<CircularProgress color="inherit" />);
     setBackdrop(true);
     makeSchedules().then((result) => {
-        console.log(result)
-      const data = result.map((schedule) => {
-        return {
-          sections: schedule,
-          times: getTimeBoundries(schedule),
-          instructors: getInstructors(schedule),
-          days: getDays(schedule),
-          density: getDensity(schedule),
-        };
-      });
+        console.log(result);
+        const data = mapSchedules(result);
       setSchedules(data);
       console.log("Success");
       setBackdrop(false);
@@ -286,6 +310,15 @@ function App() {
               >Create Schedules
               </Button>
               </Grid>
+              {/* <div style = {{ padding: 10 }}/>
+              <Grid container justify="center">
+            <Button onClick={reset}  
+                    variant="contained"
+                    color="secondary"            
+              >Clear
+              </Button>
+              <FormHelperText>This clears selected courses and resets the filters</FormHelperText>
+              </Grid> */}
           </div>
         );
       case 1:

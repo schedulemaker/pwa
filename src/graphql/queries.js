@@ -13,6 +13,23 @@ export const getUserSchedules = /* GraphQL */ `
           courseName
           crn
           title
+          meetingTimes {
+            startTime
+            endTime
+            building
+            room
+            monday
+            tuesday
+            wednesday
+            thursday
+            friday
+            saturday
+            sunday
+            instructors {
+              ID
+              Name
+            }
+          }
         }
         commute
         totalDistance
