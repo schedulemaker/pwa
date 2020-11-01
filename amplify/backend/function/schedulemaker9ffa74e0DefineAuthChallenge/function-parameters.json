@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "captcha-define-challenge"
+  ],
+  "parentResource": "schedulemaker9ffa74e0",
+  "functionName": "schedulemaker9ffa74e0DefineAuthChallenge",
+  "resourceName": "schedulemaker9ffa74e0DefineAuthChallenge",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/home/paul/.npm-global/lib/node_modules/@aws-amplify/cli/node_modules/amplify-category-auth/provider-utils/awscloudformation/triggers/DefineAuthChallenge",
+  "triggerTemplate": "DefineAuthChallenge.json.ejs",
+  "roleName": "schedulemaker9ffa74e0DefineAuthChallenge",
+  "skipEdit": true,
+  "enableCors": false
+}

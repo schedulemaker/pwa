@@ -1,38 +1,21 @@
 {
-    "master": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-schedulemaker-master-161850-authRole",
-            "UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-master-161850-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-master-161850-authRole",
-            "Region": "us-east-2",
-            "DeploymentBucketName": "amplify-schedulemaker-master-161850-deployment",
-            "UnauthRoleName": "amplify-schedulemaker-master-161850-unauthRole",
-            "StackName": "amplify-schedulemaker-master-161850",
-            "StackId": "arn:aws:cloudformation:us-east-2:741865850980:stack/amplify-schedulemaker-master-161850/a8a74e40-7c31-11ea-a9ae-0696b95a38c4",
-            "AmplifyAppId": "dpw4vxtkh26k4"
-        },
-        "categories": {
-            "auth": {
-                "schedulemakera88a1dfe": {}
-            }
-        }
+  "demo": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-schedulemaker-demo-185210-authRole",
+      "UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-demo-185210-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-demo-185210-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-schedulemaker-demo-185210-deployment",
+      "UnauthRoleName": "amplify-schedulemaker-demo-185210-unauthRole",
+      "StackName": "amplify-schedulemaker-demo-185210",
+      "StackId": "arn:aws:cloudformation:us-east-1:741865850980:stack/amplify-schedulemaker-demo-185210/43be4bc0-1c9d-11eb-9d74-1221171ce649",
+      "AmplifyAppId": "d1wadcdj3twbyw"
     },
-    "dev": {
-        "awscloudformation": {
-            "AuthRoleName": "amplify-schedulemaker-dev-164023-authRole",
-            "UnauthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-dev-164023-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::741865850980:role/amplify-schedulemaker-dev-164023-authRole",
-            "Region": "us-east-2",
-            "DeploymentBucketName": "amplify-schedulemaker-dev-164023-deployment",
-            "UnauthRoleName": "amplify-schedulemaker-dev-164023-unauthRole",
-            "StackName": "amplify-schedulemaker-dev-164023",
-            "StackId": "arn:aws:cloudformation:us-east-2:741865850980:stack/amplify-schedulemaker-dev-164023/ab52dee0-7c34-11ea-b41f-068deee6a6ae",
-            "AmplifyAppId": "dpw4vxtkh26k4"
-        },
-        "categories": {
-            "auth": {
-                "schedulemakera88a1dfe": {}
-            }
-        }
+    "categories": {
+      "function": {
+        "schedulemaker9ffa74e0DefineAuthChallenge": {},
+        "schedulemaker9ffa74e0CreateAuthChallenge": {}
+      }
     }
+  }
 }
