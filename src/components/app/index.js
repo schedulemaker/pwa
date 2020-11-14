@@ -14,9 +14,28 @@ const { Header, Content, Footer, Sider } = Layout;
 export default function App() {
 
   let [loggedIn, setLoggedIn] = useState(false);
+  let [selected, setSelected] = useState('create');
 
   const handleLoginout = () => {
     setLoggedIn(!loggedIn);
+  }
+
+  const handleMenu = (e) => {
+    setSelected(e.key)
+  }
+
+  const renderView = () => {
+    switch (selected) {
+      case 'create':
+        
+        return 'create';
+      case 'view':
+        return 'view';
+      case 'filter':
+        return 'filter';
+      default:
+        break;
+    }
   }
 
   return (
@@ -24,22 +43,16 @@ export default function App() {
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
-        onBreakpoint={(broken) => {
-          console.log(broken);
-        }}
-        onCollapse={(collapsed, type) => {
-          console.log(collapsed, type);
-        }}
       >
         <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={["create"]}>
-          <Menu.Item key="create" icon={<HomeOutlined />}>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={[selected]}>
+          <Menu.Item key="create" onClick={handleMenu} icon={<HomeOutlined />}>
             Create
           </Menu.Item>
-          <Menu.Item key="view" icon={<CalendarOutlined />}>
+          <Menu.Item key="view" onClick={handleMenu} icon={<CalendarOutlined />}>
             View
           </Menu.Item>
-          <Menu.Item key="filter" icon={<FilterOutlined />}>
+          <Menu.Item key="filter" onClick={handleMenu} icon={<FilterOutlined />}>
             Filter
           </Menu.Item>
           <Button type="primary" key="loginout" onClick={handleLoginout} style={{margin: "0px 16px", width: "80%"}} icon={loggedIn ? <LogoutOutlined/> : <LoginOutlined/>}>
@@ -56,8 +69,8 @@ export default function App() {
           ScheduleMaker
           </Typography>
         </Header>
-        <Content style={{ margin: "24px 16px 0" }}>
-
+        <Content style={{ margin: "24px 48px 0" }}>
+          {renderView()}
         </Content>
         <Footer style={{ textAlign: "center" }}></Footer>
       </Layout>
