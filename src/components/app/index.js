@@ -8,6 +8,7 @@ import {
   LoginOutlined,
   LogoutOutlined
 } from "@ant-design/icons";
+import CreateSchedules from '../create';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -28,7 +29,7 @@ export default function App() {
     switch (selected) {
       case 'create':
         
-        return 'create';
+        return (<CreateSchedules/>);
       case 'view':
         return 'view';
       case 'filter':
@@ -69,7 +70,7 @@ export default function App() {
           ScheduleMaker
           </Typography>
         </Header>
-        <Content style={{ margin: "24px 48px 0" }}>
+        <Content style={{ margin: "24px 24px 0" }}>
           {renderView()}
         </Content>
         <Footer style={{ textAlign: "center" }}></Footer>
