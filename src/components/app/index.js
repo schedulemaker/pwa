@@ -4,6 +4,11 @@ import Nav from '../nav';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
+const initialState = {
+    courses: [],
+    timeblocks: []
+}
+
 function reducer(state=initialState, action){
     switch (action.type) {
         case 'SET_COURSES':
@@ -15,11 +20,6 @@ function reducer(state=initialState, action){
         default:
             return state;
     }
-}
-
-const initialState = {
-    courses: [],
-    timeblocks: []
 }
 
 const store = createStore(reducer);
