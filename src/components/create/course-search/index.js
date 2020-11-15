@@ -3,9 +3,16 @@ import {
     CloseCircleFilled
 } from "@ant-design/icons";
 import { Select, List } from 'antd';
+import { connect } from 'react-redux';
 import courses from './courses.json';
 
 const { Option, OptGroup } = Select;
+
+function mapStateToProps(state){
+    return {
+        courses: state.courses
+    }
+}
 
 const createOption = (course) => {
     return (
@@ -25,7 +32,7 @@ const createOption = (course) => {
 
 const createOptionGroup = (subject, courses) => {
     return (
-        <OptGroup label={subject}>
+        <OptGroup label={subject} key={subject}>
             {courses.map(course => createOption(course))}
         </OptGroup>
     )
@@ -41,7 +48,11 @@ sorted.forEach(course => {
 })
 const grouped = Array.from(groups).map(([subject, courses]) => createOptionGroup(subject, courses));
 
-export default function CourseSearch(props){
+function CourseSearch(props){
+
+    const handleChange = (courses) => {
+        props.dispatch({type: 'SET_COURSES', courses: courses})
+    }
 
     return (
         <Select
@@ -51,8 +62,12 @@ export default function CourseSearch(props){
             size="large"
             optionLabelProp="label"
             allowClear
+            onChange={handleChange}
+            defaultValue={props.courses}
         >
             {grouped}
         </Select>
     )
 }
+
+export default connect(mapStateToProps)(CourseSearch);
